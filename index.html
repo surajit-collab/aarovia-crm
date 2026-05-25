@@ -1934,23 +1934,48 @@ function closeModal(){document.getElementById('modal-container').innerHTML=''}
 
 // ==================== TOAST ====================
 function showToast(msg, type='info'){
-  const el=document.createElement('div');
-  el.className=`toast-item ${type}`;
-  const icons={success:'fa-check-circle',error:'fa-times-circle',info:'fa-info-circle'};
-  const colors={success:'var(--green)',error:'var(--red)',info:'var(--accent)'};
-  el.innerHTML=`<i class="fa-solid ${icons[type]}" style="color:${colors[type]}"></i>${msg}`;
+  const el = document.createElement('div');
+
+  el.className = `toast-item ${type}`;
+
+  const icons = {
+    success:'fa-check-circle',
+    error:'fa-times-circle',
+    info:'fa-info-circle'
+  };
+
+  const colors = {
+    success:'var(--green)',
+    error:'var(--red)',
+    info:'var(--accent)'
+  };
+
+  el.innerHTML = `
+    <i class="fa-solid ${icons[type]}" style="color:${colors[type]}"></i>
+    ${msg}
+  `;
+
   document.getElementById('toast').appendChild(el);
-  setTimeout(()=>el.remove(),3200);
+
+  setTimeout(() => {
+    el.remove();
+  }, 3000);
 }
 
-function logout(){
+// ==================== LOGOUT ====================
+function logout() {
   localStorage.removeItem('aarovia_crm_session');
-  window.location.href='login.html';
+  sessionStorage.removeItem('aarovia_crm_session');
+  window.location.href = 'login.html';
 }
 
 // ==================== INIT ====================
-if(!localStorage.getItem('aarovia_crm_session')){
-  window.location.href='login.html';
+const isLoggedIn =
+  localStorage.getItem('aarovia_crm_session') ||
+  sessionStorage.getItem('aarovia_crm_session');
+
+if (!isLoggedIn) {
+  window.location.href = 'login.html';
 } else {
   loadDashboard();
 }

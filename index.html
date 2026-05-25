@@ -79,7 +79,11 @@ nav{padding:12px 8px;flex:1;overflow-y:auto}
 .btn-ghost{background:transparent;border-color:transparent}
 .btn-ghost:hover{background:var(--bg3)}
 .btn-danger{background:rgba(248,113,113,.1);border-color:rgba(248,113,113,.3);color:var(--red)}
+.btn-danger:hover{background:rgba(248,113,113,.18);border-color:rgba(248,113,113,.35)}
 .btn-success{background:rgba(52,211,153,.1);border-color:rgba(52,211,153,.3);color:var(--green)}
+.logout-btn{white-space:nowrap}
+.sidebar-logout-btn{width:100%;justify-content:center;background:rgba(248,113,113,.12);color:var(--red);border-color:rgba(248,113,113,.3)}
+.sidebar-logout-btn:hover{background:rgba(248,113,113,.2);border-color:rgba(248,113,113,.4)}
 
 /* Cards */
 .card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:18px}
@@ -202,11 +206,24 @@ textarea.form-input{resize:vertical;min-height:80px}
 .timeline-sub{font-size:11px;color:var(--text3)}
 
 /* WhatsApp */
-.wa-chat{display:flex;flex-direction:column;gap:10px;padding:16px}
-.wa-msg{max-width:70%;padding:10px 12px;border-radius:10px;font-size:13px;line-height:1.5}
-.wa-msg.sent{background:rgba(79,142,247,.15);border:1px solid rgba(79,142,247,.2);align-self:flex-end;border-bottom-right-radius:3px}
-.wa-msg.recv{background:var(--bg3);border:1px solid var(--border);align-self:flex-start;border-bottom-left-radius:3px}
-.wa-msg-time{font-size:10px;color:var(--text3);margin-top:4px;text-align:right}
+#page-whatsapp{height:calc(100vh - 130px);min-height:0;overflow:hidden}
+.wa-shell{display:flex;min-height:0;height:calc(100vh - 130px) !important;width:100%;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+.wa-sidebar{flex:0 0 280px;display:flex;flex-direction:column;min-height:0;border-right:1px solid var(--border)}
+.wa-sidebar-search{padding:12px;border-bottom:1px solid var(--border)}
+.wa-contact-list{flex:1 1 auto;overflow-y:auto;min-height:0}
+.wa-chat{flex:1 1 auto;display:flex;flex-direction:column;min-height:0;min-width:0}
+.wa-chat-header{flex:0 0 auto;padding:14px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px}
+.wa-messages{flex:1 1 auto;min-height:0;overflow-y:auto;padding:16px}
+.wa-chat-footer{flex-shrink:0;padding:12px;border-top:1px solid var(--border);background:var(--bg2);position:sticky;bottom:0;z-index:1}
+.wa-templates{margin-bottom:8px;display:flex;gap:6px;flex-wrap:wrap}
+.wa-input-row{display:flex;gap:8px;align-items:center;flex-wrap:nowrap}
+.wa-input-actions{display:flex;gap:8px;flex-shrink:0}
+.wa-chat .btn-sm{white-space:nowrap}
+.wa-chat .form-input{min-width:0}
+.wa-chat .wa-msg{max-width:70%;padding:10px 12px;border-radius:10px;font-size:13px;line-height:1.5}
+.wa-chat .wa-msg.sent{background:rgba(79,142,247,.15);border:1px solid rgba(79,142,247,.2);align-self:flex-end;border-bottom-right-radius:3px}
+.wa-chat .wa-msg.recv{background:var(--bg3);border:1px solid var(--border);align-self:flex-start;border-bottom-left-radius:3px}
+.wa-chat .wa-msg-time{font-size:10px;color:var(--text3);margin-top:4px;text-align:right}
 
 /* Misc */
 .divider{height:1px;background:var(--border);margin:16px 0}
@@ -248,6 +265,74 @@ textarea.form-input{resize:vertical;min-height:80px}
 /* Kanban drag */
 .pipe-card.dragging{opacity:.5}
 .pipeline-col.drag-over{border-color:var(--accent)}
+
+/* Mobile navigation */
+.mobile-menu-btn{display:none;border:1px solid var(--border2);background:var(--bg3);color:var(--text);border-radius:var(--radius-sm);width:38px;height:38px;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0}
+.sidebar-overlay{display:none}
+
+@media (max-width: 1100px){
+  .stats-grid{grid-template-columns:repeat(2,1fr)}
+  .topbar{padding:14px 18px}
+  .page-content{padding:18px}
+}
+
+@media (max-width: 900px){
+  body{overflow:auto}
+  #sidebar{position:fixed;left:0;top:0;transform:translateX(-100%);transition:transform .2s ease;z-index:1001;height:100vh;width:min(82vw,280px)}
+  #sidebar.open{transform:translateX(0)}
+  .sidebar-overlay{display:block;position:fixed;inset:0;background:rgba(0,0,0,.55);opacity:0;pointer-events:none;transition:opacity .2s ease;z-index:1000}
+  .sidebar-overlay.open{opacity:1;pointer-events:auto}
+  #main{height:auto;min-height:100vh}
+  .mobile-menu-btn{display:inline-flex}
+  .topbar{flex-wrap:wrap;gap:10px}
+  .topbar-actions{width:100%;flex-wrap:wrap;justify-content:flex-start;gap:8px}
+  .search-bar{max-width:none;flex:1 1 100%;order:3}
+  .page-content{padding:16px}
+  .stats-grid{grid-template-columns:1fr}
+  #page-dashboard > div:nth-child(2),#page-dashboard > div:nth-child(3){grid-template-columns:1fr !important}
+  .filter-bar,.form-row,.form-row3{grid-template-columns:1fr}
+  .filter-bar .search-bar,.filter-bar select,.filter-bar .btn,.filter-bar button{width:100%;flex:1 1 100%}
+  .tabs{flex-wrap:wrap}
+  #page-whatsapp{height:auto;min-height:calc(100vh - 130px)}
+  .wa-shell{height:auto !important;min-height:calc(100vh - 130px)}
+  .wa-sidebar{max-height:220px}
+  .wa-chat{min-height:520px}
+  .wa-messages{min-height:320px}
+  .wa-input-row{flex-wrap:wrap}
+  .wa-input-row #wa-input{flex:1 1 100%}
+  .wa-input-actions{width:100%;justify-content:flex-end}
+  .wa-chat-header{flex-wrap:wrap;gap:8px;padding:10px 8px}
+  .wa-chat-header .avatar{width:32px !important;height:32px !important;font-size:13px}
+  .wa-chat-header > div:nth-child(2){min-width:0;flex:1 1 60%}
+  .wa-chat-header > div:last-child{margin-left:0 !important;width:100%;justify-content:flex-end;gap:6px}
+  .wa-templates{gap:4px;margin-bottom:4px}
+  .wa-messages{padding:8px 4px;font-size:12px;min-height:120px;max-height:40vh}
+  .wa-chat .wa-msg{font-size:12px;padding:7px 8px;max-width:90vw}
+  .wa-chat .wa-msg-time{font-size:9px}
+  .wa-chat .form-input{font-size:13px;padding:7px 8px}
+  .wa-chat-footer{padding:8px 4px}
+  .wa-chat .btn, .wa-chat .btn-sm{min-width:40px;min-height:36px;font-size:13px;padding:6px 10px}
+  #page-properties > div,#page-team > div{grid-template-columns:1fr !important}
+  #page-settings > div{grid-template-columns:1fr !important}
+  .pipeline-board{flex-direction:column;min-height:auto}
+  .pipeline-col{min-width:100%;max-width:none}
+  .modal{width:calc(100% - 24px)}
+  .table-wrap{overflow-x:auto}
+  .table-wrap table{min-width:760px}
+}
+
+@media (max-width: 640px){
+  .topbar{padding:12px 14px}
+  .topbar-title{font-size:17px}
+  .topbar-sub{font-size:11px}
+  .page-content{padding:12px}
+  .card{padding:14px}
+  .btn-sm{padding:6px 10px}
+  .src-row{flex-wrap:wrap}
+  .src-label{width:100%}
+  .src-bar-wrap{width:100%}
+  .src-pct{text-align:left;width:auto}
+}
 </style>
 </head>
 <body>
@@ -255,7 +340,58 @@ textarea.form-input{resize:vertical;min-height:80px}
   document.addEventListener('contextmenu', (event) => {
     event.preventDefault();
   });
+
+  let sidebar = null;
+  let sidebarOverlay = null;
+  let mobileMenuBtn = null;
+
+  function refreshMobileSidebarElements(){
+    sidebar = document.getElementById('sidebar');
+    sidebarOverlay = document.getElementById('sidebar-overlay');
+    mobileMenuBtn = document.getElementById('mobile-menu-btn');
+  }
+
+  function setMobileSidebarState(isOpen){
+    refreshMobileSidebarElements();
+    if(sidebar){
+      sidebar.classList.toggle('open', isOpen);
+      sidebar.style.transform = isOpen ? 'translateX(0)' : 'translateX(-100%)';
+      sidebar.setAttribute('aria-hidden', String(!isOpen));
+    }
+    if(sidebarOverlay){
+      sidebarOverlay.classList.toggle('open', isOpen);
+      sidebarOverlay.style.opacity = isOpen ? '1' : '0';
+      sidebarOverlay.style.pointerEvents = isOpen ? 'auto' : 'none';
+    }
+    if(mobileMenuBtn){
+      mobileMenuBtn.setAttribute('aria-expanded', String(isOpen));
+    }
+  }
+
+  function openMobileSidebar(){
+    setMobileSidebarState(true);
+  }
+
+  function closeMobileSidebar(){
+    setMobileSidebarState(false);
+  }
+
+  refreshMobileSidebarElements();
+  if(mobileMenuBtn){
+    mobileMenuBtn.addEventListener('click', openMobileSidebar);
+  }
+  if(sidebarOverlay){
+    sidebarOverlay.addEventListener('click', closeMobileSidebar);
+  }
+
+  window.addEventListener('resize', () => {
+    if(window.innerWidth > 900){
+      closeMobileSidebar();
+    }
+  });
 </script>
+
+<div id="sidebar-overlay" class="sidebar-overlay" onclick="closeMobileSidebar()"></div>
 
 <!-- Sidebar -->
 <div id="sidebar">
@@ -292,6 +428,9 @@ textarea.form-input{resize:vertical;min-height:80px}
       </div>
       <i class="fa-solid fa-ellipsis-vertical" style="margin-left:auto;color:var(--text3);font-size:12px"></i>
     </div>
+    <button type="button" class="btn btn-sm sidebar-logout-btn" onclick="logout()" aria-label="Logout">
+      <i class="fa-solid fa-right-from-bracket"></i> Logout
+    </button>
   </div>
 </div>
 
@@ -303,11 +442,18 @@ textarea.form-input{resize:vertical;min-height:80px}
       <div id="page-sub" class="topbar-sub">Sunday, 25 May 2026 · Welcome back, Admin</div>
     </div>
     <div class="topbar-actions">
+      <button type="button" class="mobile-menu-btn" id="mobile-menu-btn" onclick="openMobileSidebar()" aria-label="Open menu">
+        <i class="fa-solid fa-bars"></i>
+      </button>
       <div class="search-bar" style="max-width:260px">
         <i class="fa-solid fa-search"></i>
         <input type="text" placeholder="Search leads, customers..." id="global-search" oninput="globalSearch(this.value)">
       </div>
       <div class="notif-btn" onclick="showPage('followups',document.querySelector('.nav-item:nth-child(5)'))"><i class="fa-regular fa-bell"></i><div class="notif-dot"></div></div>
+      <button type="button" class="btn btn-danger btn-sm logout-btn" onclick="logout()" aria-label="Logout">
+        <i class="fa-solid fa-right-from-bracket"></i>
+        <span>Logout</span>
+      </button>
       <button class="btn btn-primary btn-sm" onclick="openAddLead()"><i class="fa-solid fa-plus"></i> New Lead</button>
     </div>
   </div>
@@ -461,15 +607,15 @@ textarea.form-input{resize:vertical;min-height:80px}
 
     <!-- WHATSAPP PAGE -->
     <div class="page" id="page-whatsapp">
-      <div style="display:grid;grid-template-columns:280px 1fr;gap:0;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;height:calc(100vh - 130px)">
-        <div style="border-right:1px solid var(--border);display:flex;flex-direction:column">
-          <div style="padding:12px;border-bottom:1px solid var(--border)">
+      <div class="wa-shell">
+        <aside class="wa-sidebar">
+          <div class="wa-sidebar-search">
             <div class="search-bar"><i class="fa-solid fa-search"></i><input type="text" placeholder="Search chats..."></div>
           </div>
-          <div style="overflow-y:auto;flex:1" id="wa-contact-list"></div>
-        </div>
-        <div style="display:flex;flex-direction:column" id="wa-chat-area">
-          <div style="padding:14px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px" id="wa-chat-header">
+          <div class="wa-contact-list" id="wa-contact-list"></div>
+        </aside>
+        <section class="wa-chat" id="wa-chat-area">
+          <div class="wa-chat-header" id="wa-chat-header">
             <div class="avatar" id="wa-avatar" style="width:36px;height:36px">RK</div>
             <div><div style="font-size:13px;font-weight:600" id="wa-name">Ramesh Kumar</div><div style="font-size:11px;color:var(--green)">● Online</div></div>
             <div style="margin-left:auto;display:flex;gap:8px">
@@ -477,16 +623,18 @@ textarea.form-input{resize:vertical;min-height:80px}
               <button class="btn btn-sm" onclick="openSendQuotationWA()"><i class="fa-solid fa-file-invoice"></i> Send Quotation</button>
             </div>
           </div>
-          <div style="flex:1;overflow-y:auto" id="wa-messages"></div>
-          <div style="padding:12px;border-top:1px solid var(--border)">
-            <div style="margin-bottom:8px;display:flex;gap:6px;flex-wrap:wrap" id="wa-templates"></div>
-            <div style="display:flex;gap:8px">
-              <input type="text" class="form-input" placeholder="Type a message..." id="wa-input" style="flex:1" onkeydown="if(event.key==='Enter')sendWAMessage()">
-              <button class="btn btn-sm"><i class="fa-solid fa-paperclip"></i></button>
-              <button class="btn btn-primary btn-sm" onclick="sendWAMessage()"><i class="fa-solid fa-paper-plane"></i></button>
+          <div class="wa-messages" id="wa-messages"></div>
+          <div class="wa-chat-footer">
+            <div class="wa-templates" id="wa-templates"></div>
+            <div class="wa-input-row">
+              <input type="text" class="form-input" placeholder="Type a message..." id="wa-input" onkeydown="if(event.key==='Enter')sendWAMessage()">
+              <div class="wa-input-actions">
+                <button class="btn btn-sm"><i class="fa-solid fa-paperclip"></i></button>
+                <button class="btn btn-primary btn-sm" onclick="sendWAMessage()"><i class="fa-solid fa-paper-plane"></i></button>
+              </div>
             </div>
           </div>
-        </div>
+        </section>
       </div>
     </div>
 
@@ -608,7 +756,7 @@ const followupsDB = leadsDB.slice(0,15).map((l,i)=>({
   executive:rnd(EXECUTIVES), status:i<3?'overdue':i<8?'today':'upcoming', done:false
 }));
 
-const propertiesDB=[
+let propertiesDB=[
   {id:'P001',name:'Aarovia Heights',type:'Apartment',location:'Anna Nagar, Chennai',config:'2BHK / 3BHK / 4BHK',price:'₹85L – ₹1.8Cr',status:'Active',units:120,available:45,builder:'Aarovia Constructions',amenities:'Swimming Pool, Gym, Clubhouse, 24/7 Security',description:'Premium luxury apartments in the heart of Anna Nagar'},
   {id:'P002',name:'Aarovia Villas',type:'Villa',location:'ECR, Chennai',config:'3BHK / 4BHK',price:'₹1.5Cr – ₹3.2Cr',status:'Active',units:48,available:12,builder:'Aarovia Constructions',amenities:'Private Pool, Smart Home, Landscaped Garden',description:'Exclusive beachside villa community on ECR'},
   {id:'P003',name:'Aarovia Plots',type:'Plot',location:'Tambaram, Chennai',config:'600-2400 sqft',price:'₹25L – ₹1.2Cr',status:'Active',units:200,available:88,builder:'Aarovia Constructions',amenities:'Gated Community, 24/7 Security, Paved Roads',description:'Premium plotted development near Tambaram'},
@@ -617,7 +765,7 @@ const propertiesDB=[
   {id:'P006',name:'Aarovia Green Valley',type:'Apartment',location:'Porur, Chennai',config:'1BHK / 2BHK',price:'₹35L – ₹68L',status:'Active',units:150,available:70,builder:'Aarovia Constructions',amenities:'Children Play Area, Jogging Track, Temple',description:'Affordable homes with green living concept'}
 ];
 
-const quotationsDB=[
+let quotationsDB=[
   {id:'QT-0001',customer:'Ramesh Kumar',leadId:'ARV-0201',property:'Aarovia Heights – 3BHK',unit:'Block A, Floor 12, Unit 1204',area:1450,basePrice:10350000,discount:5,tax:18,executive:'Suresh Kumar',date:new Date(2026,4,20),validity:new Date(2026,5,20),status:'Sent',notes:''},
   {id:'QT-0002',customer:'Vijay Raj',leadId:'ARV-0203',property:'Aarovia Villas – 4BHK Villa',unit:'Villa No. V-14',area:3200,basePrice:28500000,discount:3,tax:12,executive:'Ananya Priya',date:new Date(2026,4,18),validity:new Date(2026,5,18),status:'Accepted',notes:''},
   {id:'QT-0003',customer:'Deepa Sharma',leadId:'ARV-0206',property:'Aarovia Plots – 1200 sqft',unit:'Plot No. 142-B',area:1200,basePrice:4200000,discount:0,tax:5,executive:'Manoj Jha',date:new Date(2026,4,22),validity:new Date(2026,5,22),status:'Draft',notes:''},
@@ -633,13 +781,13 @@ const campaignsDB=[
   {name:'Website SEO Push',source:'Website',leads:43,conversions:7,budget:30000,status:'Paused'},
 ];
 
-const teamDB=[
-  {name:'Suresh Kumar',role:'Sales Executive',email:'suresh@aarovia.co.in',phone:'9876543210',leads:48,closed:9,avatar:'SK',color:'#4f8ef7'},
-  {name:'Ananya Priya',role:'Sales Executive',email:'ananya@aarovia.co.in',phone:'9876543211',leads:41,closed:8,avatar:'AP',color:'#f472b6'},
-  {name:'Manoj Jha',role:'Sales Executive',email:'manoj@aarovia.co.in',phone:'9876543212',leads:35,closed:5,avatar:'MJ',color:'#34d399'},
-  {name:'Lavanya V',role:'Telecaller',email:'lavanya@aarovia.co.in',phone:'9876543213',leads:31,closed:4,avatar:'LV',color:'#fbbf24'},
-  {name:'Preethi S',role:'Sales Manager',email:'preethi@aarovia.co.in',phone:'9876543214',leads:0,closed:0,avatar:'PS',color:'#a78bfa'},
-  {name:'Admin User',role:'Administrator',email:'admin@aarovia.co.in',phone:'9876543215',leads:0,closed:0,avatar:'AD',color:'#fb923c'},
+let teamDB=[
+  {id:'U001',name:'Suresh Kumar',role:'Sales Executive',email:'suresh@aarovia.co.in',phone:'9876543210',leads:48,closed:9,avatar:'SK',color:'#4f8ef7'},
+  {id:'U002',name:'Ananya Priya',role:'Sales Executive',email:'ananya@aarovia.co.in',phone:'9876543211',leads:41,closed:8,avatar:'AP',color:'#f472b6'},
+  {id:'U003',name:'Manoj Jha',role:'Sales Executive',email:'manoj@aarovia.co.in',phone:'9876543212',leads:35,closed:5,avatar:'MJ',color:'#34d399'},
+  {id:'U004',name:'Lavanya V',role:'Telecaller',email:'lavanya@aarovia.co.in',phone:'9876543213',leads:31,closed:4,avatar:'LV',color:'#fbbf24'},
+  {id:'U005',name:'Preethi S',role:'Sales Manager',email:'preethi@aarovia.co.in',phone:'9876543214',leads:0,closed:0,avatar:'PS',color:'#a78bfa'},
+  {id:'U006',name:'Admin User',role:'Administrator',email:'admin@aarovia.co.in',phone:'9876543215',leads:0,closed:0,avatar:'AD',color:'#fb923c'},
 ];
 
 const activitiesDB=[
@@ -650,6 +798,21 @@ const activitiesDB=[
   {type:'import',icon:'fa-upload',color:'var(--pink)',text:'Bulk import: 24 leads added from Meta Ads Summer Campaign',time:'3 hours ago'},
   {type:'overdue',icon:'fa-triangle-exclamation',color:'var(--red)',text:'Ramesh Kumar follow-up overdue · auto-reminder sent via WhatsApp',time:'Today 9:00 AM'},
 ];
+
+function getNextQuotationId(){
+  const maxId=quotationsDB.reduce((max,q)=>Math.max(max, parseInt(String(q.id).replace('QT-',''),10)||0),0);
+  return 'QT-'+String(maxId+1).padStart(4,'0');
+}
+
+function getNextPropertyId(){
+  const maxId=propertiesDB.reduce((max,p)=>Math.max(max, parseInt(String(p.id).replace('P',''),10)||0),0);
+  return 'P'+String(maxId+1).padStart(3,'0');
+}
+
+function getNextTeamId(){
+  const maxId=teamDB.reduce((max,t)=>Math.max(max, parseInt(String(t.id).replace('U',''),10)||0),0);
+  return 'U'+String(maxId+1).padStart(3,'0');
+}
 
 // ==================== NAVIGATION ====================
 function showPage(page, navEl) {
@@ -662,6 +825,9 @@ function showPage(page, navEl) {
   document.getElementById('page-sub').textContent='';
   if(page==='dashboard')document.getElementById('page-sub').textContent='Sunday, 25 May 2026 · Welcome back, Admin';
   pageLoaders[page]&&pageLoaders[page]();
+  if(window.innerWidth <= 900){
+    closeMobileSidebar();
+  }
 }
 
 const pageLoaders={
@@ -1094,6 +1260,8 @@ function openAddFollowup(){
 function openAddFollowupForLead(lid){closeModal();openAddFollowup()}
 
 // ==================== QUOTATIONS ====================
+let currentQuotationEditId=null;
+
 function renderQuotations(){
   document.getElementById('quotations-table').innerHTML=quotationsDB.map(q=>{
     const disc=q.basePrice*(q.discount/100);
@@ -1108,11 +1276,12 @@ function renderQuotations(){
         <td><span class="status-tag ${q.status==='Accepted'?'s-won':q.status==='Rejected'?'s-lost':q.status==='Sent'?'s-quotation':'s-new'}">${q.status}</span></td>
         <td style="font-size:12px;color:var(--text3)">${fmtDate(q.validity)}</td>
         <td style="font-size:12px">${q.executive}</td>
-        <td onclick="event.stopPropagation()">
+        <td>
           <div style="display:flex;gap:4px">
-            <button class="btn btn-sm btn-ghost" onclick="viewQuotation('${q.id}')"><i class="fa-solid fa-eye"></i></button>
-            <button class="btn btn-sm btn-ghost" onclick="sendQuotWA('${q.id}')"><i class="fa-brands fa-whatsapp" style="color:var(--green)"></i></button>
-            <button class="btn btn-sm btn-ghost"><i class="fa-solid fa-download"></i></button>
+            <button class="btn btn-sm btn-ghost" onclick="viewQuotation(event,'${q.id}')"><i class="fa-solid fa-eye"></i></button>
+            <button class="btn btn-sm btn-ghost" onclick="openEditQuotation(event,'${q.id}')"><i class="fa-solid fa-pen"></i></button>
+            <button class="btn btn-sm btn-ghost" style="color:var(--red)" onclick="deleteQuotation(event,'${q.id}')"><i class="fa-solid fa-trash"></i></button>
+            <button class="btn btn-sm btn-ghost" onclick="sendQuotWA(event,'${q.id}')"><i class="fa-brands fa-whatsapp" style="color:var(--green)"></i></button>
           </div>
         </td>
       </tr>`;
@@ -1120,40 +1289,53 @@ function renderQuotations(){
 }
 
 function openCreateQuotation(){
+  currentQuotationEditId=null;
   showModal('Create Quotation', quotationFormHTML(), ()=>submitQuotation());
 }
 function openCreateQuotationForLead(lid){
+  currentQuotationEditId=null;
   closeModal();
   const l=leadsDB.find(x=>x.id===lid);
   showPage('quotations',document.querySelectorAll('.nav-item')[6]);
-  showModal('Create Quotation – '+l.name, quotationFormHTML(l), ()=>submitQuotation(l));
+  showModal('Create Quotation – '+l.name, quotationFormHTML(l), ()=>submitQuotation());
 }
-function quotationFormHTML(l=null){
+function openEditQuotation(e,id){
+  if(e) e.stopPropagation();
+  const q=quotationsDB.find(x=>x.id===id);
+  if(!q)return;
+  currentQuotationEditId=id;
+  showModal('Edit Quotation – '+q.id, quotationFormHTML(q), ()=>submitQuotation());
+}
+function quotationFormHTML(q=null){
+  const v=(key,d='')=>q ? (q[key] ?? d) : d;
+  const validDays=q ? Math.max(1, Math.ceil((new Date(q.validity)-new Date(q.date))/86400000)) : 30;
   return `
     <div class="form-row">
-      <div class="form-group"><label class="form-label">Customer Name</label><input class="form-input" id="qf-customer" value="${l?l.name:''}" placeholder="Customer name"></div>
-      <div class="form-group"><label class="form-label">Lead ID</label><input class="form-input" id="qf-leadid" value="${l?l.id:''}" placeholder="ARV-XXXX"></div>
+      <div class="form-group"><label class="form-label">Customer Name</label><input class="form-input" id="qf-customer" value="${q?q.customer:''}" placeholder="Customer name"></div>
+      <div class="form-group"><label class="form-label">Lead ID</label><input class="form-input" id="qf-leadid" value="${q?q.leadId:''}" placeholder="ARV-XXXX"></div>
     </div>
-    <div class="form-group"><label class="form-label">Property Name</label><select class="form-input" id="qf-prop">${propertiesDB.map(p=>`<option>${p.name}</option>`).join('')}</select></div>
+    <div class="form-group"><label class="form-label">Property Name</label><select class="form-input" id="qf-prop">${propertiesDB.map(p=>`<option ${v('property')===p.name?'selected':''}>${p.name}</option>`).join('')}</select></div>
     <div class="form-row3">
-      <div class="form-group"><label class="form-label">Unit Details</label><input class="form-input" id="qf-unit" placeholder="e.g. Block A, Unit 1204"></div>
-      <div class="form-group"><label class="form-label">Area (sqft)</label><input type="number" class="form-input" id="qf-area" placeholder="1200"></div>
-      <div class="form-group"><label class="form-label">Base Price (₹)</label><input type="number" class="form-input" id="qf-price" placeholder="5000000"></div>
+      <div class="form-group"><label class="form-label">Unit Details</label><input class="form-input" id="qf-unit" value="${v('unit')}" placeholder="e.g. Block A, Unit 1204"></div>
+      <div class="form-group"><label class="form-label">Area (sqft)</label><input type="number" class="form-input" id="qf-area" value="${v('area')}" placeholder="1200"></div>
+      <div class="form-group"><label class="form-label">Base Price (₹)</label><input type="number" class="form-input" id="qf-price" value="${v('basePrice')}" placeholder="5000000"></div>
     </div>
     <div class="form-row3">
-      <div class="form-group"><label class="form-label">Discount %</label><input type="number" class="form-input" id="qf-disc" value="0" max="20"></div>
-      <div class="form-group"><label class="form-label">GST %</label><select class="form-input" id="qf-tax"><option>5</option><option>12</option><option selected>18</option></select></div>
-      <div class="form-group"><label class="form-label">Validity (days)</label><input type="number" class="form-input" id="qf-valid" value="30"></div>
+      <div class="form-group"><label class="form-label">Discount %</label><input type="number" class="form-input" id="qf-disc" value="${v('discount',0)}" max="20"></div>
+      <div class="form-group"><label class="form-label">GST %</label><select class="form-input" id="qf-tax"><option ${v('tax')==5?'selected':''}>5</option><option ${v('tax')==12?'selected':''}>12</option><option ${v('tax')==18?'selected':''}>18</option></select></div>
+      <div class="form-group"><label class="form-label">Validity (days)</label><input type="number" class="form-input" id="qf-valid" value="${validDays}"></div>
     </div>
     <div class="form-row">
-      <div class="form-group"><label class="form-label">Executive</label><select class="form-input" id="qf-exec">${EXECUTIVES.map(e=>`<option>${e}</option>`).join('')}</select></div>
+      <div class="form-group"><label class="form-label">Executive</label><select class="form-input" id="qf-exec">${EXECUTIVES.map(e=>`<option ${v('executive')===e?'selected':''}>${e}</option>`).join('')}</select></div>
+      ${q?`<div class="form-group"><label class="form-label">Status</label><select class="form-input" id="qf-status">${['Draft','Sent','Accepted','Rejected'].map(s=>`<option ${v('status')===s?'selected':''}>${s}</option>`).join('')}</select></div>`:''}
     </div>
-    <div class="form-group"><label class="form-label">Terms & Conditions</label><textarea class="form-input" id="qf-terms" style="min-height:60px">1. This quotation is valid for the stated validity period.\n2. All prices are subject to applicable taxes.\n3. Payment terms as per booking agreement.</textarea></div>`;
+    <div class="form-group"><label class="form-label">Terms & Conditions</label><textarea class="form-input" id="qf-terms" style="min-height:60px">${v('notes')||'1. This quotation is valid for the stated validity period.\n2. All prices are subject to applicable taxes.\n3. Payment terms as per booking agreement.'}</textarea></div>`;
 }
 
-function submitQuotation(l=null){
+function submitQuotation(){
+  const existing=currentQuotationEditId?quotationsDB.find(x=>x.id===currentQuotationEditId):null;
   const q={
-    id:'QT-'+String(quotationsDB.length+1).padStart(4,'0'),
+    id: existing ? existing.id : getNextQuotationId(),
     customer:document.getElementById('qf-customer').value||'Customer',
     leadId:document.getElementById('qf-leadid').value||'ARV-0000',
     property:document.getElementById('qf-prop').value,
@@ -1163,17 +1345,38 @@ function submitQuotation(l=null){
     discount:+document.getElementById('qf-disc').value||0,
     tax:+document.getElementById('qf-tax').value||18,
     executive:document.getElementById('qf-exec').value,
-    date:new Date(),
-    validity:new Date(Date.now()+30*86400000),
-    status:'Draft',notes:''
+    date: existing ? existing.date : new Date(),
+    validity:new Date(Date.now()+(+document.getElementById('qf-valid').value||30)*86400000),
+    status: existing ? (document.getElementById('qf-status') ? document.getElementById('qf-status').value : existing.status) : 'Draft',
+    notes:document.getElementById('qf-terms').value
   };
-  quotationsDB.unshift(q);
+  if(existing){
+    const idx=quotationsDB.findIndex(x=>x.id===currentQuotationEditId);
+    if(idx>=0) quotationsDB[idx]=q;
+    showToast('Quotation updated: '+q.id,'success');
+  } else {
+    quotationsDB.unshift(q);
+    showToast('Quotation created: '+q.id,'success');
+  }
+  currentQuotationEditId=null;
   closeModal();
-  showToast('Quotation created: '+q.id,'success');
   renderQuotations();
 }
 
-function viewQuotation(id){
+function deleteQuotation(e,id){
+  if(e) e.stopPropagation();
+  if(!confirm('Delete this quotation?')) return;
+  quotationsDB=quotationsDB.filter(x=>x.id!==id);
+  showToast('Quotation deleted','success');
+  renderQuotations();
+}
+
+function viewQuotation(idOrEvent, maybeId){
+  const isEvent = typeof idOrEvent === 'object' && idOrEvent !== null;
+  if(isEvent){
+    idOrEvent.stopPropagation();
+  }
+  const id = isEvent ? maybeId : idOrEvent;
   const q=quotationsDB.find(x=>x.id===id);
   if(!q)return;
   const disc=q.basePrice*(q.discount/100);
@@ -1221,14 +1424,22 @@ function viewQuotation(id){
       <div style="margin-top:16px;font-size:11px;color:#9ca3af">Sales Executive: ${q.executive}</div>
     </div>
     <div style="display:flex;gap:8px;margin-top:16px">
-      <button class="btn btn-success btn-sm" onclick="sendQuotWA('${q.id}')"><i class="fa-brands fa-whatsapp"></i> Send via WhatsApp</button>
-      <button class="btn btn-sm" onclick="showToast('Downloading PDF...','info')"><i class="fa-solid fa-download"></i> Download PDF</button>
-      <button class="btn btn-sm" onclick="showToast('Sent to email','success')"><i class="fa-solid fa-envelope"></i> Email</button>
+      <button class="btn btn-sm" onclick="openEditQuotation(event,'${q.id}')"><i class="fa-solid fa-pen"></i> Edit</button>
+      <button class="btn btn-sm btn-danger" onclick="deleteQuotation(event,'${q.id}')"><i class="fa-solid fa-trash"></i> Delete</button>
+      <button class="btn btn-success btn-sm" onclick="sendQuotWA(event,'${q.id}')"><i class="fa-brands fa-whatsapp"></i> Send via WhatsApp</button>
     </div>`;
   showModal('Quotation Preview – '+q.id, body, null, 'lg');
 }
 
-function sendQuotWA(id){showToast('Quotation sent via WhatsApp ✓','success');const q=quotationsDB.find(x=>x.id===id);if(q)q.status='Sent';closeModal();renderQuotations()}
+function sendQuotWA(e,id){
+  if(e) e.stopPropagation();
+  const q=quotationsDB.find(x=>x.id===id);
+  if(!q)return;
+  showToast('Quotation sent via WhatsApp ✓','success');
+  q.status='Sent';
+  closeModal();
+  renderQuotations();
+}
 
 // ==================== WHATSAPP ====================
 let waCurrentContact=null;
@@ -1287,40 +1498,56 @@ function sendWAMessage(){
   waMessages[waCurrentContact].push({text:input.value.trim(),sent:true,time:now.getHours()+':'+(now.getMinutes()+'').padStart(2,'0')});
   renderWAMessages(waCurrentContact);
   input.value='';
+  showToast('Message sent via WhatsApp','success');
 }
 
 function insertTemplate(msg){document.getElementById('wa-input').value=msg}
 function openSendQuotationWA(){showToast('Opening quotation for WhatsApp...','info')}
 
 // ==================== PROPERTIES ====================
+let currentPropertyEditId=null;
+let currentPropertyImageData='';
+
+function renderPropertyImage(p){
+  if(p.image){
+    return `<img src="${p.image}" alt="${p.name}" style="width:100%;height:130px;object-fit:cover;border-radius:8px 8px 0 0;display:block">`;
+  }
+  return `<div style="background:var(--bg3);border-radius:8px 8px 0 0;height:130px;display:flex;align-items:center;justify-content:center;font-size:40px">${{Apartment:'🏢',Villa:'🏡',Plot:'🌿',Commercial:'🏬'}[p.type]||'🏠'}</div>`;
+}
+
 function renderProperties(){
   document.getElementById('properties-grid').innerHTML=propertiesDB.map(p=>`
-    <div class="card" style="cursor:pointer" onclick="viewProperty('${p.id}')">
-      <div style="background:var(--bg3);border-radius:8px;height:130px;display:flex;align-items:center;justify-content:center;margin:-18px -18px 14px;border-radius:var(--radius) var(--radius) 0 0;font-size:40px">
-        ${{Apartment:'🏢',Villa:'🏡',Plot:'🌿',Commercial:'🏬'}[p.type]||'🏠'}
-      </div>
-      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">
-        <div style="font-size:14px;font-weight:600">${p.name}</div>
-        <span class="status-tag ${p.status==='Active'?'s-won':p.status==='Upcoming'?'s-sitevisit':'s-lost'}">${p.status}</span>
-      </div>
-      <div style="font-size:12px;color:var(--text3);margin-bottom:4px"><i class="fa-solid fa-location-dot"></i> ${p.location}</div>
-      <div style="font-size:12px;color:var(--text2);margin-bottom:10px">${p.config}</div>
-      <div style="font-size:14px;font-weight:600;color:var(--accent);margin-bottom:10px">${p.price}</div>
-      <div style="display:flex;gap:8px">
-        <div style="flex:1;text-align:center;background:var(--bg3);border-radius:6px;padding:6px">
-          <div style="font-size:18px;font-weight:600">${p.units}</div><div style="font-size:10px;color:var(--text3)">Total Units</div>
+    <div class="card" style="cursor:pointer;overflow:hidden">
+      <div onclick="viewProperty('${p.id}')">${renderPropertyImage(p)}</div>
+      <div style="padding-top:14px" onclick="viewProperty('${p.id}')">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;gap:10px">
+          <div style="font-size:14px;font-weight:600">${p.name}</div>
+          <span class="status-tag ${p.status==='Active'?'s-won':p.status==='Upcoming'?'s-sitevisit':'s-lost'}">${p.status}</span>
         </div>
-        <div style="flex:1;text-align:center;background:rgba(52,211,153,.08);border-radius:6px;padding:6px">
-          <div style="font-size:18px;font-weight:600;color:var(--green)">${p.available}</div><div style="font-size:10px;color:var(--text3)">Available</div>
+        <div style="font-size:12px;color:var(--text3);margin-bottom:4px"><i class="fa-solid fa-location-dot"></i> ${p.location}</div>
+        <div style="font-size:12px;color:var(--text2);margin-bottom:10px">${p.config}</div>
+        <div style="font-size:14px;font-weight:600;color:var(--accent);margin-bottom:10px">${p.price}</div>
+        <div style="display:flex;gap:8px">
+          <div style="flex:1;text-align:center;background:var(--bg3);border-radius:6px;padding:6px">
+            <div style="font-size:18px;font-weight:600">${p.units}</div><div style="font-size:10px;color:var(--text3)">Total Units</div>
+          </div>
+          <div style="flex:1;text-align:center;background:rgba(52,211,153,.08);border-radius:6px;padding:6px">
+            <div style="font-size:18px;font-weight:600;color:var(--green)">${p.available}</div><div style="font-size:10px;color:var(--text3)">Available</div>
+          </div>
         </div>
+      </div>
+      <div style="display:flex;gap:6px;margin-top:12px">
+        <button class="btn btn-sm" onclick="openEditProperty(event,'${p.id}')"><i class="fa-solid fa-pen"></i> Edit</button>
+        <button class="btn btn-sm btn-danger" onclick="deleteProperty(event,'${p.id}')"><i class="fa-solid fa-trash"></i> Delete</button>
       </div>
     </div>`).join('');
 }
 
 function viewProperty(id){
   const p=propertiesDB.find(x=>x.id===id);
+  const assetMarkup = p.image ? `<img src="${p.image}" alt="${p.name}" style="width:100%;max-height:280px;object-fit:cover;border-radius:8px;margin-bottom:16px">` : `<div style="text-align:center;background:var(--bg3);border-radius:8px;padding:30px;margin-bottom:16px;font-size:60px">${{Apartment:'🏢',Villa:'🏡',Plot:'🌿',Commercial:'🏬'}[p.type]||'🏠'}</div>`;
   const body=`
-    <div style="text-align:center;background:var(--bg3);border-radius:8px;padding:30px;margin-bottom:16px;font-size:60px">${{Apartment:'🏢',Villa:'🏡',Plot:'🌿',Commercial:'🏬'}[p.type]||'🏠'}</div>
+    ${assetMarkup}
     <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px">
       <div><div style="font-size:20px;font-weight:600">${p.name}</div><div style="color:var(--text3);font-size:13px"><i class="fa-solid fa-location-dot"></i> ${p.location}</div></div>
       <span class="status-tag ${p.status==='Active'?'s-won':'s-sitevisit'}">${p.status}</span>
@@ -1332,21 +1559,103 @@ function viewProperty(id){
     </div>
     <p style="font-size:13px;color:var(--text2);margin-bottom:12px">${p.description}</p>
     <div style="font-size:12px;color:var(--text2);margin-bottom:12px"><strong>Amenities:</strong> ${p.amenities}</div>
-    <div style="display:flex;gap:8px;margin-top:12px">
+    <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap">
       <button class="btn btn-primary btn-sm" onclick="showToast('Opening brochure...','info')"><i class="fa-solid fa-file-pdf"></i> Brochure</button>
       <button class="btn btn-sm" onclick="showToast('Sharing on WhatsApp...','success')"><i class="fa-brands fa-whatsapp"></i> Share</button>
+      <button class="btn btn-sm" onclick="openEditProperty(event,'${p.id}')"><i class="fa-solid fa-pen"></i> Edit</button>
+      <button class="btn btn-sm btn-danger" onclick="deleteProperty(event,'${p.id}')"><i class="fa-solid fa-trash"></i> Delete</button>
     </div>`;
   showModal(p.name, body, null);
 }
 
+function handlePropertyImageUpload(event){
+  const file=event.target.files&&event.target.files[0];
+  const preview=document.getElementById('pf-image-preview');
+  const hidden=document.getElementById('pf-image-data');
+  if(!file){
+    currentPropertyImageData='';
+    if(hidden) hidden.value='';
+    if(preview) preview.innerHTML='<div style="padding:12px;background:var(--bg3);border-radius:8px;color:var(--text3);font-size:12px">No image selected</div>';
+    return;
+  }
+  const reader=new FileReader();
+  reader.onload=()=>{
+    currentPropertyImageData=reader.result;
+    if(hidden) hidden.value=currentPropertyImageData;
+    if(preview) preview.innerHTML=`<img src="${currentPropertyImageData}" alt="Preview" style="width:100%;max-height:180px;object-fit:cover;border-radius:8px">`;
+  };
+  reader.readAsDataURL(file);
+}
+
+function propertyFormHTML(p=null){
+  const v=(key,d='')=>p ? (p[key] ?? d) : d;
+  const previewMarkup = currentPropertyImageData ? `<img src="${currentPropertyImageData}" alt="Property preview" style="width:100%;max-height:180px;object-fit:cover;border-radius:8px">` : `<div style="padding:12px;background:var(--bg3);border-radius:8px;color:var(--text3);font-size:12px">No image selected</div>`;
+  return `
+    <div class="form-row"><div class="form-group"><label class="form-label">Property Name</label><input class="form-input" id="pf-name" value="${v('name')}" placeholder="e.g. Aarovia Heights"></div><div class="form-group"><label class="form-label">Type</label><select class="form-input" id="pf-type"><option ${v('type')==='Apartment'?'selected':''}>Apartment</option><option ${v('type')==='Villa'?'selected':''}>Villa</option><option ${v('type')==='Plot'?'selected':''}>Plot</option><option ${v('type')==='Commercial'?'selected':''}>Commercial</option></select></div></div>
+    <div class="form-group"><label class="form-label">Location</label><input class="form-input" id="pf-location" value="${v('location')}" placeholder="Area, City"></div>
+    <div class="form-row"><div class="form-group"><label class="form-label">Configuration</label><input class="form-input" id="pf-config" value="${v('config')}" placeholder="2BHK / 3BHK"></div><div class="form-group"><label class="form-label">Price Range</label><input class="form-input" id="pf-price" value="${v('price')}" placeholder="₹50L – ₹1Cr"></div></div>
+    <div class="form-row"><div class="form-group"><label class="form-label">Units</label><input type="number" class="form-input" id="pf-units" value="${v('units', 0)}"></div><div class="form-group"><label class="form-label">Available</label><input type="number" class="form-input" id="pf-available" value="${v('available', 0)}"></div><div class="form-group"><label class="form-label">Status</label><select class="form-input" id="pf-status"><option ${v('status')==='Active'?'selected':''}>Active</option><option ${v('status')==='Upcoming'?'selected':''}>Upcoming</option><option ${v('status')==='Hold'?'selected':''}>Hold</option></select></div></div>
+    <div class="form-group"><label class="form-label">Builder</label><input class="form-input" id="pf-builder" value="${v('builder')}" placeholder="Builder name"></div>
+    <div class="form-group"><label class="form-label">Description</label><textarea class="form-input" id="pf-description" placeholder="Project description...">${v('description')}</textarea></div>
+    <div class="form-group"><label class="form-label">Amenities</label><input class="form-input" id="pf-amenities" value="${v('amenities')}" placeholder="Pool, Gym, Clubhouse..."></div>
+    <div class="form-group"><label class="form-label">Property Image</label><input type="file" class="form-input" id="pf-image" accept="image/*" onchange="handlePropertyImageUpload(event)"><input type="hidden" id="pf-image-data" value="${v('image', '')}"><div id="pf-image-preview" style="margin-top:10px">${previewMarkup}</div></div>`;
+}
+
 function openAddProperty(){
-  showModal('Add Property',`
-    <div class="form-row"><div class="form-group"><label class="form-label">Property Name</label><input class="form-input" placeholder="e.g. Aarovia Heights"></div><div class="form-group"><label class="form-label">Type</label><select class="form-input"><option>Apartment</option><option>Villa</option><option>Plot</option><option>Commercial</option></select></div></div>
-    <div class="form-group"><label class="form-label">Location</label><input class="form-input" placeholder="Area, City"></div>
-    <div class="form-row"><div class="form-group"><label class="form-label">Configuration</label><input class="form-input" placeholder="2BHK / 3BHK"></div><div class="form-group"><label class="form-label">Price Range</label><input class="form-input" placeholder="₹50L – ₹1Cr"></div></div>
-    <div class="form-group"><label class="form-label">Description</label><textarea class="form-input" placeholder="Project description..."></textarea></div>
-    <div class="form-group"><label class="form-label">Amenities</label><input class="form-input" placeholder="Pool, Gym, Clubhouse..."></div>`,
-  ()=>{showToast('Property added','success');closeModal()});
+  currentPropertyEditId=null;
+  currentPropertyImageData='';
+  showModal('Add Property', propertyFormHTML(), ()=>submitProperty());
+}
+
+function openEditProperty(e, id){
+  if(e) e.stopPropagation();
+  const p=propertiesDB.find(x=>x.id===id);
+  if(!p) return;
+  currentPropertyEditId=id;
+  currentPropertyImageData=p.image||'';
+  showModal('Edit Property – '+p.name, propertyFormHTML(p), ()=>submitProperty());
+}
+
+function submitProperty(){
+  const data={
+    id: currentPropertyEditId || getNextPropertyId(),
+    name: document.getElementById('pf-name').value.trim(),
+    type: document.getElementById('pf-type').value,
+    location: document.getElementById('pf-location').value.trim(),
+    config: document.getElementById('pf-config').value.trim(),
+    price: document.getElementById('pf-price').value.trim(),
+    status: document.getElementById('pf-status').value,
+    units: +document.getElementById('pf-units').value || 0,
+    available: +document.getElementById('pf-available').value || 0,
+    builder: document.getElementById('pf-builder').value.trim(),
+    amenities: document.getElementById('pf-amenities').value.trim(),
+    description: document.getElementById('pf-description').value.trim(),
+    image: document.getElementById('pf-image-data').value || ''
+  };
+  if(!data.name || !data.location || !data.config || !data.price){
+    showToast('Property name, location, config, and price are required','error');
+    return;
+  }
+  if(currentPropertyEditId){
+    const idx=propertiesDB.findIndex(x=>x.id===currentPropertyEditId);
+    if(idx>=0) propertiesDB[idx]={...propertiesDB[idx], ...data};
+    showToast('Property updated successfully','success');
+  } else {
+    propertiesDB.unshift(data);
+    showToast('Property added successfully','success');
+  }
+  currentPropertyEditId=null;
+  currentPropertyImageData='';
+  closeModal();
+  renderProperties();
+}
+
+function deleteProperty(e, id){
+  if(e) e.stopPropagation();
+  if(!confirm('Delete this property?')) return;
+  propertiesDB=propertiesDB.filter(x=>x.id!==id);
+  showToast('Property deleted','success');
+  renderProperties();
 }
 
 // ==================== REPORTS ====================
@@ -1433,6 +1742,27 @@ function openAddCampaign(){
 }
 
 // ==================== TEAM ====================
+const TEAM_ROLES=['Sales Executive','Sales Manager','Telecaller','Marketing Team','Administrator'];
+const TEAM_COLORS=['#4f8ef7','#f472b6','#34d399','#fbbf24','#a78bfa','#fb923c','#22d3ee'];
+
+function getTeamAvatar(name){
+  const parts=name.split(' ').filter(Boolean);
+  return (parts[0]?.[0]||'')+(parts[1]?.[0]||'');
+}
+
+function getTeamColor(name){
+  const idx=name.split('').reduce((sum,ch)=>sum+ch.charCodeAt(0),0)%TEAM_COLORS.length;
+  return TEAM_COLORS[idx];
+}
+
+function teamFormHTML(t=null){
+  const v=(key,d='')=>t ? (t[key] ?? d) : d;
+  return `
+    <div class="form-row"><div class="form-group"><label class="form-label">Full Name</label><input class="form-input" id="tu-name" value="${v('name')}" placeholder="Full name"></div><div class="form-group"><label class="form-label">Role</label><select class="form-input" id="tu-role">${TEAM_ROLES.map(r=>`<option ${v('role')===r?'selected':''}>${r}</option>`).join('')}</select></div></div>
+    <div class="form-row"><div class="form-group"><label class="form-label">Email</label><input class="form-input" id="tu-email" type="email" value="${v('email')}" placeholder="email@aarovia.co.in"></div><div class="form-group"><label class="form-label">Phone</label><input class="form-input" id="tu-phone" value="${v('phone')}" placeholder="Mobile number"></div></div>
+    <div class="form-group"><label class="form-label">Password</label><input class="form-input" id="tu-password" type="password" placeholder="${t ? 'Leave blank to keep current password' : 'Set initial password'}"></div>`;
+}
+
 function renderTeam(){
   document.getElementById('team-grid').innerHTML=teamDB.map(t=>`
     <div class="card">
@@ -1442,7 +1772,10 @@ function renderTeam(){
           <div style="font-size:14px;font-weight:600">${t.name}</div>
           <div style="font-size:12px;color:var(--text3)">${t.role}</div>
         </div>
-        <div style="margin-left:auto"><button class="btn btn-ghost btn-sm" onclick="editUser('${t.name}')"><i class="fa-solid fa-pen"></i></button></div>
+        <div style="margin-left:auto;display:flex;gap:6px">
+          <button class="btn btn-ghost btn-sm" onclick="openEditUser(event,'${t.id}')"><i class="fa-solid fa-pen"></i></button>
+          <button class="btn btn-ghost btn-sm" style="color:var(--red)" onclick="deleteTeamUser(event,'${t.id}')"><i class="fa-solid fa-trash"></i></button>
+        </div>
       </div>
       <div style="display:flex;flex-direction:column;gap:6px;font-size:12px;color:var(--text2)">
         <div><i class="fa-solid fa-envelope" style="width:14px;margin-right:6px;color:var(--text3)"></i>${t.email}</div>
@@ -1458,14 +1791,50 @@ function renderTeam(){
 }
 
 function openAddUser(){
-  showModal('Add Team Member',`
-    <div class="form-row"><div class="form-group"><label class="form-label">Full Name</label><input class="form-input" placeholder="Full name"></div><div class="form-group"><label class="form-label">Role</label><select class="form-input"><option>Sales Executive</option><option>Sales Manager</option><option>Telecaller</option><option>Marketing Team</option><option>Administrator</option></select></div></div>
-    <div class="form-row"><div class="form-group"><label class="form-label">Email</label><input class="form-input" type="email" placeholder="email@aarovia.co.in"></div><div class="form-group"><label class="form-label">Phone</label><input class="form-input" placeholder="Mobile number"></div></div>
-    <div class="form-group"><label class="form-label">Password</label><input class="form-input" type="password" placeholder="Set initial password"></div>`,
-  ()=>{showToast('User added successfully','success');closeModal()});
+  showModal('Add Team Member', teamFormHTML(), ()=>submitTeamUser('add'));
 }
 
-function editUser(name){showToast('Edit '+name,'info')}
+function openEditUser(e, id){
+  if(e) e.stopPropagation();
+  const t=teamDB.find(x=>x.id===id);
+  if(!t) return;
+  showModal('Edit Team Member – '+t.name, teamFormHTML(t), ()=>submitTeamUser('edit', id));
+}
+
+function submitTeamUser(mode, id=null){
+  const name=document.getElementById('tu-name').value.trim();
+  const email=document.getElementById('tu-email').value.trim();
+  const phone=document.getElementById('tu-phone').value.trim();
+  const role=document.getElementById('tu-role').value;
+  const password=document.getElementById('tu-password').value.trim();
+  if(!name || !email || !phone){
+    showToast('Name, email, and phone are required','error');
+    return;
+  }
+  const avatar=getTeamAvatar(name);
+  const color=getTeamColor(name);
+  const userData={name,email,phone,role,avatar,color,leads:0,closed:0};
+  if(mode==='edit' && id){
+    const idx=teamDB.findIndex(x=>x.id===id);
+    if(idx>=0){
+      teamDB[idx]={...teamDB[idx], ...userData};
+      showToast('User updated successfully','success');
+    }
+  } else {
+    teamDB.unshift({id:getNextTeamId(), ...userData});
+    showToast('User added successfully','success');
+  }
+  closeModal();
+  renderTeam();
+}
+
+function deleteTeamUser(e, id){
+  if(e) e.stopPropagation();
+  if(!confirm('Delete this team member?')) return;
+  teamDB=teamDB.filter(x=>x.id!==id);
+  showToast('Team member deleted','success');
+  renderTeam();
+}
 
 // ==================== SETTINGS ====================
 function showSettings(type,btn){
@@ -1556,8 +1925,17 @@ function showToast(msg, type='info'){
   setTimeout(()=>el.remove(),3200);
 }
 
+function logout(){
+  localStorage.removeItem('aarovia_crm_session');
+  window.location.href='login.html';
+}
+
 // ==================== INIT ====================
-loadDashboard();
+if(!localStorage.getItem('aarovia_crm_session')){
+  window.location.href='login.html';
+} else {
+  loadDashboard();
+}
 </script>
 </body>
 </html>

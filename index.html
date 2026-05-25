@@ -1,6 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script>
+
+// CHECK LOGIN
+if (localStorage.getItem('aarovia_logged_in') !== 'true') {
+  window.location.href = 'login.html';
+}
+
+// LOGOUT FUNCTION
+function logout() {
+
+  localStorage.removeItem('aarovia_logged_in');
+  localStorage.removeItem('aarovia_user_email');
+  localStorage.removeItem('aarovia_user_mobile');
+
+  window.location.href = 'login.html';
+}
+
+</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Aarovia Real Estates CRM</title>

@@ -1,0 +1,1558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aarovia Real Estates CRM</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+:root {
+  --bg: #0e0f11;
+  --bg2: #141519;
+  --bg3: #1a1c22;
+  --bg4: #22252e;
+  --border: #2a2d38;
+  --border2: #353847;
+  --text: #e8eaf0;
+  --text2: #9096ab;
+  --text3: #5a6175;
+  --accent: #4f8ef7;
+  --accent2: #3a7ae8;
+  --green: #34d399;
+  --red: #f87171;
+  --orange: #fb923c;
+  --yellow: #fbbf24;
+  --purple: #a78bfa;
+  --pink: #f472b6;
+  --teal: #2dd4bf;
+  --radius: 10px;
+  --radius-sm: 6px;
+  --sidebar: 240px;
+  --font: 'DM Sans', sans-serif;
+  --serif: 'DM Serif Display', serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:100vh;display:flex;overflow:hidden}
+
+/* Scrollbar */
+::-webkit-scrollbar{width:4px;height:4px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:4px}
+
+/* Sidebar */
+#sidebar{width:var(--sidebar);background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;height:100vh;flex-shrink:0;overflow:hidden}
+.logo{padding:20px 18px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px}
+.logo-icon{width:34px;height:34px;background:var(--accent);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.logo-text{font-family:var(--serif);font-size:17px;color:var(--text);line-height:1.1}
+.logo-sub{font-size:10px;color:var(--text3);font-family:var(--font)}
+nav{padding:12px 8px;flex:1;overflow-y:auto}
+.nav-section{font-size:10px;color:var(--text3);padding:12px 10px 4px;letter-spacing:.8px;text-transform:uppercase}
+.nav-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:var(--radius-sm);cursor:pointer;font-size:13px;color:var(--text2);margin:1px 0;transition:all .15s;position:relative}
+.nav-item:hover{background:var(--bg3);color:var(--text)}
+.nav-item.active{background:rgba(79,142,247,.12);color:var(--accent)}
+.nav-item.active::before{content:'';position:absolute;left:0;top:50%;transform:translateY(-50%);height:60%;width:3px;background:var(--accent);border-radius:0 3px 3px 0}
+.nav-item i{width:16px;text-align:center;font-size:14px}
+.nav-badge{margin-left:auto;background:var(--accent);color:#fff;font-size:10px;padding:1px 6px;border-radius:10px;font-weight:500}
+.nav-badge.red{background:var(--red)}
+.sidebar-bottom{padding:12px 8px;border-top:1px solid var(--border)}
+.user-card{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:var(--radius-sm);cursor:pointer}
+.user-card:hover{background:var(--bg3)}
+.avatar{width:30px;height:30px;border-radius:50%;background:var(--accent2);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:#fff;flex-shrink:0}
+.user-name{font-size:12px;font-weight:500}
+.user-role{font-size:10px;color:var(--text3)}
+
+/* Main area */
+#main{flex:1;display:flex;flex-direction:column;height:100vh;overflow:hidden}
+.topbar{padding:14px 24px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;background:var(--bg2);flex-shrink:0}
+.topbar-title{font-size:16px;font-weight:500;flex:1}
+.topbar-sub{font-size:12px;color:var(--text3);margin-top:1px}
+.page-content{flex:1;overflow-y:auto;padding:24px}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:var(--radius-sm);font-size:13px;font-family:var(--font);cursor:pointer;border:1px solid var(--border2);background:var(--bg3);color:var(--text);transition:all .15s}
+.btn:hover{background:var(--bg4);border-color:var(--border2)}
+.btn-primary{background:var(--accent);border-color:var(--accent);color:#fff}
+.btn-primary:hover{background:var(--accent2)}
+.btn-sm{padding:5px 10px;font-size:12px}
+.btn-ghost{background:transparent;border-color:transparent}
+.btn-ghost:hover{background:var(--bg3)}
+.btn-danger{background:rgba(248,113,113,.1);border-color:rgba(248,113,113,.3);color:var(--red)}
+.btn-success{background:rgba(52,211,153,.1);border-color:rgba(52,211,153,.3);color:var(--green)}
+
+/* Cards */
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:18px}
+.card-sm{padding:12px}
+.card-title{font-size:13px;font-weight:600;color:var(--text);margin-bottom:14px;display:flex;align-items:center;justify-content:space-between}
+
+/* Stats */
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px}
+.stat-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:16px;position:relative;overflow:hidden}
+.stat-card::after{content:'';position:absolute;top:-20px;right:-20px;width:80px;height:80px;border-radius:50%;opacity:.05}
+.stat-card.blue::after{background:var(--accent)}
+.stat-card.green::after{background:var(--green)}
+.stat-card.orange::after{background:var(--orange)}
+.stat-card.purple::after{background:var(--purple)}
+.stat-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px;margin-bottom:10px}
+.stat-icon.blue{background:rgba(79,142,247,.15);color:var(--accent)}
+.stat-icon.green{background:rgba(52,211,153,.15);color:var(--green)}
+.stat-icon.orange{background:rgba(251,146,60,.15);color:var(--orange)}
+.stat-icon.purple{background:rgba(167,139,250,.15);color:var(--purple)}
+.stat-label{font-size:11px;color:var(--text3);margin-bottom:4px}
+.stat-value{font-size:22px;font-weight:600}
+.stat-delta{font-size:11px;margin-top:4px}
+.delta-up{color:var(--green)}
+.delta-dn{color:var(--red)}
+
+/* Tags/Badges */
+.tag{display:inline-flex;align-items:center;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:500}
+.tag-meta{background:rgba(244,114,182,.12);color:var(--pink)}
+.tag-google{background:rgba(79,142,247,.12);color:var(--accent)}
+.tag-whatsapp{background:rgba(52,211,153,.12);color:var(--green)}
+.tag-referral{background:rgba(251,191,36,.12);color:var(--yellow)}
+.tag-walkin{background:rgba(167,139,250,.12);color:var(--purple)}
+.tag-website{background:rgba(45,212,191,.12);color:var(--teal)}
+.tag-manual{background:rgba(251,146,60,.12);color:var(--orange)}
+
+.status-tag{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:20px;font-size:11px;font-weight:500}
+.s-new{background:rgba(79,142,247,.12);color:var(--accent)}
+.s-contacted{background:rgba(45,212,191,.12);color:var(--teal)}
+.s-interested{background:rgba(167,139,250,.12);color:var(--purple)}
+.s-sitevisit{background:rgba(251,191,36,.12);color:var(--yellow)}
+.s-negotiation{background:rgba(251,146,60,.12);color:var(--orange)}
+.s-quotation{background:rgba(244,114,182,.12);color:var(--pink)}
+.s-won{background:rgba(52,211,153,.12);color:var(--green)}
+.s-lost{background:rgba(248,113,113,.12);color:var(--red)}
+
+/* Table */
+.table-wrap{overflow-x:auto}
+table.crm-table{width:100%;border-collapse:collapse;font-size:13px}
+.crm-table th{text-align:left;padding:10px 12px;color:var(--text3);font-weight:500;font-size:11px;text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--border);white-space:nowrap}
+.crm-table td{padding:12px;border-bottom:1px solid var(--border);vertical-align:middle}
+.crm-table tr:last-child td{border-bottom:none}
+.crm-table tr:hover td{background:var(--bg3)}
+.crm-table tr{cursor:pointer}
+
+/* Forms */
+.form-group{margin-bottom:14px}
+.form-label{font-size:12px;color:var(--text2);margin-bottom:5px;display:block;font-weight:500}
+.form-input{width:100%;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--radius-sm);padding:9px 12px;font-size:13px;color:var(--text);font-family:var(--font);outline:none;transition:border-color .15s}
+.form-input:focus{border-color:var(--accent)}
+.form-input::placeholder{color:var(--text3)}
+select.form-input{cursor:pointer}
+textarea.form-input{resize:vertical;min-height:80px}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.form-row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+
+/* Modal */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:100;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(2px)}
+.modal{background:var(--bg2);border:1px solid var(--border);border-radius:14px;width:680px;max-width:95vw;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.5)}
+.modal-header{padding:18px 22px 0;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:var(--bg2);z-index:1;padding-bottom:16px;border-bottom:1px solid var(--border)}
+.modal-title{font-size:16px;font-weight:600}
+.modal-body{padding:20px 22px}
+.modal-footer{padding:16px 22px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:10px}
+
+/* Search */
+.search-bar{display:flex;align-items:center;gap:8px;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--radius-sm);padding:8px 12px;flex:1;max-width:320px}
+.search-bar input{background:none;border:none;outline:none;color:var(--text);font-size:13px;font-family:var(--font);width:100%}
+.search-bar input::placeholder{color:var(--text3)}
+.search-bar i{color:var(--text3);font-size:13px}
+
+/* Pipeline */
+.pipeline-board{display:flex;gap:14px;overflow-x:auto;padding-bottom:12px;min-height:500px}
+.pipeline-col{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);min-width:230px;max-width:230px;display:flex;flex-direction:column}
+.pipeline-col-header{padding:12px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.pipeline-col-title{font-size:12px;font-weight:600}
+.pipe-count-badge{background:var(--bg4);color:var(--text2);font-size:11px;padding:2px 8px;border-radius:10px}
+.pipeline-cards{padding:10px;flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:8px;min-height:200px}
+.pipe-card{background:var(--bg3);border:1px solid var(--border2);border-radius:8px;padding:10px;cursor:grab;transition:border-color .15s}
+.pipe-card:hover{border-color:var(--border2)}
+.pipe-card-name{font-size:12px;font-weight:600;margin-bottom:4px}
+.pipe-card-sub{font-size:11px;color:var(--text3);margin-bottom:6px}
+.pipe-card-footer{display:flex;align-items:center;justify-content:space-between}
+.pipe-card-exec{font-size:10px;color:var(--text3);display:flex;align-items:center;gap:4px}
+
+/* Progress bar */
+.progress-bar{height:4px;background:var(--bg4);border-radius:2px;overflow:hidden;margin-top:8px}
+.progress-fill{height:100%;border-radius:2px;transition:width .3s}
+
+/* Tabs */
+.tabs{display:flex;gap:2px;border-bottom:1px solid var(--border);margin-bottom:20px}
+.tab-btn{padding:8px 14px;font-size:13px;color:var(--text2);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;font-family:var(--font);background:none;border-top:none;border-left:none;border-right:none;transition:all .15s}
+.tab-btn:hover{color:var(--text)}
+.tab-btn.active{color:var(--accent);border-bottom-color:var(--accent)}
+
+/* Toast */
+#toast{position:fixed;bottom:24px;right:24px;z-index:999;display:flex;flex-direction:column;gap:8px}
+.toast-item{background:var(--bg3);border:1px solid var(--border2);border-radius:var(--radius-sm);padding:12px 16px;font-size:13px;display:flex;align-items:center;gap:10px;animation:slideIn .2s ease;box-shadow:0 4px 20px rgba(0,0,0,.3)}
+.toast-item.success{border-left:3px solid var(--green)}
+.toast-item.error{border-left:3px solid var(--red)}
+.toast-item.info{border-left:3px solid var(--accent)}
+@keyframes slideIn{from{transform:translateX(20px);opacity:0}to{transform:translateX(0);opacity:1}}
+
+/* Timeline */
+.timeline{display:flex;flex-direction:column;gap:0}
+.timeline-item{display:flex;gap:12px;padding-bottom:16px;position:relative}
+.timeline-item::before{content:'';position:absolute;left:15px;top:28px;bottom:0;width:1px;background:var(--border)}
+.timeline-item:last-child::before{display:none}
+.timeline-dot{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;border:2px solid var(--bg2)}
+.timeline-content{flex:1}
+.timeline-title{font-size:12px;font-weight:500;margin-bottom:2px}
+.timeline-sub{font-size:11px;color:var(--text3)}
+
+/* WhatsApp */
+.wa-chat{display:flex;flex-direction:column;gap:10px;padding:16px}
+.wa-msg{max-width:70%;padding:10px 12px;border-radius:10px;font-size:13px;line-height:1.5}
+.wa-msg.sent{background:rgba(79,142,247,.15);border:1px solid rgba(79,142,247,.2);align-self:flex-end;border-bottom-right-radius:3px}
+.wa-msg.recv{background:var(--bg3);border:1px solid var(--border);align-self:flex-start;border-bottom-left-radius:3px}
+.wa-msg-time{font-size:10px;color:var(--text3);margin-top:4px;text-align:right}
+
+/* Misc */
+.divider{height:1px;background:var(--border);margin:16px 0}
+.empty-state{text-align:center;padding:48px 24px;color:var(--text3)}
+.empty-state i{font-size:40px;margin-bottom:12px;opacity:.3}
+.dot{width:8px;height:8px;border-radius:50%;display:inline-block}
+.chip{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;background:var(--bg3);border:1px solid var(--border2);border-radius:20px;font-size:11px;color:var(--text2)}
+
+/* Responsive topbar actions */
+.topbar-actions{display:flex;align-items:center;gap:8px}
+
+/* Filter bar */
+.filter-bar{display:flex;align-items:center;gap:10px;margin-bottom:16px;flex-wrap:wrap}
+
+/* Quotation preview */
+.quot-preview{background:#fff;color:#1a1a2e;border-radius:var(--radius);padding:28px;font-size:13px}
+.quot-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:24px;padding-bottom:16px;border-bottom:2px solid #e5e7eb}
+.quot-table{width:100%;border-collapse:collapse;margin:16px 0}
+.quot-table th{background:#f9fafb;padding:8px 10px;text-align:left;font-size:11px;font-weight:600;color:#6b7280;border-bottom:1px solid #e5e7eb}
+.quot-table td{padding:10px;border-bottom:1px solid #f3f4f6}
+.quot-total{background:#f0f7ff;padding:12px;border-radius:6px;text-align:right}
+
+/* Source bar */
+.src-row{display:flex;align-items:center;gap:10px;margin-bottom:10px;font-size:12px}
+.src-label{width:80px;color:var(--text2);flex-shrink:0}
+.src-bar-wrap{flex:1;height:6px;background:var(--bg4);border-radius:3px;overflow:hidden}
+.src-bar{height:100%;border-radius:3px;transition:width .5s ease}
+.src-pct{width:35px;text-align:right;color:var(--text);font-weight:500}
+
+/* Pages hidden by default */
+.page{display:none}
+.page.active{display:block}
+
+/* Notification bell */
+.notif-btn{width:34px;height:34px;border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;background:var(--bg3);border:1px solid var(--border2);cursor:pointer;position:relative;color:var(--text2)}
+.notif-btn:hover{color:var(--text)}
+.notif-dot{position:absolute;top:6px;right:6px;width:7px;height:7px;border-radius:50%;background:var(--red);border:1.5px solid var(--bg2)}
+
+/* Kanban drag */
+.pipe-card.dragging{opacity:.5}
+.pipeline-col.drag-over{border-color:var(--accent)}
+</style>
+</head>
+<body>
+
+<!-- Sidebar -->
+<div id="sidebar">
+  <div class="logo">
+    <div class="logo-icon">🏠</div>
+    <div>
+      <div class="logo-text">Aarovia</div>
+      <div class="logo-sub">Real Estates CRM</div>
+    </div>
+  </div>
+  <nav>
+    <div class="nav-section">Main</div>
+    <div class="nav-item active" onclick="showPage('dashboard',this)"><i class="fa-solid fa-gauge"></i> Dashboard</div>
+    <div class="nav-item" onclick="showPage('leads',this)"><i class="fa-solid fa-users"></i> Leads <span class="nav-badge" id="lead-badge">142</span></div>
+    <div class="nav-item" onclick="showPage('pipeline',this)"><i class="fa-solid fa-columns"></i> Pipeline</div>
+    <div class="nav-item" onclick="showPage('followups',this)"><i class="fa-solid fa-calendar-check"></i> Follow-ups <span class="nav-badge red" id="fu-badge">3</span></div>
+    <div class="nav-section">Sales</div>
+    <div class="nav-item" onclick="showPage('quotations',this)"><i class="fa-solid fa-file-invoice"></i> Quotations</div>
+    <div class="nav-item" onclick="showPage('whatsapp',this)"><i class="fa-brands fa-whatsapp"></i> WhatsApp</div>
+    <div class="nav-item" onclick="showPage('properties',this)"><i class="fa-solid fa-building"></i> Properties</div>
+    <div class="nav-section">Insights</div>
+    <div class="nav-item" onclick="showPage('reports',this)"><i class="fa-solid fa-chart-bar"></i> Reports</div>
+    <div class="nav-item" onclick="showPage('campaigns',this)"><i class="fa-solid fa-bullhorn"></i> Campaigns</div>
+    <div class="nav-section">Admin</div>
+    <div class="nav-item" onclick="showPage('team',this)"><i class="fa-solid fa-user-group"></i> Team</div>
+    <div class="nav-item" onclick="showPage('settings',this)"><i class="fa-solid fa-gear"></i> Settings</div>
+  </nav>
+  <div class="sidebar-bottom">
+    <div class="user-card">
+      <div class="avatar">AD</div>
+      <div>
+        <div class="user-name">Admin User</div>
+        <div class="user-role">Administrator</div>
+      </div>
+      <i class="fa-solid fa-ellipsis-vertical" style="margin-left:auto;color:var(--text3);font-size:12px"></i>
+    </div>
+  </div>
+</div>
+
+<!-- Main -->
+<div id="main">
+  <div class="topbar" id="topbar">
+    <div style="flex:1">
+      <div class="topbar-title" id="page-title">Dashboard</div>
+      <div id="page-sub" class="topbar-sub">Sunday, 25 May 2026 · Welcome back, Admin</div>
+    </div>
+    <div class="topbar-actions">
+      <div class="search-bar" style="max-width:260px">
+        <i class="fa-solid fa-search"></i>
+        <input type="text" placeholder="Search leads, customers..." id="global-search" oninput="globalSearch(this.value)">
+      </div>
+      <div class="notif-btn" onclick="showPage('followups',document.querySelector('.nav-item:nth-child(5)'))"><i class="fa-regular fa-bell"></i><div class="notif-dot"></div></div>
+      <button class="btn btn-primary btn-sm" onclick="openAddLead()"><i class="fa-solid fa-plus"></i> New Lead</button>
+    </div>
+  </div>
+
+  <div class="page-content">
+
+    <!-- DASHBOARD PAGE -->
+    <div class="page active" id="page-dashboard">
+      <div class="stats-grid">
+        <div class="stat-card blue">
+          <div class="stat-icon blue"><i class="fa-solid fa-users"></i></div>
+          <div class="stat-label">Total Leads</div>
+          <div class="stat-value" id="stat-total">1,284</div>
+          <div class="stat-delta delta-up"><i class="fa-solid fa-arrow-trend-up"></i> +42 this week</div>
+        </div>
+        <div class="stat-card green">
+          <div class="stat-icon green"><i class="fa-solid fa-circle-check"></i></div>
+          <div class="stat-label">Conversions</div>
+          <div class="stat-value" id="stat-conv">18.4%</div>
+          <div class="stat-delta delta-up"><i class="fa-solid fa-arrow-trend-up"></i> +2.1% vs last month</div>
+        </div>
+        <div class="stat-card orange">
+          <div class="stat-icon orange"><i class="fa-solid fa-calendar-day"></i></div>
+          <div class="stat-label">Site Visits Today</div>
+          <div class="stat-value" id="stat-visits">9</div>
+          <div class="stat-delta delta-dn"><i class="fa-solid fa-triangle-exclamation"></i> 3 missed follow-ups</div>
+        </div>
+        <div class="stat-card purple">
+          <div class="stat-icon purple"><i class="fa-solid fa-indian-rupee-sign"></i></div>
+          <div class="stat-label">Pipeline Value</div>
+          <div class="stat-value" id="stat-revenue">₹4.2Cr</div>
+          <div class="stat-delta delta-up"><i class="fa-solid fa-arrow-trend-up"></i> Revenue forecast</div>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 320px;gap:16px;margin-bottom:20px">
+        <!-- Recent Leads -->
+        <div class="card">
+          <div class="card-title">Recent Leads <button class="btn btn-sm btn-ghost" onclick="showPage('leads',document.querySelectorAll('.nav-item')[1])">View all →</button></div>
+          <div class="table-wrap">
+            <table class="crm-table" id="dash-leads-table">
+              <thead><tr><th>Name</th><th>Mobile</th><th>Source</th><th>Status</th><th>Executive</th><th>Date</th></tr></thead>
+              <tbody id="dash-lead-rows"></tbody>
+            </table>
+          </div>
+        </div>
+        <!-- Lead Sources -->
+        <div style="display:flex;flex-direction:column;gap:14px">
+          <div class="card">
+            <div class="card-title">Lead Sources</div>
+            <div id="source-bars"></div>
+          </div>
+          <div class="card">
+            <div class="card-title">Today's Follow-ups <span style="font-size:11px;color:var(--red)">(3 overdue)</span></div>
+            <div id="dash-followups"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pipeline Mini + Activity -->
+      <div style="display:grid;grid-template-columns:1fr 320px;gap:16px">
+        <div class="card">
+          <div class="card-title">Pipeline by Stage</div>
+          <div id="dash-pipeline-chart"></div>
+        </div>
+        <div class="card">
+          <div class="card-title">Recent Activity</div>
+          <div id="dash-activity"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- LEADS PAGE -->
+    <div class="page" id="page-leads">
+      <div class="filter-bar">
+        <div class="search-bar" style="max-width:280px">
+          <i class="fa-solid fa-search"></i>
+          <input type="text" placeholder="Search by name, mobile, email..." oninput="filterLeads()" id="lead-search">
+        </div>
+        <select class="form-input" style="width:auto;padding:8px 12px" onchange="filterLeads()" id="filter-source">
+          <option value="">All Sources</option>
+          <option>Meta Ads</option><option>Google Ads</option><option>WhatsApp</option>
+          <option>Referral</option><option>Walk-in</option><option>Website</option><option>Manual</option>
+        </select>
+        <select class="form-input" style="width:auto;padding:8px 12px" onchange="filterLeads()" id="filter-status">
+          <option value="">All Statuses</option>
+          <option>New Lead</option><option>Contacted</option><option>Interested</option>
+          <option>Site Visit Scheduled</option><option>Site Visit Completed</option>
+          <option>Negotiation</option><option>Quotation Sent</option>
+          <option>Booking Confirmed</option><option>Closed Won</option><option>Closed Lost</option>
+        </select>
+        <select class="form-input" style="width:auto;padding:8px 12px" onchange="filterLeads()" id="filter-exec">
+          <option value="">All Executives</option>
+          <option>Suresh Kumar</option><option>Ananya Priya</option><option>Manoj Jha</option><option>Lavanya V</option>
+        </select>
+        <button class="btn btn-sm" onclick="exportLeads()"><i class="fa-solid fa-download"></i> Export</button>
+        <button class="btn btn-primary btn-sm" onclick="openAddLead()"><i class="fa-solid fa-plus"></i> Add Lead</button>
+        <span style="margin-left:auto;font-size:12px;color:var(--text3)" id="lead-count-label"></span>
+      </div>
+      <div class="card" style="padding:0">
+        <div class="table-wrap">
+          <table class="crm-table">
+            <thead><tr><th><input type="checkbox" id="select-all" onchange="toggleAll(this)"></th><th>ID</th><th>Name</th><th>Mobile</th><th>Property</th><th>Budget</th><th>Source</th><th>Status</th><th>Executive</th><th>Follow-up</th><th>Actions</th></tr></thead>
+            <tbody id="leads-table-body"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- PIPELINE PAGE -->
+    <div class="page" id="page-pipeline">
+      <div class="filter-bar" style="margin-bottom:18px">
+        <span style="font-size:13px;color:var(--text2)">Drag cards between stages to update status</span>
+        <select class="form-input" style="width:auto;padding:7px 10px;font-size:12px;margin-left:auto">
+          <option>All Executives</option><option>Suresh Kumar</option><option>Ananya Priya</option><option>Manoj Jha</option>
+        </select>
+      </div>
+      <div class="pipeline-board" id="pipeline-board"></div>
+    </div>
+
+    <!-- FOLLOW-UPS PAGE -->
+    <div class="page" id="page-followups">
+      <div class="filter-bar">
+        <div class="tabs" style="border:none;margin:0">
+          <button class="tab-btn active" onclick="filterFollowups('all',this)">All</button>
+          <button class="tab-btn" onclick="filterFollowups('overdue',this)">Overdue</button>
+          <button class="tab-btn" onclick="filterFollowups('today',this)">Today</button>
+          <button class="tab-btn" onclick="filterFollowups('upcoming',this)">Upcoming</button>
+        </div>
+        <button class="btn btn-primary btn-sm" style="margin-left:auto" onclick="openAddFollowup()"><i class="fa-solid fa-plus"></i> Schedule</button>
+      </div>
+      <div id="followup-list-container"></div>
+    </div>
+
+    <!-- QUOTATIONS PAGE -->
+    <div class="page" id="page-quotations">
+      <div class="filter-bar">
+        <div class="search-bar"><i class="fa-solid fa-search"></i><input type="text" placeholder="Search quotations..."></div>
+        <select class="form-input" style="width:auto;padding:8px 12px" id="quot-filter">
+          <option value="">All Status</option><option>Draft</option><option>Sent</option><option>Accepted</option><option>Rejected</option>
+        </select>
+        <button class="btn btn-primary btn-sm" style="margin-left:auto" onclick="openCreateQuotation()"><i class="fa-solid fa-plus"></i> New Quotation</button>
+      </div>
+      <div class="card" style="padding:0">
+        <table class="crm-table">
+          <thead><tr><th>Quot. No.</th><th>Customer</th><th>Property</th><th>Amount</th><th>Status</th><th>Valid Until</th><th>Executive</th><th>Actions</th></tr></thead>
+          <tbody id="quotations-table"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- WHATSAPP PAGE -->
+    <div class="page" id="page-whatsapp">
+      <div style="display:grid;grid-template-columns:280px 1fr;gap:0;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;height:calc(100vh - 130px)">
+        <div style="border-right:1px solid var(--border);display:flex;flex-direction:column">
+          <div style="padding:12px;border-bottom:1px solid var(--border)">
+            <div class="search-bar"><i class="fa-solid fa-search"></i><input type="text" placeholder="Search chats..."></div>
+          </div>
+          <div style="overflow-y:auto;flex:1" id="wa-contact-list"></div>
+        </div>
+        <div style="display:flex;flex-direction:column" id="wa-chat-area">
+          <div style="padding:14px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px" id="wa-chat-header">
+            <div class="avatar" id="wa-avatar" style="width:36px;height:36px">RK</div>
+            <div><div style="font-size:13px;font-weight:600" id="wa-name">Ramesh Kumar</div><div style="font-size:11px;color:var(--green)">● Online</div></div>
+            <div style="margin-left:auto;display:flex;gap:8px">
+              <button class="btn btn-sm btn-ghost"><i class="fa-solid fa-phone"></i></button>
+              <button class="btn btn-sm" onclick="openSendQuotationWA()"><i class="fa-solid fa-file-invoice"></i> Send Quotation</button>
+            </div>
+          </div>
+          <div style="flex:1;overflow-y:auto" id="wa-messages"></div>
+          <div style="padding:12px;border-top:1px solid var(--border)">
+            <div style="margin-bottom:8px;display:flex;gap:6px;flex-wrap:wrap" id="wa-templates"></div>
+            <div style="display:flex;gap:8px">
+              <input type="text" class="form-input" placeholder="Type a message..." id="wa-input" style="flex:1" onkeydown="if(event.key==='Enter')sendWAMessage()">
+              <button class="btn btn-sm"><i class="fa-solid fa-paperclip"></i></button>
+              <button class="btn btn-primary btn-sm" onclick="sendWAMessage()"><i class="fa-solid fa-paper-plane"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROPERTIES PAGE -->
+    <div class="page" id="page-properties">
+      <div class="filter-bar">
+        <div class="search-bar"><i class="fa-solid fa-search"></i><input type="text" placeholder="Search properties..."></div>
+        <select class="form-input" style="width:auto;padding:8px 12px">
+          <option>All Types</option><option>Apartment</option><option>Villa</option><option>Plot</option><option>Commercial</option>
+        </select>
+        <button class="btn btn-primary btn-sm" style="margin-left:auto" onclick="openAddProperty()"><i class="fa-solid fa-plus"></i> Add Property</button>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px" id="properties-grid"></div>
+    </div>
+
+    <!-- REPORTS PAGE -->
+    <div class="page" id="page-reports">
+      <div class="tabs">
+        <button class="tab-btn active" onclick="showReport('overview',this)">Overview</button>
+        <button class="tab-btn" onclick="showReport('leads',this)">Leads Report</button>
+        <button class="tab-btn" onclick="showReport('executive',this)">Team Performance</button>
+        <button class="tab-btn" onclick="showReport('pipeline',this)">Pipeline</button>
+      </div>
+      <div id="report-content"></div>
+    </div>
+
+    <!-- CAMPAIGNS PAGE -->
+    <div class="page" id="page-campaigns">
+      <div class="filter-bar">
+        <div class="search-bar"><i class="fa-solid fa-search"></i><input type="text" placeholder="Search campaigns..."></div>
+        <button class="btn btn-primary btn-sm" style="margin-left:auto" onclick="openAddCampaign()"><i class="fa-solid fa-plus"></i> New Campaign</button>
+      </div>
+      <div class="card" style="padding:0">
+        <table class="crm-table">
+          <thead><tr><th>Campaign</th><th>Source</th><th>Leads</th><th>Conversions</th><th>Conv. Rate</th><th>Budget</th><th>Cost/Lead</th><th>Status</th></tr></thead>
+          <tbody id="campaigns-table"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- TEAM PAGE -->
+    <div class="page" id="page-team">
+      <div class="filter-bar">
+        <button class="btn btn-primary btn-sm" style="margin-left:auto" onclick="openAddUser()"><i class="fa-solid fa-plus"></i> Add User</button>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px" id="team-grid"></div>
+    </div>
+
+    <!-- SETTINGS PAGE -->
+    <div class="page" id="page-settings">
+      <div style="display:grid;grid-template-columns:200px 1fr;gap:20px">
+        <div class="card" style="padding:8px">
+          <div style="display:flex;flex-direction:column;gap:2px">
+            <div class="nav-item active" onclick="showSettings('company',this)" style="font-size:12px"><i class="fa-solid fa-building"></i> Company</div>
+            <div class="nav-item" onclick="showSettings('whatsapp',this)" style="font-size:12px"><i class="fa-brands fa-whatsapp"></i> WhatsApp API</div>
+            <div class="nav-item" onclick="showSettings('email',this)" style="font-size:12px"><i class="fa-solid fa-envelope"></i> Email SMTP</div>
+            <div class="nav-item" onclick="showSettings('pipeline',this)" style="font-size:12px"><i class="fa-solid fa-columns"></i> Pipeline Stages</div>
+            <div class="nav-item" onclick="showSettings('sources',this)" style="font-size:12px"><i class="fa-solid fa-filter"></i> Lead Sources</div>
+            <div class="nav-item" onclick="showSettings('notifications',this)" style="font-size:12px"><i class="fa-solid fa-bell"></i> Notifications</div>
+          </div>
+        </div>
+        <div id="settings-content"></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Modals -->
+<div id="modal-container"></div>
+<div id="toast"></div>
+
+<script>
+// ==================== DATA ====================
+const SOURCES = ['Meta Ads','Google Ads','WhatsApp','Referral','Walk-in','Website','Manual'];
+const STATUSES = ['New Lead','Contacted','Interested','Site Visit Scheduled','Site Visit Completed','Negotiation','Quotation Sent','Booking Confirmed','Closed Won','Closed Lost'];
+const PROPERTY_TYPES = ['1BHK','2BHK','3BHK','4BHK','Villa','Plot','Commercial'];
+const EXECUTIVES = ['Suresh Kumar','Ananya Priya','Manoj Jha','Lavanya V'];
+const LOCATIONS = ['Adyar','Velachery','OMR','ECR','Anna Nagar','Porur','Tambaram','Sholinganallur','Nungambakkam','T. Nagar'];
+
+function rnd(arr){return arr[Math.floor(Math.random()*arr.length)]}
+function fmtDate(d){return d.toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'})}
+function fmtRs(n){return '₹'+n.toLocaleString('en-IN')}
+
+let leadIdCounter = 200;
+function genLeads(n){
+  const names=['Ramesh Kumar','Sunita Menon','Vijay Raj','Priya Nair','Arjun Tiwari','Deepa Sharma','Karthik Pillai','Meera Lal','Arun Krishnan','Divya Gopal','Sanjay Mehta','Kavitha Rao','Rajan Iyer','Pooja Singh','Mohan Das','Anitha Bose','Suresh Babu','Rekha Patel','Naresh Gupta','Lakshmi Devi','Bala Subram','Geetha Nathan','Vignesh M','Saranya P','Dinesh K','Harini V','Prakash R','Uma S','Balaji T','Chandran A'];
+  return Array.from({length:n},(_,i)=>{
+    const created=new Date(2026,4-Math.floor(i/5),25-i%28);
+    const follow=new Date(created);follow.setDate(follow.getDate()+Math.floor(Math.random()*10)+1);
+    return {
+      id:'ARV-'+String(++leadIdCounter).padStart(4,'0'),
+      name:names[i%names.length],
+      mobile:'9'+String(Math.floor(Math.random()*900000000)+100000000),
+      altMobile:'',
+      email:names[i%names.length].split(' ')[0].toLowerCase()+'@gmail.com',
+      property:rnd(PROPERTY_TYPES),
+      budget:rnd(['₹30-50L','₹50-80L','₹80L-1Cr','₹1-2Cr','₹2Cr+']),
+      location:rnd(LOCATIONS),
+      source:rnd(SOURCES),
+      campaign:rnd(['Summer Sale 2026','Meta Q2 Campaign','Google Brand','WhatsApp Blast','Referral Drive','']),
+      executive:rnd(EXECUTIVES),
+      status:rnd(STATUSES),
+      followup:follow,
+      notes:'Initial inquiry received. Customer is interested in '+rnd(PROPERTY_TYPES)+' in '+rnd(LOCATIONS)+'.',
+      created,
+      updated:new Date()
+    }
+  });
+}
+
+let leadsDB = genLeads(50);
+let selectedLeads = new Set();
+
+const followupsDB = leadsDB.slice(0,15).map((l,i)=>({
+  id:i+1, leadId:l.id, name:l.name, mobile:l.mobile, type:rnd(['Call','Meeting','Site Visit','Email']),
+  date:new Date(2026,4,25-Math.floor(i/2)), time:['9:00 AM','11:30 AM','2:00 PM','4:30 PM','6:00 PM'][i%5],
+  note:rnd(['Follow up on quotation','Discuss pricing','Schedule site visit','Confirm booking','Get feedback']),
+  executive:rnd(EXECUTIVES), status:i<3?'overdue':i<8?'today':'upcoming', done:false
+}));
+
+const propertiesDB=[
+  {id:'P001',name:'Aarovia Heights',type:'Apartment',location:'Anna Nagar, Chennai',config:'2BHK / 3BHK / 4BHK',price:'₹85L – ₹1.8Cr',status:'Active',units:120,available:45,builder:'Aarovia Constructions',amenities:'Swimming Pool, Gym, Clubhouse, 24/7 Security',description:'Premium luxury apartments in the heart of Anna Nagar'},
+  {id:'P002',name:'Aarovia Villas',type:'Villa',location:'ECR, Chennai',config:'3BHK / 4BHK',price:'₹1.5Cr – ₹3.2Cr',status:'Active',units:48,available:12,builder:'Aarovia Constructions',amenities:'Private Pool, Smart Home, Landscaped Garden',description:'Exclusive beachside villa community on ECR'},
+  {id:'P003',name:'Aarovia Plots',type:'Plot',location:'Tambaram, Chennai',config:'600-2400 sqft',price:'₹25L – ₹1.2Cr',status:'Active',units:200,available:88,builder:'Aarovia Constructions',amenities:'Gated Community, 24/7 Security, Paved Roads',description:'Premium plotted development near Tambaram'},
+  {id:'P004',name:'Aarovia Skyline',type:'Apartment',location:'OMR, Chennai',config:'2BHK / 3BHK',price:'₹65L – ₹1.1Cr',status:'Upcoming',units:88,available:88,builder:'Aarovia Constructions',amenities:'Rooftop Garden, Co-working Space, EV Charging',description:'Tech corridor apartments with modern amenities'},
+  {id:'P005',name:'Aarovia Commercial Hub',type:'Commercial',location:'Nungambakkam, Chennai',config:'Office / Retail',price:'₹1.2Cr – ₹5Cr',status:'Active',units:60,available:22,builder:'Aarovia Constructions',amenities:'Dedicated Parking, High-speed Elevators, Backup Power',description:'Premium commercial spaces in CBD'},
+  {id:'P006',name:'Aarovia Green Valley',type:'Apartment',location:'Porur, Chennai',config:'1BHK / 2BHK',price:'₹35L – ₹68L',status:'Active',units:150,available:70,builder:'Aarovia Constructions',amenities:'Children Play Area, Jogging Track, Temple',description:'Affordable homes with green living concept'}
+];
+
+const quotationsDB=[
+  {id:'QT-0001',customer:'Ramesh Kumar',leadId:'ARV-0201',property:'Aarovia Heights – 3BHK',unit:'Block A, Floor 12, Unit 1204',area:1450,basePrice:10350000,discount:5,tax:18,executive:'Suresh Kumar',date:new Date(2026,4,20),validity:new Date(2026,5,20),status:'Sent',notes:''},
+  {id:'QT-0002',customer:'Vijay Raj',leadId:'ARV-0203',property:'Aarovia Villas – 4BHK Villa',unit:'Villa No. V-14',area:3200,basePrice:28500000,discount:3,tax:12,executive:'Ananya Priya',date:new Date(2026,4,18),validity:new Date(2026,5,18),status:'Accepted',notes:''},
+  {id:'QT-0003',customer:'Deepa Sharma',leadId:'ARV-0206',property:'Aarovia Plots – 1200 sqft',unit:'Plot No. 142-B',area:1200,basePrice:4200000,discount:0,tax:5,executive:'Manoj Jha',date:new Date(2026,4,22),validity:new Date(2026,5,22),status:'Draft',notes:''},
+  {id:'QT-0004',customer:'Priya Nair',leadId:'ARV-0204',property:'Aarovia Skyline – 2BHK',unit:'Block C, Floor 8, Unit 803',area:980,basePrice:7500000,discount:2,tax:18,executive:'Lavanya V',date:new Date(2026,4,15),validity:new Date(2026,5,15),status:'Sent',notes:''},
+];
+
+const campaignsDB=[
+  {name:'Meta Summer Campaign',source:'Meta Ads',leads:187,conversions:34,budget:85000,status:'Active'},
+  {name:'Google Brand Awareness',source:'Google Ads',leads:142,conversions:28,budget:120000,status:'Active'},
+  {name:'WhatsApp Blast – April',source:'WhatsApp',leads:96,conversions:19,budget:12000,status:'Completed'},
+  {name:'Instagram Stories Q2',source:'Meta Ads',leads:78,conversions:11,budget:45000,status:'Active'},
+  {name:'Referral Drive 2026',source:'Referral',leads:64,conversions:18,budget:25000,status:'Active'},
+  {name:'Website SEO Push',source:'Website',leads:43,conversions:7,budget:30000,status:'Paused'},
+];
+
+const teamDB=[
+  {name:'Suresh Kumar',role:'Sales Executive',email:'suresh@aarovia.in',phone:'9876543210',leads:48,closed:9,avatar:'SK',color:'#4f8ef7'},
+  {name:'Ananya Priya',role:'Sales Executive',email:'ananya@aarovia.in',phone:'9876543211',leads:41,closed:8,avatar:'AP',color:'#f472b6'},
+  {name:'Manoj Jha',role:'Sales Executive',email:'manoj@aarovia.in',phone:'9876543212',leads:35,closed:5,avatar:'MJ',color:'#34d399'},
+  {name:'Lavanya V',role:'Telecaller',email:'lavanya@aarovia.in',phone:'9876543213',leads:31,closed:4,avatar:'LV',color:'#fbbf24'},
+  {name:'Preethi S',role:'Sales Manager',email:'preethi@aarovia.in',phone:'9876543214',leads:0,closed:0,avatar:'PS',color:'#a78bfa'},
+  {name:'Admin User',role:'Administrator',email:'admin@aarovia.in',phone:'9876543215',leads:0,closed:0,avatar:'AD',color:'#fb923c'},
+];
+
+const activitiesDB=[
+  {type:'quotation',icon:'fa-file-invoice',color:'var(--accent)',text:'Suresh Kumar sent quotation to Karthik Pillai via WhatsApp',time:'5 min ago'},
+  {type:'lead',icon:'fa-user-plus',color:'var(--green)',text:'New lead Sunita Menon from Google Ads auto-assigned to Ananya Priya',time:'22 min ago'},
+  {type:'won',icon:'fa-trophy',color:'var(--yellow)',text:'Meera Lal moved to Closed Won · ₹78L deal confirmed',time:'1 hour ago'},
+  {type:'visit',icon:'fa-building',color:'var(--purple)',text:'Ananya Priya scheduled site visit for Arjun Tiwari – Anna Nagar',time:'2 hours ago'},
+  {type:'import',icon:'fa-upload',color:'var(--pink)',text:'Bulk import: 24 leads added from Meta Ads Summer Campaign',time:'3 hours ago'},
+  {type:'overdue',icon:'fa-triangle-exclamation',color:'var(--red)',text:'Ramesh Kumar follow-up overdue · auto-reminder sent via WhatsApp',time:'Today 9:00 AM'},
+];
+
+// ==================== NAVIGATION ====================
+function showPage(page, navEl) {
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  document.getElementById('page-'+page).classList.add('active');
+  if(navEl) navEl.classList.add('active');
+  const titles={dashboard:'Dashboard',leads:'Leads',pipeline:'Pipeline Board',followups:'Follow-ups',quotations:'Quotations',whatsapp:'WhatsApp',properties:'Properties',reports:'Reports & Analytics',campaigns:'Campaigns',team:'Team Management',settings:'Settings'};
+  document.getElementById('page-title').textContent=titles[page]||page;
+  document.getElementById('page-sub').textContent='';
+  if(page==='dashboard')document.getElementById('page-sub').textContent='Sunday, 25 May 2026 · Welcome back, Admin';
+  pageLoaders[page]&&pageLoaders[page]();
+}
+
+const pageLoaders={
+  dashboard:loadDashboard,
+  leads:renderLeadsTable,
+  pipeline:renderPipeline,
+  followups:renderFollowups,
+  quotations:renderQuotations,
+  whatsapp:renderWhatsApp,
+  properties:renderProperties,
+  reports:()=>showReport('overview',document.querySelector('.tab-btn')),
+  campaigns:renderCampaigns,
+  team:renderTeam,
+  settings:()=>showSettings('company',document.querySelector('#page-settings .nav-item'))
+};
+
+// ==================== DASHBOARD ====================
+function loadDashboard(){
+  // Recent leads
+  const recent=leadsDB.slice(0,6);
+  document.getElementById('dash-lead-rows').innerHTML=recent.map(l=>`
+    <tr onclick="openLeadDetail('${l.id}')">
+      <td><strong>${l.name}</strong></td>
+      <td style="color:var(--text2)">${l.mobile}</td>
+      <td><span class="tag ${sourceClass(l.source)}">${l.source}</span></td>
+      <td><span class="status-tag ${statusClass(l.status)}">${l.status}</span></td>
+      <td style="font-size:12px;color:var(--text2)">${l.executive.split(' ')[0]}</td>
+      <td style="font-size:12px;color:var(--text3)">${fmtDate(l.created)}</td>
+    </tr>`).join('');
+
+  // Source bars
+  const srcCount={};SOURCES.forEach(s=>srcCount[s]=0);
+  leadsDB.forEach(l=>srcCount[l.source]=(srcCount[l.source]||0)+1);
+  const max=Math.max(...Object.values(srcCount));
+  const srcColors={'Meta Ads':'var(--pink)','Google Ads':'var(--accent)','WhatsApp':'var(--green)','Referral':'var(--yellow)','Walk-in':'var(--purple)','Website':'var(--teal)','Manual':'var(--orange)'};
+  document.getElementById('source-bars').innerHTML=Object.entries(srcCount).sort((a,b)=>b[1]-a[1]).map(([s,c])=>`
+    <div class="src-row">
+      <span class="src-label">${s}</span>
+      <div class="src-bar-wrap"><div class="src-bar" style="width:${(c/max*100).toFixed(0)}%;background:${srcColors[s]}"></div></div>
+      <span class="src-pct">${c}</span>
+    </div>`).join('');
+
+  // Follow-ups
+  const fus=followupsDB.filter(f=>f.status==='overdue'||f.status==='today').slice(0,3);
+  document.getElementById('dash-followups').innerHTML=fus.map(f=>`
+    <div style="display:flex;gap:10px;align-items:flex-start;padding:8px 0;border-bottom:1px solid var(--border)">
+      <div class="avatar" style="width:30px;height:30px;font-size:10px;background:${f.status==='overdue'?'rgba(248,113,113,.15)':'rgba(79,142,247,.15)'};color:${f.status==='overdue'?'var(--red)':'var(--accent)'}">${f.name.split(' ').map(n=>n[0]).join('')}</div>
+      <div style="flex:1">
+        <div style="font-size:12px;font-weight:500">${f.name}</div>
+        <div style="font-size:11px;color:var(--text3)">${f.note}</div>
+      </div>
+      <div style="font-size:11px;color:${f.status==='overdue'?'var(--red)':'var(--text3)'}">${f.status==='overdue'?'Overdue':f.time}</div>
+    </div>`).join('');
+
+  // Pipeline chart
+  const stages={};STATUSES.forEach(s=>stages[s]=0);
+  leadsDB.forEach(l=>stages[l.status]=(stages[l.status]||0)+1);
+  const stageColors={
+    'New Lead':'var(--accent)','Contacted':'var(--teal)','Interested':'var(--purple)',
+    'Site Visit Scheduled':'var(--yellow)','Site Visit Completed':'var(--orange)',
+    'Negotiation':'var(--pink)','Quotation Sent':'var(--accent)',
+    'Booking Confirmed':'var(--green)','Closed Won':'var(--green)','Closed Lost':'var(--red)'
+  };
+  const maxS=Math.max(...Object.values(stages));
+  document.getElementById('dash-pipeline-chart').innerHTML=Object.entries(stages).map(([s,c])=>`
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;font-size:12px">
+      <span style="width:130px;color:var(--text2);flex-shrink:0">${s}</span>
+      <div style="flex:1;height:8px;background:var(--bg4);border-radius:4px;overflow:hidden">
+        <div style="height:100%;width:${(c/maxS*100).toFixed(0)}%;background:${stageColors[s]};border-radius:4px"></div>
+      </div>
+      <span style="width:24px;text-align:right;color:var(--text)">${c}</span>
+    </div>`).join('');
+
+  // Activity
+  document.getElementById('dash-activity').innerHTML=activitiesDB.map(a=>`
+    <div style="display:flex;gap:10px;padding:8px 0;border-bottom:1px solid var(--border)">
+      <div style="width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.05);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+        <i class="fa-solid ${a.icon}" style="font-size:11px;color:${a.color}"></i>
+      </div>
+      <div>
+        <div style="font-size:12px;color:var(--text2);line-height:1.4">${a.text}</div>
+        <div style="font-size:10px;color:var(--text3);margin-top:3px">${a.time}</div>
+      </div>
+    </div>`).join('');
+}
+
+// ==================== LEADS ====================
+function sourceClass(s){
+  const m={'Meta Ads':'tag-meta','Google Ads':'tag-google','WhatsApp':'tag-whatsapp','Referral':'tag-referral','Walk-in':'tag-walkin','Website':'tag-website','Manual':'tag-manual'};
+  return m[s]||'tag-google';
+}
+function statusClass(s){
+  const m={'New Lead':'s-new','Contacted':'s-contacted','Interested':'s-interested','Site Visit Scheduled':'s-sitevisit','Site Visit Completed':'s-sitevisit','Negotiation':'s-negotiation','Quotation Sent':'s-quotation','Booking Confirmed':'s-won','Closed Won':'s-won','Closed Lost':'s-lost'};
+  return m[s]||'s-new';
+}
+
+function filterLeads(){
+  const search=(document.getElementById('lead-search').value||'').toLowerCase();
+  const src=document.getElementById('filter-source').value;
+  const stat=document.getElementById('filter-status').value;
+  const exec=document.getElementById('filter-exec').value;
+  const filtered=leadsDB.filter(l=>{
+    if(search&&!l.name.toLowerCase().includes(search)&&!l.mobile.includes(search)&&!l.email.toLowerCase().includes(search))return false;
+    if(src&&l.source!==src)return false;
+    if(stat&&l.status!==stat)return false;
+    if(exec&&l.executive!==exec)return false;
+    return true;
+  });
+  renderLeadsRows(filtered);
+  document.getElementById('lead-count-label').textContent=`${filtered.length} leads`;
+}
+
+function renderLeadsTable(){
+  renderLeadsRows(leadsDB);
+  document.getElementById('lead-count-label').textContent=`${leadsDB.length} leads`;
+}
+
+function renderLeadsRows(data){
+  document.getElementById('leads-table-body').innerHTML=data.map(l=>`
+    <tr onclick="openLeadDetail('${l.id}')">
+      <td onclick="event.stopPropagation()"><input type="checkbox" ${selectedLeads.has(l.id)?'checked':''} onchange="toggleLead('${l.id}',this)"></td>
+      <td style="font-size:11px;color:var(--text3)">${l.id}</td>
+      <td><strong style="font-size:13px">${l.name}</strong><div style="font-size:11px;color:var(--text3)">${l.email}</div></td>
+      <td style="font-size:12px">${l.mobile}</td>
+      <td style="font-size:12px">${l.property} · ${l.location}</td>
+      <td style="font-size:12px;color:var(--text2)">${l.budget}</td>
+      <td><span class="tag ${sourceClass(l.source)}">${l.source}</span></td>
+      <td><span class="status-tag ${statusClass(l.status)}">${l.status}</span></td>
+      <td style="font-size:12px">${l.executive.split(' ')[0]}</td>
+      <td style="font-size:11px;color:${new Date(l.followup)<new Date()?'var(--red)':'var(--text3)'}">${fmtDate(l.followup)}</td>
+      <td onclick="event.stopPropagation()">
+        <div style="display:flex;gap:4px">
+          <button class="btn btn-ghost btn-sm" onclick="openLeadDetail('${l.id}')" title="View"><i class="fa-solid fa-eye"></i></button>
+          <button class="btn btn-ghost btn-sm" onclick="openEditLead('${l.id}')" title="Edit"><i class="fa-solid fa-pen"></i></button>
+          <button class="btn btn-ghost btn-sm" style="color:var(--red)" onclick="deleteLead('${l.id}')" title="Delete"><i class="fa-solid fa-trash"></i></button>
+        </div>
+      </td>
+    </tr>`).join('');
+}
+
+function toggleLead(id,cb){cb.checked?selectedLeads.add(id):selectedLeads.delete(id)}
+function toggleAll(cb){leadsDB.forEach(l=>cb.checked?selectedLeads.add(l.id):selectedLeads.delete(l.id));renderLeadsTable()}
+function deleteLead(id){if(confirm('Delete this lead?')){leadsDB=leadsDB.filter(l=>l.id!==id);renderLeadsTable();showToast('Lead deleted','success')}}
+function exportLeads(){showToast('Exporting leads to CSV...','info')}
+
+function globalSearch(v){
+  if(!v)return;
+  showPage('leads',document.querySelectorAll('.nav-item')[1]);
+  document.getElementById('lead-search').value=v;
+  filterLeads();
+}
+
+// ==================== LEAD MODAL ====================
+function openAddLead(){
+  showModal('Add New Lead',leadFormHTML(),()=>submitLead(false));
+}
+function openEditLead(id){
+  const l=leadsDB.find(x=>x.id===id);
+  if(!l)return;
+  showModal('Edit Lead – '+l.name,leadFormHTML(l),()=>submitLead(true,id));
+}
+
+function leadFormHTML(l=null){
+  const v=(k,d='')=>l?l[k]||d:d;
+  return `
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Customer Name *</label><input class="form-input" id="fl-name" value="${v('name')}" placeholder="Full name"></div>
+      <div class="form-group"><label class="form-label">Mobile Number *</label><input class="form-input" id="fl-mobile" value="${v('mobile')}" placeholder="10-digit mobile"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Email Address</label><input class="form-input" id="fl-email" value="${v('email')}" placeholder="email@example.com"></div>
+      <div class="form-group"><label class="form-label">Alternate Mobile</label><input class="form-input" id="fl-alt" value="${v('altMobile')}" placeholder="Optional"></div>
+    </div>
+    <div class="form-row3">
+      <div class="form-group"><label class="form-label">Property Type</label><select class="form-input" id="fl-property">${PROPERTY_TYPES.map(p=>`<option ${v('property')===p?'selected':''}>${p}</option>`).join('')}</select></div>
+      <div class="form-group"><label class="form-label">Preferred Location</label><select class="form-input" id="fl-location">${LOCATIONS.map(p=>`<option ${v('location')===p?'selected':''}>${p}</option>`).join('')}</select></div>
+      <div class="form-group"><label class="form-label">Budget</label><select class="form-input" id="fl-budget">${['₹30-50L','₹50-80L','₹80L-1Cr','₹1-2Cr','₹2Cr+'].map(p=>`<option ${v('budget')===p?'selected':''}>${p}</option>`).join('')}</select></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Lead Source *</label><select class="form-input" id="fl-source">${SOURCES.map(s=>`<option ${v('source')===s?'selected':''}>${s}</option>`).join('')}</select></div>
+      <div class="form-group"><label class="form-label">Campaign Name</label><input class="form-input" id="fl-campaign" value="${v('campaign')}" placeholder="Campaign (optional)"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Assigned Executive</label><select class="form-input" id="fl-exec">${EXECUTIVES.map(e=>`<option ${v('executive')===e?'selected':''}>${e}</option>`).join('')}</select></div>
+      <div class="form-group"><label class="form-label">Lead Status</label><select class="form-input" id="fl-status">${STATUSES.map(s=>`<option ${v('status')===s?'selected':''}>${s}</option>`).join('')}</select></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Follow-up Date</label><input type="date" class="form-input" id="fl-followup" value="${l?l.followup.toISOString().split('T')[0]:''}"></div>
+    </div>
+    <div class="form-group"><label class="form-label">Notes</label><textarea class="form-input" id="fl-notes">${v('notes')}</textarea></div>`;
+}
+
+function submitLead(isEdit, id){
+  const name=document.getElementById('fl-name').value.trim();
+  const mobile=document.getElementById('fl-mobile').value.trim();
+  if(!name||!mobile){showToast('Name and mobile are required','error');return}
+  const data={
+    name,mobile,
+    altMobile:document.getElementById('fl-alt').value,
+    email:document.getElementById('fl-email').value,
+    property:document.getElementById('fl-property').value,
+    location:document.getElementById('fl-location').value,
+    budget:document.getElementById('fl-budget').value,
+    source:document.getElementById('fl-source').value,
+    campaign:document.getElementById('fl-campaign').value,
+    executive:document.getElementById('fl-exec').value,
+    status:document.getElementById('fl-status').value,
+    followup:new Date(document.getElementById('fl-followup').value||Date.now()),
+    notes:document.getElementById('fl-notes').value,
+    updated:new Date()
+  };
+  if(isEdit){
+    const idx=leadsDB.findIndex(l=>l.id===id);
+    leadsDB[idx]={...leadsDB[idx],...data};
+    showToast('Lead updated successfully','success');
+  } else {
+    data.id='ARV-'+String(++leadIdCounter).padStart(4,'0');
+    data.created=new Date();
+    leadsDB.unshift(data);
+    document.getElementById('lead-badge').textContent=leadsDB.length;
+    showToast('Lead added successfully','success');
+  }
+  closeModal();
+  renderLeadsTable();
+}
+
+// ==================== LEAD DETAIL ====================
+function openLeadDetail(id){
+  const l=leadsDB.find(x=>x.id===id);
+  if(!l)return;
+  const body=`
+    <div style="display:grid;grid-template-columns:1fr 280px;gap:18px">
+      <div>
+        <div style="display:flex;align-items:center;gap:14px;margin-bottom:20px">
+          <div class="avatar" style="width:50px;height:50px;font-size:16px">${l.name.split(' ').map(n=>n[0]).join('')}</div>
+          <div>
+            <div style="font-size:18px;font-weight:600">${l.name}</div>
+            <div style="font-size:13px;color:var(--text2)">${l.mobile} · ${l.email}</div>
+            <div style="margin-top:6px;display:flex;gap:6px"><span class="tag ${sourceClass(l.source)}">${l.source}</span><span class="status-tag ${statusClass(l.status)}">${l.status}</span></div>
+          </div>
+          <div style="margin-left:auto;display:flex;gap:6px">
+            <button class="btn btn-sm" onclick="openEditLead('${l.id}');closeModal()"><i class="fa-solid fa-pen"></i></button>
+            <button class="btn btn-sm btn-success" onclick="openCreateQuotationForLead('${l.id}')"><i class="fa-solid fa-file-invoice"></i> Quotation</button>
+          </div>
+        </div>
+        <div class="divider"></div>
+        <div class="form-row3" style="margin-bottom:12px">
+          <div><div style="font-size:11px;color:var(--text3)">Property Type</div><div style="font-size:13px;font-weight:500;margin-top:2px">${l.property}</div></div>
+          <div><div style="font-size:11px;color:var(--text3)">Location</div><div style="font-size:13px;font-weight:500;margin-top:2px">${l.location}</div></div>
+          <div><div style="font-size:11px;color:var(--text3)">Budget</div><div style="font-size:13px;font-weight:500;margin-top:2px">${l.budget}</div></div>
+        </div>
+        <div class="form-row3" style="margin-bottom:16px">
+          <div><div style="font-size:11px;color:var(--text3)">Executive</div><div style="font-size:13px;font-weight:500;margin-top:2px">${l.executive}</div></div>
+          <div><div style="font-size:11px;color:var(--text3)">Campaign</div><div style="font-size:13px;font-weight:500;margin-top:2px">${l.campaign||'—'}</div></div>
+          <div><div style="font-size:11px;color:var(--text3)">Created</div><div style="font-size:13px;font-weight:500;margin-top:2px">${fmtDate(l.created)}</div></div>
+        </div>
+        <div class="form-group"><label class="form-label">Notes</label><div style="background:var(--bg3);border:1px solid var(--border2);border-radius:6px;padding:10px;font-size:13px;color:var(--text2)">${l.notes||'No notes added.'}</div></div>
+        <div style="margin-top:16px">
+          <div style="font-size:13px;font-weight:500;margin-bottom:12px">Activity Timeline</div>
+          <div class="timeline">${genTimeline(l)}</div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <div class="card card-sm">
+          <div style="font-size:12px;font-weight:500;margin-bottom:10px">Update Status</div>
+          <select class="form-input" id="detail-status" style="font-size:12px">
+            ${STATUSES.map(s=>`<option ${l.status===s?'selected':''}>${s}</option>`).join('')}
+          </select>
+          <button class="btn btn-primary btn-sm" style="width:100%;margin-top:8px;justify-content:center" onclick="updateStatus('${l.id}')">Update</button>
+        </div>
+        <div class="card card-sm">
+          <div style="font-size:12px;font-weight:500;margin-bottom:10px">Quick Actions</div>
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <button class="btn btn-sm" style="justify-content:flex-start" onclick="showPage('whatsapp',document.querySelectorAll('.nav-item')[5]);closeModal()"><i class="fa-brands fa-whatsapp" style="color:var(--green)"></i> WhatsApp</button>
+            <button class="btn btn-sm" style="justify-content:flex-start" onclick="openAddFollowupForLead('${l.id}')"><i class="fa-solid fa-calendar-plus" style="color:var(--accent)"></i> Schedule Follow-up</button>
+            <button class="btn btn-sm" style="justify-content:flex-start" onclick="openCreateQuotationForLead('${l.id}')"><i class="fa-solid fa-file-invoice" style="color:var(--purple)"></i> Create Quotation</button>
+          </div>
+        </div>
+        <div class="card card-sm">
+          <div style="font-size:12px;font-weight:500;margin-bottom:6px">Follow-up Date</div>
+          <div style="font-size:13px;color:${new Date(l.followup)<new Date()?'var(--red)':'var(--text)'}">📅 ${fmtDate(l.followup)}</div>
+        </div>
+        <div class="card card-sm">
+          <div style="font-size:12px;font-weight:500;margin-bottom:6px">Lead Score</div>
+          <div style="font-size:28px;font-weight:700;color:var(--green)">${Math.floor(Math.random()*30+60)}<span style="font-size:14px;color:var(--text3)">/100</span></div>
+          <div style="font-size:11px;color:var(--text3);margin-top:2px">High intent</div>
+        </div>
+      </div>
+    </div>`;
+  showModal(l.name+' – Lead Details', body, null, 'lg');
+}
+
+function genTimeline(l){
+  const events=[
+    {icon:'fa-user-plus',color:'rgba(79,142,247,.2)',iconC:'var(--accent)',title:'Lead Created',sub:`Source: ${l.source} · ${fmtDate(l.created)}`},
+    {icon:'fa-phone',color:'rgba(52,211,153,.2)',iconC:'var(--green)',title:'First Contact Made',sub:`Called by ${l.executive} · Interested in ${l.property}`},
+    {icon:'fa-calendar',color:'rgba(167,139,250,.2)',iconC:'var(--purple)',title:'Follow-up Scheduled',sub:`Follow-up set for ${fmtDate(l.followup)}`},
+  ];
+  if(['Site Visit Scheduled','Site Visit Completed','Negotiation','Quotation Sent','Booking Confirmed','Closed Won'].includes(l.status))
+    events.push({icon:'fa-building',color:'rgba(251,191,36,.2)',iconC:'var(--yellow)',title:'Site Visit',sub:`Property visit arranged at ${l.location}`});
+  if(['Quotation Sent','Booking Confirmed','Closed Won'].includes(l.status))
+    events.push({icon:'fa-file-invoice',color:'rgba(244,114,182,.2)',iconC:'var(--pink)',title:'Quotation Sent',sub:'Quotation sent via WhatsApp and email'});
+  if(l.status==='Closed Won')
+    events.push({icon:'fa-trophy',color:'rgba(52,211,153,.2)',iconC:'var(--green)',title:'Closed Won 🎉',sub:`Deal confirmed · ${l.budget}`});
+  return events.map(e=>`
+    <div class="timeline-item">
+      <div class="timeline-dot" style="background:${e.color}"><i class="fa-solid ${e.icon}" style="font-size:11px;color:${e.iconC}"></i></div>
+      <div class="timeline-content" style="padding-top:4px">
+        <div class="timeline-title">${e.title}</div>
+        <div class="timeline-sub">${e.sub}</div>
+      </div>
+    </div>`).join('');
+}
+
+function updateStatus(id){
+  const newStatus=document.getElementById('detail-status').value;
+  const idx=leadsDB.findIndex(l=>l.id===id);
+  leadsDB[idx].status=newStatus;
+  showToast('Status updated to '+newStatus,'success');
+  closeModal();
+}
+
+// ==================== PIPELINE ====================
+const PIPE_STAGES=['New Lead','Contacted','Interested','Site Visit Scheduled','Site Visit Completed','Negotiation','Quotation Sent','Booking Confirmed','Closed Won','Closed Lost'];
+const PIPE_COLORS={
+  'New Lead':'var(--accent)','Contacted':'var(--teal)','Interested':'var(--purple)',
+  'Site Visit Scheduled':'var(--yellow)','Site Visit Completed':'var(--orange)',
+  'Negotiation':'var(--pink)','Quotation Sent':'#7c8cf8',
+  'Booking Confirmed':'var(--green)','Closed Won':'var(--green)','Closed Lost':'var(--red)'
+};
+
+let dragLeadId=null, dragSourceStage=null;
+
+function renderPipeline(){
+  const board=document.getElementById('pipeline-board');
+  board.innerHTML=PIPE_STAGES.map(stage=>{
+    const sLeads=leadsDB.filter(l=>l.status===stage);
+    return `
+      <div class="pipeline-col" id="pipe-col-${stage.replace(/\s/g,'_')}" ondragover="event.preventDefault();this.classList.add('drag-over')" ondragleave="this.classList.remove('drag-over')" ondrop="dropLead(event,'${stage}')">
+        <div class="pipeline-col-header">
+          <div style="display:flex;align-items:center;gap:6px">
+            <div style="width:8px;height:8px;border-radius:50%;background:${PIPE_COLORS[stage]}"></div>
+            <span class="pipeline-col-title">${stage}</span>
+          </div>
+          <span class="pipe-count-badge">${sLeads.length}</span>
+        </div>
+        <div class="pipeline-cards" id="pcards-${stage.replace(/\s/g,'_')}">
+          ${sLeads.slice(0,5).map(l=>`
+            <div class="pipe-card" draggable="true" ondragstart="dragStart(event,'${l.id}','${stage}')" onclick="openLeadDetail('${l.id}')">
+              <div class="pipe-card-name">${l.name}</div>
+              <div class="pipe-card-sub">${l.property} · ${l.location}</div>
+              <div style="font-size:11px;color:var(--text3);margin-bottom:6px">${l.budget}</div>
+              <div class="pipe-card-footer">
+                <span class="tag ${sourceClass(l.source)}" style="font-size:10px">${l.source}</span>
+                <span class="pipe-card-exec"><i class="fa-solid fa-user" style="font-size:9px"></i>${l.executive.split(' ')[0]}</span>
+              </div>
+            </div>`).join('')}
+          ${sLeads.length>5?`<div style="text-align:center;font-size:11px;color:var(--text3);padding:6px">+${sLeads.length-5} more</div>`:''}
+        </div>
+      </div>`;
+  }).join('');
+}
+
+function dragStart(e,id,stage){dragLeadId=id;dragSourceStage=stage;setTimeout(()=>document.querySelector(`[ondragstart*="${id}"]`)?.classList.add('dragging'),0)}
+function dropLead(e,newStage){
+  e.currentTarget.classList.remove('drag-over');
+  if(dragLeadId&&dragSourceStage!==newStage){
+    const idx=leadsDB.findIndex(l=>l.id===dragLeadId);
+    leadsDB[idx].status=newStage;
+    showToast(`Moved to ${newStage}`,'success');
+    renderPipeline();
+  }
+  dragLeadId=null;
+}
+
+// ==================== FOLLOW-UPS ====================
+function renderFollowups(){filterFollowups('all',document.querySelector('#page-followups .tab-btn'))}
+function filterFollowups(type,btn){
+  document.querySelectorAll('#page-followups .tab-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  const data=type==='all'?followupsDB:followupsDB.filter(f=>f.status===type);
+  document.getElementById('followup-list-container').innerHTML=`
+    <div style="display:flex;flex-direction:column;gap:10px">
+      ${data.map(f=>`
+        <div class="card card-sm" style="display:flex;align-items:center;gap:14px;${f.status==='overdue'?'border-left:3px solid var(--red)':''}">
+          <div class="avatar" style="width:40px;height:40px;background:${f.status==='overdue'?'rgba(248,113,113,.15)':'rgba(79,142,247,.15)'};color:${f.status==='overdue'?'var(--red)':'var(--accent)'}">${f.name.split(' ').map(n=>n[0]).join('')}</div>
+          <div style="flex:1">
+            <div style="display:flex;align-items:center;gap:8px">
+              <span style="font-size:13px;font-weight:500">${f.name}</span>
+              <span style="font-size:11px;color:var(--text3)">${f.mobile}</span>
+              <span class="tag ${f.status==='overdue'?'tag-meta':'tag-google'}" style="font-size:10px">${f.type}</span>
+            </div>
+            <div style="font-size:12px;color:var(--text2);margin-top:3px">${f.note}</div>
+            <div style="font-size:11px;color:var(--text3);margin-top:2px"><i class="fa-solid fa-user" style="font-size:10px"></i> ${f.executive}</div>
+          </div>
+          <div style="text-align:right;flex-shrink:0">
+            <div style="font-size:12px;font-weight:500;color:${f.status==='overdue'?'var(--red)':f.status==='today'?'var(--yellow)':'var(--text2)'}">${f.status==='overdue'?'OVERDUE':fmtDate(f.date)}</div>
+            <div style="font-size:11px;color:var(--text3)">${f.time}</div>
+          </div>
+          <div style="display:flex;gap:6px">
+            <button class="btn btn-sm btn-success" onclick="markDone(${f.id})"><i class="fa-solid fa-check"></i></button>
+            <button class="btn btn-sm btn-ghost"><i class="fa-solid fa-phone"></i></button>
+            <button class="btn btn-sm btn-ghost" onclick="showPage('whatsapp',document.querySelectorAll('.nav-item')[5])"><i class="fa-brands fa-whatsapp" style="color:var(--green)"></i></button>
+          </div>
+        </div>`).join('')}
+    </div>`;
+  document.getElementById('fu-badge').textContent=followupsDB.filter(f=>f.status==='overdue').length;
+}
+
+function markDone(id){
+  const f=followupsDB.find(x=>x.id===id);
+  if(f){f.status='upcoming';f.done=true;showToast('Follow-up marked complete','success');renderFollowups()}
+}
+
+function openAddFollowup(){
+  showModal('Schedule Follow-up',`
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Customer</label><select class="form-input" id="fuf-lead">${leadsDB.slice(0,20).map(l=>`<option value="${l.id}">${l.name}</option>`).join('')}</select></div>
+      <div class="form-group"><label class="form-label">Follow-up Type</label><select class="form-input" id="fuf-type"><option>Call</option><option>Meeting</option><option>Site Visit</option><option>Email</option></select></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Date</label><input type="date" class="form-input" id="fuf-date"></div>
+      <div class="form-group"><label class="form-label">Time</label><input type="time" class="form-input" id="fuf-time" value="10:00"></div>
+    </div>
+    <div class="form-group"><label class="form-label">Notes</label><textarea class="form-input" id="fuf-note" placeholder="What to discuss..."></textarea></div>
+    <div class="form-group"><label class="form-label">Executive</label><select class="form-input" id="fuf-exec">${EXECUTIVES.map(e=>`<option>${e}</option>`).join('')}</select></div>`,
+  ()=>{showToast('Follow-up scheduled','success');closeModal();renderFollowups()});
+}
+
+function openAddFollowupForLead(lid){closeModal();openAddFollowup()}
+
+// ==================== QUOTATIONS ====================
+function renderQuotations(){
+  document.getElementById('quotations-table').innerHTML=quotationsDB.map(q=>{
+    const disc=q.basePrice*(q.discount/100);
+    const taxAmt=(q.basePrice-disc)*(q.tax/100);
+    const total=q.basePrice-disc+taxAmt;
+    return `
+      <tr onclick="viewQuotation('${q.id}')">
+        <td style="font-size:12px;font-weight:500;color:var(--accent)">${q.id}</td>
+        <td><strong>${q.customer}</strong><div style="font-size:11px;color:var(--text3)">${q.leadId}</div></td>
+        <td style="font-size:12px;color:var(--text2)">${q.property}</td>
+        <td style="font-size:13px;font-weight:500">${fmtRs(Math.round(total))}</td>
+        <td><span class="status-tag ${q.status==='Accepted'?'s-won':q.status==='Rejected'?'s-lost':q.status==='Sent'?'s-quotation':'s-new'}">${q.status}</span></td>
+        <td style="font-size:12px;color:var(--text3)">${fmtDate(q.validity)}</td>
+        <td style="font-size:12px">${q.executive}</td>
+        <td onclick="event.stopPropagation()">
+          <div style="display:flex;gap:4px">
+            <button class="btn btn-sm btn-ghost" onclick="viewQuotation('${q.id}')"><i class="fa-solid fa-eye"></i></button>
+            <button class="btn btn-sm btn-ghost" onclick="sendQuotWA('${q.id}')"><i class="fa-brands fa-whatsapp" style="color:var(--green)"></i></button>
+            <button class="btn btn-sm btn-ghost"><i class="fa-solid fa-download"></i></button>
+          </div>
+        </td>
+      </tr>`;
+  }).join('');
+}
+
+function openCreateQuotation(){
+  showModal('Create Quotation', quotationFormHTML(), ()=>submitQuotation());
+}
+function openCreateQuotationForLead(lid){
+  closeModal();
+  const l=leadsDB.find(x=>x.id===lid);
+  showPage('quotations',document.querySelectorAll('.nav-item')[6]);
+  showModal('Create Quotation – '+l.name, quotationFormHTML(l), ()=>submitQuotation(l));
+}
+function quotationFormHTML(l=null){
+  return `
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Customer Name</label><input class="form-input" id="qf-customer" value="${l?l.name:''}" placeholder="Customer name"></div>
+      <div class="form-group"><label class="form-label">Lead ID</label><input class="form-input" id="qf-leadid" value="${l?l.id:''}" placeholder="ARV-XXXX"></div>
+    </div>
+    <div class="form-group"><label class="form-label">Property Name</label><select class="form-input" id="qf-prop">${propertiesDB.map(p=>`<option>${p.name}</option>`).join('')}</select></div>
+    <div class="form-row3">
+      <div class="form-group"><label class="form-label">Unit Details</label><input class="form-input" id="qf-unit" placeholder="e.g. Block A, Unit 1204"></div>
+      <div class="form-group"><label class="form-label">Area (sqft)</label><input type="number" class="form-input" id="qf-area" placeholder="1200"></div>
+      <div class="form-group"><label class="form-label">Base Price (₹)</label><input type="number" class="form-input" id="qf-price" placeholder="5000000"></div>
+    </div>
+    <div class="form-row3">
+      <div class="form-group"><label class="form-label">Discount %</label><input type="number" class="form-input" id="qf-disc" value="0" max="20"></div>
+      <div class="form-group"><label class="form-label">GST %</label><select class="form-input" id="qf-tax"><option>5</option><option>12</option><option selected>18</option></select></div>
+      <div class="form-group"><label class="form-label">Validity (days)</label><input type="number" class="form-input" id="qf-valid" value="30"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Executive</label><select class="form-input" id="qf-exec">${EXECUTIVES.map(e=>`<option>${e}</option>`).join('')}</select></div>
+    </div>
+    <div class="form-group"><label class="form-label">Terms & Conditions</label><textarea class="form-input" id="qf-terms" style="min-height:60px">1. This quotation is valid for the stated validity period.\n2. All prices are subject to applicable taxes.\n3. Payment terms as per booking agreement.</textarea></div>`;
+}
+
+function submitQuotation(l=null){
+  const q={
+    id:'QT-'+String(quotationsDB.length+1).padStart(4,'0'),
+    customer:document.getElementById('qf-customer').value||'Customer',
+    leadId:document.getElementById('qf-leadid').value||'ARV-0000',
+    property:document.getElementById('qf-prop').value,
+    unit:document.getElementById('qf-unit').value,
+    area:+document.getElementById('qf-area').value||1000,
+    basePrice:+document.getElementById('qf-price').value||5000000,
+    discount:+document.getElementById('qf-disc').value||0,
+    tax:+document.getElementById('qf-tax').value||18,
+    executive:document.getElementById('qf-exec').value,
+    date:new Date(),
+    validity:new Date(Date.now()+30*86400000),
+    status:'Draft',notes:''
+  };
+  quotationsDB.unshift(q);
+  closeModal();
+  showToast('Quotation created: '+q.id,'success');
+  renderQuotations();
+}
+
+function viewQuotation(id){
+  const q=quotationsDB.find(x=>x.id===id);
+  if(!q)return;
+  const disc=q.basePrice*(q.discount/100);
+  const taxAmt=(q.basePrice-disc)*(q.tax/100);
+  const total=q.basePrice-disc+taxAmt;
+  const body=`
+    <div class="quot-preview">
+      <div class="quot-header">
+        <div>
+          <div style="font-size:22px;font-weight:700;color:#1a1a2e">AAROVIA</div>
+          <div style="color:#6b7280;font-size:12px">Real Estates · Chennai</div>
+          <div style="color:#6b7280;font-size:12px">info@aarovia.in · +91 44 1234 5678</div>
+        </div>
+        <div style="text-align:right">
+          <div style="font-size:18px;font-weight:700;color:#1a1a2e">QUOTATION</div>
+          <div style="color:#6b7280;font-size:12px">${q.id}</div>
+          <div style="color:#6b7280;font-size:12px">Date: ${fmtDate(q.date)}</div>
+          <div style="color:#6b7280;font-size:12px">Valid till: ${fmtDate(q.validity)}</div>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px">
+        <div style="background:#f9fafb;padding:12px;border-radius:6px">
+          <div style="font-size:11px;font-weight:600;color:#9ca3af;margin-bottom:6px">BILL TO</div>
+          <div style="font-weight:600;color:#1a1a2e">${q.customer}</div>
+          <div style="color:#6b7280;font-size:12px">${q.leadId}</div>
+        </div>
+        <div style="background:#f9fafb;padding:12px;border-radius:6px">
+          <div style="font-size:11px;font-weight:600;color:#9ca3af;margin-bottom:6px">PROPERTY</div>
+          <div style="font-weight:600;color:#1a1a2e">${q.property}</div>
+          <div style="color:#6b7280;font-size:12px">${q.unit||'—'} · ${q.area} sqft</div>
+        </div>
+      </div>
+      <table class="quot-table">
+        <thead><tr><th>Description</th><th>Area</th><th>Rate/sqft</th><th>Amount</th></tr></thead>
+        <tbody>
+          <tr><td>${q.property}</td><td>${q.area} sqft</td><td>${fmtRs(Math.round(q.basePrice/q.area))}</td><td>${fmtRs(q.basePrice)}</td></tr>
+        </tbody>
+      </table>
+      <div class="quot-total">
+        <div style="display:flex;justify-content:space-between;margin-bottom:4px;font-size:13px"><span>Base Price</span><span>${fmtRs(q.basePrice)}</span></div>
+        ${q.discount>0?`<div style="display:flex;justify-content:space-between;margin-bottom:4px;font-size:13px;color:#059669"><span>Discount (${q.discount}%)</span><span>– ${fmtRs(Math.round(disc))}</span></div>`:''}
+        <div style="display:flex;justify-content:space-between;margin-bottom:8px;font-size:13px"><span>GST (${q.tax}%)</span><span>${fmtRs(Math.round(taxAmt))}</span></div>
+        <div style="display:flex;justify-content:space-between;font-size:16px;font-weight:700;color:#1a1a2e;border-top:1px solid #e5e7eb;padding-top:8px"><span>Total Amount</span><span>${fmtRs(Math.round(total))}</span></div>
+      </div>
+      <div style="margin-top:16px;font-size:11px;color:#9ca3af">Sales Executive: ${q.executive}</div>
+    </div>
+    <div style="display:flex;gap:8px;margin-top:16px">
+      <button class="btn btn-success btn-sm" onclick="sendQuotWA('${q.id}')"><i class="fa-brands fa-whatsapp"></i> Send via WhatsApp</button>
+      <button class="btn btn-sm" onclick="showToast('Downloading PDF...','info')"><i class="fa-solid fa-download"></i> Download PDF</button>
+      <button class="btn btn-sm" onclick="showToast('Sent to email','success')"><i class="fa-solid fa-envelope"></i> Email</button>
+    </div>`;
+  showModal('Quotation Preview – '+q.id, body, null, 'lg');
+}
+
+function sendQuotWA(id){showToast('Quotation sent via WhatsApp ✓','success');const q=quotationsDB.find(x=>x.id===id);if(q)q.status='Sent';closeModal();renderQuotations()}
+
+// ==================== WHATSAPP ====================
+let waCurrentContact=null;
+const waMessages={};
+
+function renderWhatsApp(){
+  const contacts=leadsDB.slice(0,12);
+  document.getElementById('wa-contact-list').innerHTML=contacts.map((l,i)=>`
+    <div onclick="selectWAContact('${l.id}')" style="display:flex;align-items:center;gap:10px;padding:12px;cursor:pointer;border-bottom:1px solid var(--border);${waCurrentContact===l.id?'background:var(--bg3)':''}" id="wac-${l.id}">
+      <div class="avatar" style="width:36px;height:36px;font-size:11px">${l.name.split(' ').map(n=>n[0]).join('')}</div>
+      <div style="flex:1;min-width:0">
+        <div style="font-size:12px;font-weight:500">${l.name}</div>
+        <div style="font-size:11px;color:var(--text3);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${l.mobile}</div>
+      </div>
+      <div style="font-size:10px;color:var(--text3)">${['2m','5m','1h','2h','1d'][i%5]}</div>
+    </div>`).join('');
+  if(!waCurrentContact)selectWAContact(contacts[0].id);
+}
+
+function selectWAContact(id){
+  waCurrentContact=id;
+  const l=leadsDB.find(x=>x.id===id);
+  if(!l)return;
+  document.getElementById('wa-avatar').textContent=l.name.split(' ').map(n=>n[0]).join('');
+  document.getElementById('wa-name').textContent=l.name;
+  if(!waMessages[id])waMessages[id]=[
+    {text:`Hi! I'm interested in your properties. Can you share details for ${l.property}?`,sent:false,time:'10:30 AM'},
+    {text:`Hello ${l.name.split(' ')[0]}! Thank you for reaching out to Aarovia Real Estates. We have excellent options in ${l.location}. I'll share details shortly.`,sent:true,time:'10:32 AM'},
+    {text:'Thank you! What is the price range?',sent:false,time:'10:35 AM'},
+    {text:`The price range for ${l.property} in ${l.location} starts from ${l.budget}. We have some great ongoing offers too!`,sent:true,time:'10:36 AM'},
+  ];
+  renderWAMessages(id);
+  document.querySelectorAll('[id^=wac-]').forEach(el=>el.style.background='');
+  const el=document.getElementById('wac-'+id);
+  if(el)el.style.background='var(--bg3)';
+  document.getElementById('wa-templates').innerHTML=[
+    {label:'Welcome',msg:`Welcome to Aarovia Real Estates, ${l.name.split(' ')[0]}! 🏠`},
+    {label:'Site Visit',msg:`Hi ${l.name.split(' ')[0]}, your site visit is confirmed. Please arrive at 10 AM.`},
+    {label:'Follow-up',msg:`Hi ${l.name.split(' ')[0]}, just checking in on your property search. Any update?`},
+    {label:'Send Quotation',msg:`Hi ${l.name.split(' ')[0]}, please find your quotation attached.`},
+  ].map(t=>`<button class="btn btn-sm" style="font-size:11px" onclick="insertTemplate('${t.msg.replace(/'/g,'&#39;')}')">${t.label}</button>`).join('');
+}
+
+function renderWAMessages(id){
+  const msgs=waMessages[id]||[];
+  document.getElementById('wa-messages').innerHTML=`<div class="wa-chat">${msgs.map(m=>`
+    <div class="wa-msg ${m.sent?'sent':'recv'}">${m.text}<div class="wa-msg-time">${m.time} ${m.sent?'✓✓':''}</div></div>`).join('')}</div>`;
+  document.getElementById('wa-messages').scrollTop=9999;
+}
+
+function sendWAMessage(){
+  const input=document.getElementById('wa-input');
+  if(!input.value.trim()||!waCurrentContact)return;
+  if(!waMessages[waCurrentContact])waMessages[waCurrentContact]=[];
+  const now=new Date();
+  waMessages[waCurrentContact].push({text:input.value.trim(),sent:true,time:now.getHours()+':'+(now.getMinutes()+'').padStart(2,'0')});
+  renderWAMessages(waCurrentContact);
+  input.value='';
+}
+
+function insertTemplate(msg){document.getElementById('wa-input').value=msg}
+function openSendQuotationWA(){showToast('Opening quotation for WhatsApp...','info')}
+
+// ==================== PROPERTIES ====================
+function renderProperties(){
+  document.getElementById('properties-grid').innerHTML=propertiesDB.map(p=>`
+    <div class="card" style="cursor:pointer" onclick="viewProperty('${p.id}')">
+      <div style="background:var(--bg3);border-radius:8px;height:130px;display:flex;align-items:center;justify-content:center;margin:-18px -18px 14px;border-radius:var(--radius) var(--radius) 0 0;font-size:40px">
+        ${{Apartment:'🏢',Villa:'🏡',Plot:'🌿',Commercial:'🏬'}[p.type]||'🏠'}
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">
+        <div style="font-size:14px;font-weight:600">${p.name}</div>
+        <span class="status-tag ${p.status==='Active'?'s-won':p.status==='Upcoming'?'s-sitevisit':'s-lost'}">${p.status}</span>
+      </div>
+      <div style="font-size:12px;color:var(--text3);margin-bottom:4px"><i class="fa-solid fa-location-dot"></i> ${p.location}</div>
+      <div style="font-size:12px;color:var(--text2);margin-bottom:10px">${p.config}</div>
+      <div style="font-size:14px;font-weight:600;color:var(--accent);margin-bottom:10px">${p.price}</div>
+      <div style="display:flex;gap:8px">
+        <div style="flex:1;text-align:center;background:var(--bg3);border-radius:6px;padding:6px">
+          <div style="font-size:18px;font-weight:600">${p.units}</div><div style="font-size:10px;color:var(--text3)">Total Units</div>
+        </div>
+        <div style="flex:1;text-align:center;background:rgba(52,211,153,.08);border-radius:6px;padding:6px">
+          <div style="font-size:18px;font-weight:600;color:var(--green)">${p.available}</div><div style="font-size:10px;color:var(--text3)">Available</div>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+function viewProperty(id){
+  const p=propertiesDB.find(x=>x.id===id);
+  const body=`
+    <div style="text-align:center;background:var(--bg3);border-radius:8px;padding:30px;margin-bottom:16px;font-size:60px">${{Apartment:'🏢',Villa:'🏡',Plot:'🌿',Commercial:'🏬'}[p.type]||'🏠'}</div>
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px">
+      <div><div style="font-size:20px;font-weight:600">${p.name}</div><div style="color:var(--text3);font-size:13px"><i class="fa-solid fa-location-dot"></i> ${p.location}</div></div>
+      <span class="status-tag ${p.status==='Active'?'s-won':'s-sitevisit'}">${p.status}</span>
+    </div>
+    <div class="form-row3" style="margin-bottom:12px">
+      <div class="card card-sm" style="text-align:center"><div style="font-size:11px;color:var(--text3)">Type</div><div style="font-weight:500">${p.type}</div></div>
+      <div class="card card-sm" style="text-align:center"><div style="font-size:11px;color:var(--text3)">Config</div><div style="font-weight:500">${p.config}</div></div>
+      <div class="card card-sm" style="text-align:center"><div style="font-size:11px;color:var(--text3)">Price Range</div><div style="font-weight:500;color:var(--accent)">${p.price}</div></div>
+    </div>
+    <p style="font-size:13px;color:var(--text2);margin-bottom:12px">${p.description}</p>
+    <div style="font-size:12px;color:var(--text2);margin-bottom:12px"><strong>Amenities:</strong> ${p.amenities}</div>
+    <div style="display:flex;gap:8px;margin-top:12px">
+      <button class="btn btn-primary btn-sm" onclick="showToast('Opening brochure...','info')"><i class="fa-solid fa-file-pdf"></i> Brochure</button>
+      <button class="btn btn-sm" onclick="showToast('Sharing on WhatsApp...','success')"><i class="fa-brands fa-whatsapp"></i> Share</button>
+    </div>`;
+  showModal(p.name, body, null);
+}
+
+function openAddProperty(){
+  showModal('Add Property',`
+    <div class="form-row"><div class="form-group"><label class="form-label">Property Name</label><input class="form-input" placeholder="e.g. Aarovia Heights"></div><div class="form-group"><label class="form-label">Type</label><select class="form-input"><option>Apartment</option><option>Villa</option><option>Plot</option><option>Commercial</option></select></div></div>
+    <div class="form-group"><label class="form-label">Location</label><input class="form-input" placeholder="Area, City"></div>
+    <div class="form-row"><div class="form-group"><label class="form-label">Configuration</label><input class="form-input" placeholder="2BHK / 3BHK"></div><div class="form-group"><label class="form-label">Price Range</label><input class="form-input" placeholder="₹50L – ₹1Cr"></div></div>
+    <div class="form-group"><label class="form-label">Description</label><textarea class="form-input" placeholder="Project description..."></textarea></div>
+    <div class="form-group"><label class="form-label">Amenities</label><input class="form-input" placeholder="Pool, Gym, Clubhouse..."></div>`,
+  ()=>{showToast('Property added','success');closeModal()});
+}
+
+// ==================== REPORTS ====================
+function showReport(type, btn){
+  document.querySelectorAll('#page-reports .tab-btn').forEach(b=>b.classList.remove('active'));
+  if(btn)btn.classList.add('active');
+  const srcCount={};SOURCES.forEach(s=>srcCount[s]=0);leadsDB.forEach(l=>srcCount[l.source]=(srcCount[l.source]||0)+1);
+  const stCount={};STATUSES.forEach(s=>stCount[s]=0);leadsDB.forEach(l=>stCount[l.status]=(stCount[l.status]||0)+1);
+  if(type==='overview'){
+    document.getElementById('report-content').innerHTML=`
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px">
+        <div class="stat-card blue"><div class="stat-icon blue"><i class="fa-solid fa-users"></i></div><div class="stat-label">Total Leads</div><div class="stat-value">${leadsDB.length}</div></div>
+        <div class="stat-card green"><div class="stat-icon green"><i class="fa-solid fa-trophy"></i></div><div class="stat-label">Closed Won</div><div class="stat-value">${leadsDB.filter(l=>l.status==='Closed Won').length}</div></div>
+        <div class="stat-card orange"><div class="stat-icon orange"><i class="fa-solid fa-building"></i></div><div class="stat-label">Site Visits</div><div class="stat-value">${leadsDB.filter(l=>['Site Visit Scheduled','Site Visit Completed'].includes(l.status)).length}</div></div>
+        <div class="stat-card purple"><div class="stat-icon purple"><i class="fa-solid fa-file-invoice"></i></div><div class="stat-label">Quotations</div><div class="stat-value">${quotationsDB.length}</div></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+        <div class="card"><div class="card-title">Lead Source Breakdown</div>${Object.entries(srcCount).sort((a,b)=>b[1]-a[1]).map(([s,c])=>`
+          <div class="src-row"><span class="src-label" style="width:90px">${s}</span><div class="src-bar-wrap"><div class="src-bar" style="width:${(c/leadsDB.length*100).toFixed(0)}%;background:var(--accent)"></div></div><span class="src-pct">${c} (${(c/leadsDB.length*100).toFixed(1)}%)</span></div>`).join('')}</div>
+        <div class="card"><div class="card-title">Pipeline Funnel</div>${STATUSES.slice(0,8).map((s,i)=>`
+          <div class="src-row"><span class="src-label" style="width:130px;font-size:11px">${s}</span><div class="src-bar-wrap"><div class="src-bar" style="width:${((stCount[s]||0)/leadsDB.length*100).toFixed(0)}%;background:var(--purple)"></div></div><span class="src-pct">${stCount[s]||0}</span></div>`).join('')}</div>
+      </div>`;
+  } else if(type==='executive'){
+    document.getElementById('report-content').innerHTML=`
+      <div class="card" style="padding:0"><table class="crm-table">
+        <thead><tr><th>Executive</th><th>Role</th><th>Total Leads</th><th>Closed Won</th><th>Conversion</th><th>Avg Response</th></tr></thead>
+        <tbody>${teamDB.filter(t=>t.leads>0).map(t=>`
+          <tr><td><div style="display:flex;align-items:center;gap:8px"><div class="avatar" style="width:30px;height:30px;font-size:11px;background:${t.color}22;color:${t.color}">${t.avatar}</div>${t.name}</div></td>
+          <td style="font-size:12px;color:var(--text2)">${t.role}</td><td>${t.leads}</td><td style="color:var(--green)">${t.closed}</td>
+          <td><span class="status-tag ${(t.closed/t.leads*100)>15?'s-won':'s-sitevisit'}">${(t.closed/t.leads*100).toFixed(1)}%</span></td>
+          <td style="font-size:12px;color:var(--text3)">${['2.1h','1.8h','3.4h','4.2h'][teamDB.indexOf(t)%4]}</td></tr>`).join('')}
+        </tbody>
+      </table></div>`;
+  } else if(type==='leads'){
+    const months=['Jan','Feb','Mar','Apr','May'];
+    document.getElementById('report-content').innerHTML=`
+      <div class="card"><div class="card-title">Monthly Lead Trend (2026)</div>
+        <div style="display:flex;align-items:flex-end;gap:8px;height:160px;padding-top:16px">
+          ${[42,58,71,89,leadsDB.length].map((v,i)=>`
+            <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:6px">
+              <div style="font-size:11px;color:var(--text3)">${v}</div>
+              <div style="width:100%;background:var(--accent);border-radius:4px 4px 0 0;height:${(v/leadsDB.length*120).toFixed(0)}px;opacity:${.4+i*.15}"></div>
+              <div style="font-size:11px;color:var(--text3)">${months[i]}</div>
+            </div>`).join('')}
+        </div>
+      </div>`;
+  } else {
+    document.getElementById('report-content').innerHTML=`
+      <div class="card"><div class="card-title">Pipeline Conversion Rates</div>
+        <div style="display:flex;gap:0;margin-top:8px">
+          ${STATUSES.slice(0,8).map((s,i,arr)=>{
+            const w=Math.max(40,(100-i*10));
+            return `<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px">
+              <div style="width:100%;background:${PIPE_COLORS[s]};height:${40+i*5}px;opacity:.7;border-radius:4px 4px 0 0;min-height:40px"></div>
+              <div style="font-size:9px;color:var(--text3);text-align:center;line-height:1.2">${s.split(' ').join('\n')}</div>
+              <div style="font-size:11px;font-weight:500">${stCount[s]||0}</div>
+            </div>`;
+          }).join('')}
+        </div>
+      </div>`;
+  }
+}
+
+// ==================== CAMPAIGNS ====================
+function renderCampaigns(){
+  document.getElementById('campaigns-table').innerHTML=campaignsDB.map(c=>`
+    <tr>
+      <td><strong>${c.name}</strong></td>
+      <td><span class="tag ${sourceClass(c.source)}">${c.source}</span></td>
+      <td>${c.leads}</td>
+      <td style="color:var(--green)">${c.conversions}</td>
+      <td><span class="status-tag ${(c.conversions/c.leads*100)>15?'s-won':'s-sitevisit'}">${(c.conversions/c.leads*100).toFixed(1)}%</span></td>
+      <td>${fmtRs(c.budget)}</td>
+      <td>${fmtRs(Math.round(c.budget/c.leads))}</td>
+      <td><span class="status-tag ${c.status==='Active'?'s-won':c.status==='Paused'?'s-negotiation':'s-contacted'}">${c.status}</span></td>
+    </tr>`).join('');
+}
+
+function openAddCampaign(){
+  showModal('New Campaign',`
+    <div class="form-row"><div class="form-group"><label class="form-label">Campaign Name</label><input class="form-input" placeholder="Campaign name"></div><div class="form-group"><label class="form-label">Source</label><select class="form-input">${SOURCES.map(s=>`<option>${s}</option>`).join('')}</select></div></div>
+    <div class="form-row"><div class="form-group"><label class="form-label">Budget (₹)</label><input type="number" class="form-input" placeholder="50000"></div><div class="form-group"><label class="form-label">Start Date</label><input type="date" class="form-input"></div></div>`,
+  ()=>{showToast('Campaign created','success');closeModal()});
+}
+
+// ==================== TEAM ====================
+function renderTeam(){
+  document.getElementById('team-grid').innerHTML=teamDB.map(t=>`
+    <div class="card">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px">
+        <div class="avatar" style="width:46px;height:46px;font-size:15px;background:${t.color}22;color:${t.color}">${t.avatar}</div>
+        <div>
+          <div style="font-size:14px;font-weight:600">${t.name}</div>
+          <div style="font-size:12px;color:var(--text3)">${t.role}</div>
+        </div>
+        <div style="margin-left:auto"><button class="btn btn-ghost btn-sm" onclick="editUser('${t.name}')"><i class="fa-solid fa-pen"></i></button></div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:6px;font-size:12px;color:var(--text2)">
+        <div><i class="fa-solid fa-envelope" style="width:14px;margin-right:6px;color:var(--text3)"></i>${t.email}</div>
+        <div><i class="fa-solid fa-phone" style="width:14px;margin-right:6px;color:var(--text3)"></i>${t.phone}</div>
+      </div>
+      ${t.leads>0?`<div class="divider"></div>
+      <div style="display:flex;gap:16px">
+        <div style="text-align:center"><div style="font-size:18px;font-weight:600">${t.leads}</div><div style="font-size:10px;color:var(--text3)">Leads</div></div>
+        <div style="text-align:center"><div style="font-size:18px;font-weight:600;color:var(--green)">${t.closed}</div><div style="font-size:10px;color:var(--text3)">Closed</div></div>
+        <div style="text-align:center"><div style="font-size:18px;font-weight:600;color:var(--accent)">${(t.closed/t.leads*100).toFixed(0)}%</div><div style="font-size:10px;color:var(--text3)">Conv.</div></div>
+      </div>`:''}
+    </div>`).join('');
+}
+
+function openAddUser(){
+  showModal('Add Team Member',`
+    <div class="form-row"><div class="form-group"><label class="form-label">Full Name</label><input class="form-input" placeholder="Full name"></div><div class="form-group"><label class="form-label">Role</label><select class="form-input"><option>Sales Executive</option><option>Sales Manager</option><option>Telecaller</option><option>Marketing Team</option><option>Administrator</option></select></div></div>
+    <div class="form-row"><div class="form-group"><label class="form-label">Email</label><input class="form-input" type="email" placeholder="email@aarovia.in"></div><div class="form-group"><label class="form-label">Phone</label><input class="form-input" placeholder="Mobile number"></div></div>
+    <div class="form-group"><label class="form-label">Password</label><input class="form-input" type="password" placeholder="Set initial password"></div>`,
+  ()=>{showToast('User added successfully','success');closeModal()});
+}
+
+function editUser(name){showToast('Edit '+name,'info')}
+
+// ==================== SETTINGS ====================
+function showSettings(type,btn){
+  document.querySelectorAll('#page-settings .nav-item').forEach(b=>b.classList.remove('active'));
+  if(btn)btn.classList.add('active');
+  const content={
+    company:`<div class="card"><div class="card-title">Company Profile</div>
+      <div class="form-row"><div class="form-group"><label class="form-label">Company Name</label><input class="form-input" value="Aarovia Real Estates"></div><div class="form-group"><label class="form-label">Website</label><input class="form-input" value="www.aarovia.in"></div></div>
+      <div class="form-row"><div class="form-group"><label class="form-label">Email</label><input class="form-input" value="info@aarovia.in"></div><div class="form-group"><label class="form-label">Phone</label><input class="form-input" value="+91 44 1234 5678"></div></div>
+      <div class="form-group"><label class="form-label">Address</label><textarea class="form-input">123 Anna Salai, Chennai, Tamil Nadu – 600002</textarea></div>
+      <div style="margin-top:12px"><button class="btn btn-primary" onclick="showToast('Settings saved','success')"><i class="fa-solid fa-save"></i> Save Changes</button></div>
+    </div>`,
+    whatsapp:`<div class="card"><div class="card-title">WhatsApp Business API</div>
+      <div class="form-group"><label class="form-label">Phone Number ID</label><input class="form-input" value="123456789012345"></div>
+      <div class="form-group"><label class="form-label">WhatsApp Business Account ID</label><input class="form-input" value="987654321098765"></div>
+      <div class="form-group"><label class="form-label">Access Token</label><input class="form-input" type="password" value="EAABxxxxxxxx"></div>
+      <div class="form-group"><label class="form-label">Webhook Verify Token</label><input class="form-input" value="aarovia_webhook_2026"></div>
+      <div style="margin-top:12px;display:flex;gap:8px"><button class="btn btn-primary" onclick="showToast('API config saved','success')"><i class="fa-solid fa-save"></i> Save</button><button class="btn" onclick="showToast('Connection test: success ✓','success')"><i class="fa-solid fa-plug"></i> Test Connection</button></div>
+    </div>`,
+    email:`<div class="card"><div class="card-title">Email SMTP Configuration</div>
+      <div class="form-row"><div class="form-group"><label class="form-label">SMTP Host</label><input class="form-input" value="smtp.gmail.com"></div><div class="form-group"><label class="form-label">Port</label><input class="form-input" value="587"></div></div>
+      <div class="form-row"><div class="form-group"><label class="form-label">Username</label><input class="form-input" value="noreply@aarovia.in"></div><div class="form-group"><label class="form-label">Password</label><input class="form-input" type="password" value="xxxx"></div></div>
+      <div style="margin-top:12px;display:flex;gap:8px"><button class="btn btn-primary" onclick="showToast('SMTP config saved','success')">Save</button><button class="btn" onclick="showToast('Test email sent!','success')">Send Test Email</button></div>
+    </div>`,
+    pipeline:`<div class="card"><div class="card-title">Pipeline Stage Configuration</div>
+      <div style="display:flex;flex-direction:column;gap:8px">${STATUSES.map((s,i)=>`
+        <div style="display:flex;align-items:center;gap:10px;padding:10px;background:var(--bg3);border-radius:6px">
+          <div style="width:10px;height:10px;border-radius:50%;background:${PIPE_COLORS[s]}"></div>
+          <span style="flex:1;font-size:13px">${s}</span>
+          <span style="font-size:11px;color:var(--text3)">Stage ${i+1}</span>
+          <button class="btn btn-ghost btn-sm"><i class="fa-solid fa-pen"></i></button>
+        </div>`).join('')}
+      </div>
+      <button class="btn btn-sm" style="margin-top:12px" onclick="showToast('New stage added','success')"><i class="fa-solid fa-plus"></i> Add Stage</button>
+    </div>`,
+    sources:`<div class="card"><div class="card-title">Lead Source Configuration</div>
+      <div style="display:flex;flex-direction:column;gap:8px">${SOURCES.map(s=>`
+        <div style="display:flex;align-items:center;gap:10px;padding:10px;background:var(--bg3);border-radius:6px">
+          <span class="tag ${sourceClass(s)}">${s}</span><span style="flex:1;font-size:12px;color:var(--text2)">Active</span>
+          <button class="btn btn-ghost btn-sm"><i class="fa-solid fa-pen"></i></button>
+        </div>`).join('')}
+      </div>
+      <button class="btn btn-sm" style="margin-top:12px" onclick="showToast('Source added','success')"><i class="fa-solid fa-plus"></i> Add Source</button>
+    </div>`,
+    notifications:`<div class="card"><div class="card-title">Notification Preferences</div>
+      ${[['WhatsApp Notifications','Get follow-up reminders on WhatsApp'],['Email Notifications','Daily summary and lead alerts'],['Browser Notifications','Real-time lead and task notifications'],['Overdue Follow-up Alerts','Alert when follow-ups are missed'],['New Lead Alerts','Notify when a new lead is assigned'],['Deal Won Celebrations','Team notification when a deal is closed']].map(([t,s])=>`
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--border)">
+          <div><div style="font-size:13px;font-weight:500">${t}</div><div style="font-size:12px;color:var(--text3)">${s}</div></div>
+          <label style="position:relative;display:inline-block;width:40px;height:22px;cursor:pointer">
+            <input type="checkbox" checked style="opacity:0;width:0;height:0" onchange="showToast('Preference updated','info')">
+            <span style="position:absolute;inset:0;background:var(--accent);border-radius:22px;transition:.3s"></span>
+            <span style="position:absolute;left:3px;top:3px;width:16px;height:16px;background:#fff;border-radius:50%;transition:.3s"></span>
+          </label>
+        </div>`).join('')}
+    </div>`,
+  };
+  document.getElementById('settings-content').innerHTML=content[type]||'<div class="card">Coming soon</div>';
+}
+
+// ==================== MODAL ENGINE ====================
+function showModal(title, body, onSubmit, size='md'){
+  const w=size==='lg'?'820px':'680px';
+  document.getElementById('modal-container').innerHTML=`
+    <div class="modal-overlay" onclick="if(event.target===this)closeModal()">
+      <div class="modal" style="width:${w}">
+        <div class="modal-header">
+          <div class="modal-title">${title}</div>
+          <button class="btn btn-ghost btn-sm" onclick="closeModal()"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="modal-body">${body}</div>
+        ${onSubmit?`<div class="modal-footer"><button class="btn btn-sm" onclick="closeModal()">Cancel</button><button class="btn btn-primary btn-sm" onclick="modalSubmit()">Save</button></div>`:''}
+      </div>
+    </div>`;
+  window._modalSubmit=onSubmit;
+}
+
+function modalSubmit(){window._modalSubmit&&window._modalSubmit()}
+function closeModal(){document.getElementById('modal-container').innerHTML=''}
+
+// ==================== TOAST ====================
+function showToast(msg, type='info'){
+  const el=document.createElement('div');
+  el.className=`toast-item ${type}`;
+  const icons={success:'fa-check-circle',error:'fa-times-circle',info:'fa-info-circle'};
+  const colors={success:'var(--green)',error:'var(--red)',info:'var(--accent)'};
+  el.innerHTML=`<i class="fa-solid ${icons[type]}" style="color:${colors[type]}"></i>${msg}`;
+  document.getElementById('toast').appendChild(el);
+  setTimeout(()=>el.remove(),3200);
+}
+
+// ==================== INIT ====================
+loadDashboard();
+</script>
+</body>
+</html>

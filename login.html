@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Aarovia CRM – Login</title>
+<link rel="manifest" href="manifest.json">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Serif+Display&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -106,6 +107,23 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
 /* Pulse */
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
 .pulse{animation:pulse 2s infinite}
+
+@media (max-width: 980px){
+  body{overflow:auto;flex-direction:column}
+  .left-panel{padding:32px 20px;min-height:auto}
+  .hero-title{font-size:32px}
+  .hero-sub{font-size:14px;margin-bottom:32px;max-width:none}
+  .float-card{display:none}
+  .right-panel{width:100%;border-left:none;border-top:1px solid var(--border);padding:24px 20px}
+  .brand{margin-bottom:32px}
+}
+
+@media (max-width: 640px){
+  .left-panel{padding:24px 16px}
+  .right-panel{padding:20px 16px}
+  .hero-title{font-size:28px}
+  .login-title{font-size:22px}
+}
 </style>
 </head>
 <body>
@@ -277,137 +295,76 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
 </div>
 
 <script>
-function switchLoginType(type, btn) {
-  document.querySelectorAll('.tab-switch-btn').forEach(b => {
-    b.classList.remove('active');
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch((error) => {
+      console.warn('Aarovia CRM service worker registration failed:', error);
+    });
   });
+}
 
+function switchLoginType(type,btn){
+  document.querySelectorAll('.tab-switch-btn').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
-
-  document.getElementById('email-login').style.display =
-    type === 'email' ? 'block' : 'none';
-
-  document.getElementById('mobile-login').style.display =
-    type === 'mobile' ? 'block' : 'none';
+  document.getElementById('email-login').style.display=type==='email'?'block':'none';
+  document.getElementById('mobile-login').style.display=type==='mobile'?'block':'none';
 }
 
-function togglePassword(icon) {
-  const input = document.getElementById('login-password');
-
-  if (input.type === 'password') {
-    input.type = 'text';
-    icon.classList.replace('fa-eye', 'fa-eye-slash');
-  } else {
-    input.type = 'password';
-    icon.classList.replace('fa-eye-slash', 'fa-eye');
-  }
+function togglePassword(icon){
+  const input=document.getElementById('login-password');
+  if(input.type==='password'){input.type='text';icon.classList.replace('fa-eye','fa-eye-slash')}
+  else{input.type='password';icon.classList.replace('fa-eye-slash','fa-eye')}
 }
 
-function showScreen(id) {
-  document.querySelectorAll('.screen').forEach(screen => {
-    screen.classList.remove('active');
-  });
-
+function showScreen(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
 }
 
-function submitLogin() {
+function persistSession(email){
+  localStorage.setItem('aarovia_crm_session', JSON.stringify({
+    loggedIn:true,
+    email: email,
+    loggedAt: Date.now()
+  }));
+}
 
-  const email = document.getElementById('login-email').value.trim();
-  const password = document.getElementById('login-password').value.trim();
-  const errEl = document.getElementById('login-error');
-
-  errEl.style.display = 'none';
-
-  if (!email || !password) {
-    errEl.innerHTML = 'Please enter email and password';
-    errEl.style.display = 'block';
-    return;
-  }
-
+function submitLogin(){
+  const email=document.getElementById('login-email').value.trim();
+  const errEl=document.getElementById('login-error');
+  errEl.style.display='none';
+  if(!email){errEl.style.display='block';return}
+  persistSession(email);
   showScreen('screen-loading');
-
-  setTimeout(() => {
-
-    // SAVE LOGIN SESSION
-    localStorage.setItem('aarovia_logged_in', 'true');
-
-    // SAVE USER DATA
-    localStorage.setItem('aarovia_user_email', email);
-
-    // REDIRECT
-    window.location.href = 'index.html';
-
-  }, 1800);
+  setTimeout(()=>{window.location.href='index.html'},1800);
 }
 
-function sendOTP() {
-
-  const mobile = document.getElementById('login-mobile').value.trim();
-
-  if (!mobile) {
-    alert('Please enter mobile number');
-    return;
-  }
-
-  document.getElementById('mobile-step-1').style.display = 'none';
-  document.getElementById('mobile-step-2').style.display = 'block';
+function sendOTP(){
+  const mobile=document.getElementById('login-mobile').value.trim();
+  if(!mobile){return}
+  document.getElementById('mobile-step-1').style.display='none';
+  document.getElementById('mobile-step-2').style.display='block';
 }
 
-function moveOTP(el, idx) {
-
-  if (el.value && idx < 6) {
-    el.nextElementSibling?.focus();
-  }
-
-  if (idx === 6 && el.value) {
-    verifyOTP();
-  }
+function moveOTP(el,idx){
+  if(el.value&&idx<6)el.nextElementSibling?.focus();
+  if(idx===6&&el.value)verifyOTP();
 }
 
-function verifyOTP() {
-
+function verifyOTP(){
+  persistSession('otp-user@aarovia.co.in');
   showScreen('screen-loading');
-
-  setTimeout(() => {
-
-    // SAVE LOGIN SESSION
-    localStorage.setItem('aarovia_logged_in', 'true');
-
-    // SAVE MOBILE LOGIN
-    localStorage.setItem(
-      'aarovia_user_mobile',
-      document.getElementById('login-mobile').value.trim()
-    );
-
-    // REDIRECT
-    window.location.href = 'index.html';
-
-  }, 1600);
+  setTimeout(()=>{window.location.href='index.html'},1600);
 }
 
-function sendReset() {
+function sendReset(){
   alert('Password reset link sent to your email.');
   showScreen('screen-login');
 }
 
-// AUTO LOGIN CHECK
-window.addEventListener('load', () => {
-
-  const loggedIn = localStorage.getItem('aarovia_logged_in');
-
-  if (loggedIn === 'true') {
-
-    // USER ALREADY LOGGED IN
-    // REDIRECT TO DASHBOARD
-
-    if (
-      window.location.pathname.includes('login.html')
-    ) {
-      window.location.href = 'index.html';
-    }
-  }
-});
+if(localStorage.getItem('aarovia_crm_session')){
+  window.location.href='index.html';
+}
 </script>
 </body>
 </html>

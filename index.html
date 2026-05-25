@@ -251,6 +251,11 @@ textarea.form-input{resize:vertical;min-height:80px}
 </style>
 </head>
 <body>
+<script>
+  document.addEventListener('contextmenu', (event) => {
+    event.preventDefault();
+  });
+</script>
 
 <!-- Sidebar -->
 <div id="sidebar">
@@ -629,12 +634,12 @@ const campaignsDB=[
 ];
 
 const teamDB=[
-  {name:'Suresh Kumar',role:'Sales Executive',email:'suresh@aarovia.in',phone:'9876543210',leads:48,closed:9,avatar:'SK',color:'#4f8ef7'},
-  {name:'Ananya Priya',role:'Sales Executive',email:'ananya@aarovia.in',phone:'9876543211',leads:41,closed:8,avatar:'AP',color:'#f472b6'},
-  {name:'Manoj Jha',role:'Sales Executive',email:'manoj@aarovia.in',phone:'9876543212',leads:35,closed:5,avatar:'MJ',color:'#34d399'},
-  {name:'Lavanya V',role:'Telecaller',email:'lavanya@aarovia.in',phone:'9876543213',leads:31,closed:4,avatar:'LV',color:'#fbbf24'},
-  {name:'Preethi S',role:'Sales Manager',email:'preethi@aarovia.in',phone:'9876543214',leads:0,closed:0,avatar:'PS',color:'#a78bfa'},
-  {name:'Admin User',role:'Administrator',email:'admin@aarovia.in',phone:'9876543215',leads:0,closed:0,avatar:'AD',color:'#fb923c'},
+  {name:'Suresh Kumar',role:'Sales Executive',email:'suresh@aarovia.co.in',phone:'9876543210',leads:48,closed:9,avatar:'SK',color:'#4f8ef7'},
+  {name:'Ananya Priya',role:'Sales Executive',email:'ananya@aarovia.co.in',phone:'9876543211',leads:41,closed:8,avatar:'AP',color:'#f472b6'},
+  {name:'Manoj Jha',role:'Sales Executive',email:'manoj@aarovia.co.in',phone:'9876543212',leads:35,closed:5,avatar:'MJ',color:'#34d399'},
+  {name:'Lavanya V',role:'Telecaller',email:'lavanya@aarovia.co.in',phone:'9876543213',leads:31,closed:4,avatar:'LV',color:'#fbbf24'},
+  {name:'Preethi S',role:'Sales Manager',email:'preethi@aarovia.co.in',phone:'9876543214',leads:0,closed:0,avatar:'PS',color:'#a78bfa'},
+  {name:'Admin User',role:'Administrator',email:'admin@aarovia.co.in',phone:'9876543215',leads:0,closed:0,avatar:'AD',color:'#fb923c'},
 ];
 
 const activitiesDB=[
@@ -1180,7 +1185,7 @@ function viewQuotation(id){
         <div>
           <div style="font-size:22px;font-weight:700;color:#1a1a2e">AAROVIA</div>
           <div style="color:#6b7280;font-size:12px">Real Estates · Chennai</div>
-          <div style="color:#6b7280;font-size:12px">info@aarovia.in · +91 44 1234 5678</div>
+          <div style="color:#6b7280;font-size:12px">info@aarovia.co.in · +91 44 1234 5678</div>
         </div>
         <div style="text-align:right">
           <div style="font-size:18px;font-weight:700;color:#1a1a2e">QUOTATION</div>
@@ -1455,7 +1460,7 @@ function renderTeam(){
 function openAddUser(){
   showModal('Add Team Member',`
     <div class="form-row"><div class="form-group"><label class="form-label">Full Name</label><input class="form-input" placeholder="Full name"></div><div class="form-group"><label class="form-label">Role</label><select class="form-input"><option>Sales Executive</option><option>Sales Manager</option><option>Telecaller</option><option>Marketing Team</option><option>Administrator</option></select></div></div>
-    <div class="form-row"><div class="form-group"><label class="form-label">Email</label><input class="form-input" type="email" placeholder="email@aarovia.in"></div><div class="form-group"><label class="form-label">Phone</label><input class="form-input" placeholder="Mobile number"></div></div>
+    <div class="form-row"><div class="form-group"><label class="form-label">Email</label><input class="form-input" type="email" placeholder="email@aarovia.co.in"></div><div class="form-group"><label class="form-label">Phone</label><input class="form-input" placeholder="Mobile number"></div></div>
     <div class="form-group"><label class="form-label">Password</label><input class="form-input" type="password" placeholder="Set initial password"></div>`,
   ()=>{showToast('User added successfully','success');closeModal()});
 }
@@ -1468,8 +1473,8 @@ function showSettings(type,btn){
   if(btn)btn.classList.add('active');
   const content={
     company:`<div class="card"><div class="card-title">Company Profile</div>
-      <div class="form-row"><div class="form-group"><label class="form-label">Company Name</label><input class="form-input" value="Aarovia Real Estates"></div><div class="form-group"><label class="form-label">Website</label><input class="form-input" value="www.aarovia.in"></div></div>
-      <div class="form-row"><div class="form-group"><label class="form-label">Email</label><input class="form-input" value="info@aarovia.in"></div><div class="form-group"><label class="form-label">Phone</label><input class="form-input" value="+91 44 1234 5678"></div></div>
+      <div class="form-row"><div class="form-group"><label class="form-label">Company Name</label><input class="form-input" value="Aarovia Real Estates"></div><div class="form-group"><label class="form-label">Website</label><input class="form-input" value="www.aarovia.co.in"></div></div>
+      <div class="form-row"><div class="form-group"><label class="form-label">Email</label><input class="form-input" value="info@aarovia.co.in"></div><div class="form-group"><label class="form-label">Phone</label><input class="form-input" value="+91 44 1234 5678"></div></div>
       <div class="form-group"><label class="form-label">Address</label><textarea class="form-input">123 Anna Salai, Chennai, Tamil Nadu – 600002</textarea></div>
       <div style="margin-top:12px"><button class="btn btn-primary" onclick="showToast('Settings saved','success')"><i class="fa-solid fa-save"></i> Save Changes</button></div>
     </div>`,
@@ -1482,7 +1487,7 @@ function showSettings(type,btn){
     </div>`,
     email:`<div class="card"><div class="card-title">Email SMTP Configuration</div>
       <div class="form-row"><div class="form-group"><label class="form-label">SMTP Host</label><input class="form-input" value="smtp.gmail.com"></div><div class="form-group"><label class="form-label">Port</label><input class="form-input" value="587"></div></div>
-      <div class="form-row"><div class="form-group"><label class="form-label">Username</label><input class="form-input" value="noreply@aarovia.in"></div><div class="form-group"><label class="form-label">Password</label><input class="form-input" type="password" value="xxxx"></div></div>
+      <div class="form-row"><div class="form-group"><label class="form-label">Username</label><input class="form-input" value="noreply@aarovia.co.in"></div><div class="form-group"><label class="form-label">Password</label><input class="form-input" type="password" value="xxxx"></div></div>
       <div style="margin-top:12px;display:flex;gap:8px"><button class="btn btn-primary" onclick="showToast('SMTP config saved','success')">Save</button><button class="btn" onclick="showToast('Test email sent!','success')">Send Test Email</button></div>
     </div>`,
     pipeline:`<div class="card"><div class="card-title">Pipeline Stage Configuration</div>

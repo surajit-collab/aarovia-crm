@@ -109,6 +109,11 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
 </style>
 </head>
 <body>
+<script>
+  document.addEventListener('contextmenu', (event) => {
+    event.preventDefault();
+  });
+</script>
 
 <!-- Left Panel -->
 <div class="left-panel">
@@ -184,7 +189,7 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
         <div class="form-group">
           <label class="form-label">Email Address</label>
           <div class="input-wrap">
-            <input type="email" class="form-input" id="login-email" placeholder="admin@aarovia.in" value="admin@aarovia.in">
+            <input type="email" class="form-input" id="login-email" placeholder="name@aarovia.co.in" value="">
             <i class="fa-solid fa-envelope input-icon"></i>
           </div>
         </div>
@@ -192,7 +197,7 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
         <div class="form-group">
           <label class="form-label">Password</label>
           <div class="input-wrap">
-            <input type="password" class="form-input" id="login-password" placeholder="Enter password" value="••••••••" onkeydown="if(event.key==='Enter')submitLogin()">
+            <input type="password" class="form-input" id="login-password" placeholder="Enter password" value="" onkeydown="if(event.key==='Enter')submitLogin()">
             <i class="fa-solid fa-eye input-icon" onclick="togglePassword(this)"></i>
           </div>
           <div class="forgot" onclick="showScreen('screen-forgot')">Forgot password?</div>
@@ -206,30 +211,6 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
         <button class="btn btn-primary" onclick="submitLogin()" id="login-btn">
           <i class="fa-solid fa-arrow-right-to-bracket"></i> Sign In
         </button>
-
-        <div class="divider">Or sign in as</div>
-
-        <div style="margin-bottom:20px">
-          <div class="form-label" style="margin-bottom:10px">Quick demo login</div>
-          <div class="role-grid">
-            <div class="role-btn active" onclick="selectRole('admin',this)">
-              <div class="role-icon">👑</div>
-              <div class="role-name">Admin</div>
-            </div>
-            <div class="role-btn" onclick="selectRole('manager',this)">
-              <div class="role-icon">📊</div>
-              <div class="role-name">Sales Manager</div>
-            </div>
-            <div class="role-btn" onclick="selectRole('executive',this)">
-              <div class="role-icon">🏠</div>
-              <div class="role-name">Sales Executive</div>
-            </div>
-            <div class="role-btn" onclick="selectRole('telecaller',this)">
-              <div class="role-icon">📞</div>
-              <div class="role-name">Telecaller</div>
-            </div>
-          </div>
-        </div>
       </div>
 
       <!-- Mobile OTP login -->
@@ -273,7 +254,7 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
       <div class="form-group">
         <label class="form-label">Email Address</label>
         <div class="input-wrap">
-          <input type="email" class="form-input" placeholder="admin@aarovia.in">
+          <input type="email" class="form-input" placeholder="name@aarovia.co.in">
           <i class="fa-solid fa-envelope input-icon"></i>
         </div>
       </div>
@@ -296,29 +277,11 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
 </div>
 
 <script>
-const DEMO_CREDENTIALS={
-  admin:{email:'admin@aarovia.in',pass:'admin123',role:'Administrator'},
-  manager:{email:'manager@aarovia.in',pass:'manager123',role:'Sales Manager'},
-  executive:{email:'exec@aarovia.in',pass:'exec123',role:'Sales Executive'},
-  telecaller:{email:'tele@aarovia.in',pass:'tele123',role:'Telecaller'}
-};
-
-let selectedRole='admin';
-
 function switchLoginType(type,btn){
   document.querySelectorAll('.tab-switch-btn').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
   document.getElementById('email-login').style.display=type==='email'?'block':'none';
   document.getElementById('mobile-login').style.display=type==='mobile'?'block':'none';
-}
-
-function selectRole(role,el){
-  selectedRole=role;
-  document.querySelectorAll('.role-btn').forEach(b=>b.classList.remove('active'));
-  el.classList.add('active');
-  const creds=DEMO_CREDENTIALS[role];
-  document.getElementById('login-email').value=creds.email;
-  document.getElementById('login-password').value='••••••••';
 }
 
 function togglePassword(icon){

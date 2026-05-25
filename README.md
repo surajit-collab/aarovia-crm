@@ -35,13 +35,8 @@ npx serve .
 http://localhost:3000/login.html
 ```
 
-### Demo Credentials
-| Role | Email | Password |
-|------|-------|----------|
-| Administrator | admin@aarovia.in | admin123 |
-| Sales Manager | manager@aarovia.in | manager123 |
-| Sales Executive | exec@aarovia.in | exec123 |
-| Telecaller | tele@aarovia.in | tele123 |
+### Login
+Use your Aarovia CO.IN account credentials to sign in. Demo credentials are not included in this project.
 
 ---
 
@@ -394,7 +389,7 @@ pm2 startup
 # Nginx reverse proxy config
 server {
   listen 80;
-  server_name api.aarovia.in;
+  server_name api.aarovia.co.in;
   location / {
     proxy_pass http://localhost:4000;
     proxy_http_version 1.1;
@@ -409,6 +404,4 @@ server {
 
 ## 📞 Support
 
-For implementation queries, contact the Aarovia IT team at tech@aarovia.in
-
-deployment update
+For implementation queries, contact the Aarovia IT team at tech@aarovia.co.in

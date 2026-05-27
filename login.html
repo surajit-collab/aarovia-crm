@@ -234,6 +234,7 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
       <!-- Mobile OTP login -->
       <div id="mobile-login" style="display:none">
         <div id="mobile-step-1">
+          <div class="error-msg" id="mobile-login-error" style="display:none"></div>
           <div class="form-group">
             <label class="form-label">Mobile Number</label>
             <div class="input-wrap">
@@ -244,16 +245,17 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
           <button class="btn btn-primary" onclick="sendOTP()"><i class="fa-solid fa-paper-plane"></i> Send OTP</button>
         </div>
         <div id="mobile-step-2" style="display:none">
-          <div class="success-msg" id="otp-sent-msg" style="display:flex">OTP sent to your mobile number</div>
+          <div class="success-msg" id="otp-sent-msg" style="display:none"></div>
+          <div class="error-msg" id="otp-error" style="display:none"></div>
           <div class="form-group">
             <label class="form-label">Enter 6-digit OTP</label>
             <div class="otp-grid">
-              <input type="text" class="otp-input" maxlength="1" oninput="moveOTP(this,1)">
-              <input type="text" class="otp-input" maxlength="1" oninput="moveOTP(this,2)">
-              <input type="text" class="otp-input" maxlength="1" oninput="moveOTP(this,3)">
-              <input type="text" class="otp-input" maxlength="1" oninput="moveOTP(this,4)">
-              <input type="text" class="otp-input" maxlength="1" oninput="moveOTP(this,5)">
-              <input type="text" class="otp-input" maxlength="1" oninput="moveOTP(this,6)">
+              <input type="text" class="otp-input" maxlength="1" inputmode="numeric" autocomplete="one-time-code" oninput="moveOTP(this,1)">
+              <input type="text" class="otp-input" maxlength="1" inputmode="numeric" autocomplete="one-time-code" oninput="moveOTP(this,2)">
+              <input type="text" class="otp-input" maxlength="1" inputmode="numeric" autocomplete="one-time-code" oninput="moveOTP(this,3)">
+              <input type="text" class="otp-input" maxlength="1" inputmode="numeric" autocomplete="one-time-code" oninput="moveOTP(this,4)">
+              <input type="text" class="otp-input" maxlength="1" inputmode="numeric" autocomplete="one-time-code" oninput="moveOTP(this,5)">
+              <input type="text" class="otp-input" maxlength="1" inputmode="numeric" autocomplete="one-time-code" oninput="moveOTP(this,6)">
             </div>
           </div>
           <button class="btn btn-primary" onclick="verifyOTP()" style="margin-bottom:12px"><i class="fa-solid fa-check"></i> Verify & Sign In</button>
@@ -308,6 +310,19 @@ function switchLoginType(type,btn){
   btn.classList.add('active');
   document.getElementById('email-login').style.display=type==='email'?'block':'none';
   document.getElementById('mobile-login').style.display=type==='mobile'?'block':'none';
+
+  const mobileError=document.getElementById('mobile-login-error');
+  const otpError=document.getElementById('otp-error');
+  const otpSent=document.getElementById('otp-sent-msg');
+  if(mobileError) mobileError.style.display='none';
+  if(otpError) otpError.style.display='none';
+  if(otpSent) otpSent.style.display='none';
+
+  if(type==='mobile'){
+    document.getElementById('mobile-step-1').style.display='block';
+    document.getElementById('mobile-step-2').style.display='none';
+    document.getElementById('login-mobile')?.focus();
+  }
 }
 
 function togglePassword(icon){
@@ -321,44 +336,233 @@ function showScreen(id){
   document.getElementById(id).classList.add('active');
 }
 
-function persistSession(email){
-  localStorage.setItem('aarovia_crm_session', JSON.stringify({
-    loggedIn:true,
-    email: email,
-    loggedAt: Date.now()
-  }));
+async function apiRequest(path, options={}){
+  const response = await fetch(path, {
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    ...options
+  });
+
+  const contentType = response.headers.get('content-type') || '';
+  const bodyText = await response.text();
+  let parsed = null;
+
+  if (bodyText && contentType.includes('application/json')) {
+    try {
+      parsed = JSON.parse(bodyText);
+    } catch {
+      parsed = null;
+    }
+  }
+
+  if (!response.ok) {
+    if (parsed?.message) {
+      throw new Error(parsed.message);
+    }
+
+    if (bodyText && !contentType.includes('application/json')) {
+      if (bodyText.includes('Unsupported method')) {
+        throw new Error('Authentication service is unavailable locally. Start the backend/API server or use the deployed app.');
+      }
+      throw new Error(bodyText.replace(/<[^>]+>/g, '').trim() || 'Request failed');
+    }
+
+    throw new Error(`Request failed (${response.status})`);
+  }
+
+  return parsed ?? {};
 }
 
-function submitLogin(){
+function normalizePhone(value){
+  return String(value||'').replace(/\D/g,'');
+}
+
+function persistSession(userData){
+  const sessionData={loggedIn:true,loggedAt:Date.now()};
+  if(typeof userData==='string'){
+    sessionData.email=userData;
+  } else {
+    Object.assign(sessionData,userData);
+  }
+  localStorage.setItem('aarovia_crm_session', JSON.stringify(sessionData));
+}
+
+const ADMIN_PASSWORD='Aarovia@2026';
+
+function isLocalAdminUser(email){
+  return String(email || '').trim().toLowerCase() === 'admin@aarovia.co.in';
+}
+
+function createLocalAdminSession(){
+  persistSession({
+    userId:'admin@aarovia.co.in',
+    email:'admin@aarovia.co.in',
+    mobile:'+919999999999',
+    name:'Admin User',
+    role:'Administrator',
+    loginType:'email'
+  });
+}
+
+async function submitLogin(){
   const email=document.getElementById('login-email').value.trim();
+  const password=document.getElementById('login-password').value.trim();
   const errEl=document.getElementById('login-error');
   errEl.style.display='none';
-  if(!email){errEl.style.display='block';return}
-  persistSession(email);
-  showScreen('screen-loading');
-  setTimeout(()=>{window.location.href='index.html'},1800);
+  if(!email || !password){
+    errEl.textContent='Enter your email and password to continue.';
+    errEl.style.display='block';
+    return;
+  }
+
+  if(isLocalAdminUser(email)){
+    if(password !== ADMIN_PASSWORD){
+      errEl.textContent='Invalid admin password.';
+      errEl.style.display='block';
+      return;
+    }
+
+    createLocalAdminSession();
+    showScreen('screen-loading');
+    setTimeout(()=>{window.location.href='index.html'},1800);
+    return;
+  }
+
+  errEl.textContent='Password login is disabled. Use the admin password or mobile OTP.';
+  errEl.style.display='block';
 }
 
-function sendOTP(){
-  const mobile=document.getElementById('login-mobile').value.trim();
-  if(!mobile){return}
-  document.getElementById('mobile-step-1').style.display='none';
-  document.getElementById('mobile-step-2').style.display='block';
+function clearOTPInputs(){
+  document.querySelectorAll('.otp-input').forEach(input=>input.value='');
+  document.querySelector('.otp-input')?.focus();
+}
+
+function showMobileError(message){
+  const errorEl=document.getElementById('mobile-login-error');
+  if(!errorEl) return;
+  errorEl.textContent=message;
+  errorEl.style.display='block';
+}
+
+function showOtpError(message){
+  const errorEl=document.getElementById('otp-error');
+  if(!errorEl) return;
+  errorEl.textContent=message;
+  errorEl.style.display='block';
+}
+
+function getOtpFailureMessage(error){
+  const message = error?.message || '';
+  const lower = message.toLowerCase();
+
+  if (lower.includes('21608') || lower.includes('unverified')) {
+    return 'This mobile number is not verified in your Twilio trial account. Verify it in Twilio or use a verified number to receive OTP.';
+  }
+
+  if (lower.includes('not configured') || lower.includes('sms provider')) {
+    return 'SMS provider is not configured. Contact admin to finish OTP delivery.';
+  }
+
+  if (lower.includes('invalid mobile') || lower.includes('please provide a valid mobile')) {
+    return 'Please enter a valid mobile number to receive OTP.';
+  }
+
+  return message || 'Unable to send OTP right now. Please try again.';
+}
+
+async function sendOTP(){
+  const mobileInput=document.getElementById('login-mobile');
+  const mobile=normalizePhone(mobileInput.value.trim());
+  const otpSent=document.getElementById('otp-sent-msg');
+  const otpError=document.getElementById('otp-error');
+  document.getElementById('mobile-login-error').style.display='none';
+  if(otpError) otpError.style.display='none';
+  if(mobile.length<10){
+    showMobileError('Please enter a valid mobile number to receive OTP.');
+    return;
+  }
+
+  try {
+    const user = await apiRequest('/api/auth/login', {
+      method: 'POST',
+      body: JSON.stringify({ mobile })
+    });
+
+    const otp=String(Math.floor(100000 + Math.random()*900000));
+    const payload={mobile: mobileInput.value.trim(), otp, userId:user.userId || user.email, userName:user.name};
+    await apiRequest('/api/auth/otp/send', {
+      method: 'POST',
+      body: JSON.stringify(payload)
+    });
+
+    localStorage.setItem('aarovia_otp_session', JSON.stringify({
+      mobile: mobileInput.value.trim(),
+      otp,
+      expiresAt: Date.now() + 120000,
+      user: {
+        userId:user.userId || user.email,
+        email:user.email,
+        mobile:user.mobile || user.phone,
+        name:user.name,
+        role:user.role
+      }
+    }));
+
+    clearOTPInputs();
+    document.getElementById('mobile-step-1').style.display='none';
+    document.getElementById('mobile-step-2').style.display='block';
+    if(otpSent){
+      otpSent.textContent='OTP sent to your mobile number. Please check your messages.';
+      otpSent.style.display='block';
+    }
+  } catch (error) {
+    showMobileError(getOtpFailureMessage(error));
+  }
+}
+
+function collectOTP(){
+  return Array.from(document.querySelectorAll('.otp-input')).map(input=>input.value.trim()).join('');
 }
 
 function moveOTP(el,idx){
-  if(el.value&&idx<6)el.nextElementSibling?.focus();
-  if(idx===6&&el.value)verifyOTP();
+  if(el.value && idx<6) el.nextElementSibling?.focus();
+  if(el.value.length>1) el.value=el.value.slice(-1);
+  if(idx===6 && el.value) verifyOTP();
 }
 
 function verifyOTP(){
-  persistSession('otp-user@aarovia.co.in');
+  const otpError=document.getElementById('otp-error');
+  if(otpError) otpError.style.display='none';
+
+  const enteredOTP=collectOTP();
+  if(!/^\d{6}$/.test(enteredOTP)){
+    showOtpError('Please enter the full 6-digit OTP.');
+    return;
+  }
+
+  const otpSession=JSON.parse(localStorage.getItem('aarovia_otp_session') || 'null');
+  if(!otpSession || otpSession.expiresAt < Date.now() || otpSession.otp !== enteredOTP){
+    showOtpError('OTP is invalid or has expired. Please resend OTP.');
+    return;
+  }
+
+  persistSession({...otpSession.user, loginType:'mobile-otp'});
+  localStorage.removeItem('aarovia_otp_session');
   showScreen('screen-loading');
   setTimeout(()=>{window.location.href='index.html'},1600);
 }
 
 function sendReset(){
-  alert('Password reset link sent to your email.');
+  const email=document.querySelector('#screen-forgot .form-input')?.value.trim();
+  const errEl=document.getElementById('login-error');
+  if(!email){
+    errEl.textContent='Enter your email address to request admin help.';
+    errEl.style.display='block';
+    return;
+  }
+  errEl.textContent='Password reset is managed by admin. Contact your administrator.';
+  errEl.style.display='block';
   showScreen('screen-login');
 }
 

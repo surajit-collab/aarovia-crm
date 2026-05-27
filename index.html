@@ -287,17 +287,23 @@ textarea.form-input{resize:vertical;min-height:80px}
   .mobile-menu-btn{display:inline-flex}
   .topbar{flex-wrap:wrap;gap:10px}
   .topbar-actions{width:100%;flex-wrap:wrap;justify-content:flex-start;gap:8px}
+  .topbar-actions .btn,.topbar-actions .notif-btn,.topbar-actions .logout-btn{min-height:38px}
   .search-bar{max-width:none;flex:1 1 100%;order:3}
-  .page-content{padding:16px}
+  .page-content{padding:16px;overflow-x:hidden}
   .stats-grid{grid-template-columns:1fr}
-  #page-dashboard > div:nth-child(2),#page-dashboard > div:nth-child(3){grid-template-columns:1fr !important}
+  #page-dashboard > div:nth-child(2),#page-dashboard > div:nth-child(3){display:flex !important;flex-direction:column !important;grid-template-columns:1fr !important;gap:16px !important}
+  #page-dashboard > div:nth-child(2) > div,#page-dashboard > div:nth-child(3) > div{width:100% !important;min-width:0 !important;box-sizing:border-box !important}
+  #page-dashboard .table-wrap,#page-dashboard #source-bars,#page-dashboard #dash-followups{width:100% !important;min-width:0 !important;box-sizing:border-box !important}
+  #page-dashboard .crm-table{min-width:0 !important}
   .filter-bar,.form-row,.form-row3{grid-template-columns:1fr}
+  .filter-bar{gap:8px;align-items:stretch}
   .filter-bar .search-bar,.filter-bar select,.filter-bar .btn,.filter-bar button{width:100%;flex:1 1 100%}
   .tabs{flex-wrap:wrap}
-  #page-whatsapp{height:auto;min-height:calc(100vh - 130px)}
-  .wa-shell{height:auto !important;min-height:calc(100vh - 130px)}
-  .wa-sidebar{max-height:220px}
-  .wa-chat{min-height:520px}
+  .tabs .tab-btn{flex:1 1 auto;justify-content:center}
+  #page-whatsapp{height:auto;min-height:calc(100vh - 130px);overflow:visible}
+  .wa-shell{height:auto !important;min-height:calc(100vh - 130px);flex-direction:column}
+  .wa-sidebar{flex:0 0 auto;width:100%;max-height:240px;border-right:none;border-bottom:1px solid var(--border)}
+  .wa-chat{min-height:520px;width:100%}
   .wa-messages{min-height:320px}
   .wa-input-row{flex-wrap:wrap}
   .wa-input-row #wa-input{flex:1 1 100%}
@@ -320,6 +326,9 @@ textarea.form-input{resize:vertical;min-height:80px}
   .modal{width:calc(100% - 24px)}
   .table-wrap{overflow-x:auto}
   .table-wrap table{min-width:760px}
+  #page-quotations .card,#page-campaigns .card{overflow-x:auto}
+  #page-quotations .crm-table,#page-campaigns .crm-table{min-width:760px}
+  #page-reports .card,#page-reports .report-grid,#page-reports > div{overflow-x:hidden}
 }
 
 @media (max-width: 640px){
@@ -327,12 +336,47 @@ textarea.form-input{resize:vertical;min-height:80px}
   .topbar-title{font-size:17px}
   .topbar-sub{font-size:11px}
   .page-content{padding:12px}
-  .card{padding:14px}
+  .card{padding:12px}
   .btn-sm{padding:6px 10px}
-  .src-row{flex-wrap:wrap}
-  .src-label{width:100%}
-  .src-bar-wrap{width:100%}
-  .src-pct{text-align:left;width:auto}
+  .src-row{flex-wrap:wrap;gap:6px;align-items:flex-start}
+  .src-label{width:100%;font-size:11px}
+  .src-bar-wrap{width:100%;height:5px}
+  .src-pct{text-align:left;width:auto;font-size:11px}
+  .page-content .card-title{font-size:12px;margin-bottom:10px}
+  #page-dashboard .card{padding:12px}
+  #page-dashboard .card-title{font-size:12px}
+  #page-dashboard .table-wrap{width:100%;overflow-x:auto}
+  #page-dashboard .crm-table{font-size:11px;table-layout:fixed;width:100%;min-width:0}
+  #page-dashboard .crm-table th,#page-dashboard .crm-table td{padding:8px 8px;white-space:nowrap}
+  #page-dashboard .crm-table th:nth-child(1),#page-dashboard .crm-table td:nth-child(1){width:24%}
+  #page-dashboard .crm-table th:nth-child(2),#page-dashboard .crm-table td:nth-child(2){width:18%}
+  #page-dashboard .crm-table th:nth-child(3),#page-dashboard .crm-table td:nth-child(3){width:16%}
+  #page-dashboard .crm-table th:nth-child(4),#page-dashboard .crm-table td:nth-child(4){width:16%}
+  #page-dashboard .crm-table th:nth-child(5),#page-dashboard .crm-table td:nth-child(5){width:12%}
+  #page-dashboard .crm-table th:nth-child(6),#page-dashboard .crm-table td:nth-child(6){width:14%}
+  #page-dashboard #dash-followups > div{gap:8px;padding:7px 0}
+  #page-dashboard #dash-followups .avatar{width:28px;height:28px;font-size:9px;flex-shrink:0}
+  #page-dashboard #dash-followups > div > div:nth-child(2){font-size:11px;min-width:0}
+  #page-dashboard #dash-followups > div > div:last-child{font-size:10px;white-space:nowrap}
+  #page-followups .filter-bar{flex-direction:column;align-items:stretch}
+  #page-followups .tabs{width:100%;display:grid;grid-template-columns:repeat(2,1fr);gap:6px}
+  #page-followups .tabs .tab-btn{width:100%;justify-content:center;padding:8px 10px;font-size:11px;white-space:nowrap}
+  #page-followups .btn-primary{width:100%;justify-content:center}
+  #followup-list-container .card{display:flex !important;flex-direction:column !important;align-items:flex-start !important;gap:10px !important;width:100% !important;box-sizing:border-box !important;min-width:0 !important}
+  #followup-list-container .card > .avatar{width:34px !important;height:34px !important;flex-shrink:0}
+  #followup-list-container .card > div:nth-child(2){width:100% !important;min-width:0 !important}
+  #followup-list-container .card > div:nth-child(2) > div:first-child{display:flex !important;flex-wrap:wrap !important;gap:6px !important;align-items:center !important;row-gap:4px !important}
+  #followup-list-container .card > div:nth-child(2) > div:first-child > span:first-child{font-size:12px !important;line-height:1.35 !important}
+  #followup-list-container .card > div:nth-child(2) > div:first-child > span:nth-child(2){font-size:10px !important;word-break:break-word !important}
+  #followup-list-container .card > div:nth-child(2) > div:first-child > span:last-child{font-size:10px !important}
+  #followup-list-container .card > div:nth-child(2) > div:nth-child(2),#followup-list-container .card > div:nth-child(2) > div:nth-child(3){font-size:11px !important;line-height:1.45 !important;word-break:break-word !important;overflow-wrap:anywhere !important}
+  #followup-list-container .card > div:nth-child(3){width:100% !important;text-align:left !important;display:flex !important;flex-direction:column !important;justify-content:flex-start !important;align-items:flex-start !important;gap:4px !important}
+  #followup-list-container .card > div:nth-child(3) > div:first-child{font-size:12px !important;word-break:break-word !important}
+  #followup-list-container .card > div:nth-child(3) > div:last-child{font-size:10px !important;word-break:break-word !important}
+  #followup-list-container .card > div:last-child{width:100% !important;display:flex !important;justify-content:flex-start !important;gap:6px !important;flex-wrap:wrap !important}
+  #followup-list-container .card > div:last-child .btn-sm{padding:6px 10px !important;min-width:40px !important}
+  .table-wrap table{min-width:680px}
+  .wa-chat .wa-msg{max-width:100%}
 }
 </style>
 </head>
@@ -413,20 +457,20 @@ textarea.form-input{resize:vertical;min-height:80px}
   </div>
   <nav>
     <div class="nav-section">Main</div>
-    <div class="nav-item active" onclick="showPage('dashboard',this)"><i class="fa-solid fa-gauge"></i> Dashboard</div>
-    <div class="nav-item" onclick="showPage('leads',this)"><i class="fa-solid fa-users"></i> Leads <span class="nav-badge" id="lead-badge">142</span></div>
-    <div class="nav-item" onclick="showPage('pipeline',this)"><i class="fa-solid fa-columns"></i> Pipeline</div>
-    <div class="nav-item" onclick="showPage('followups',this)"><i class="fa-solid fa-calendar-check"></i> Follow-ups <span class="nav-badge red" id="fu-badge">3</span></div>
+    <div class="nav-item active" data-page="dashboard" onclick="showPage('dashboard',this)"><i class="fa-solid fa-gauge"></i> Dashboard</div>
+    <div class="nav-item" data-page="leads" onclick="showPage('leads',this)"><i class="fa-solid fa-users"></i> Leads <span class="nav-badge" id="lead-badge">142</span></div>
+    <div class="nav-item" data-page="pipeline" onclick="showPage('pipeline',this)"><i class="fa-solid fa-columns"></i> Pipeline</div>
+    <div class="nav-item" data-page="followups" onclick="showPage('followups',this)"><i class="fa-solid fa-calendar-check"></i> Follow-ups <span class="nav-badge red" id="fu-badge">3</span></div>
     <div class="nav-section">Sales</div>
-    <div class="nav-item" onclick="showPage('quotations',this)"><i class="fa-solid fa-file-invoice"></i> Quotations</div>
-    <div class="nav-item" onclick="showPage('whatsapp',this)"><i class="fa-brands fa-whatsapp"></i> WhatsApp</div>
-    <div class="nav-item" onclick="showPage('properties',this)"><i class="fa-solid fa-building"></i> Properties</div>
+    <div class="nav-item" data-page="quotations" onclick="showPage('quotations',this)"><i class="fa-solid fa-file-invoice"></i> Quotations</div>
+    <div class="nav-item" data-page="whatsapp" onclick="showPage('whatsapp',this)"><i class="fa-brands fa-whatsapp"></i> WhatsApp</div>
+    <div class="nav-item" data-page="properties" onclick="showPage('properties',this)"><i class="fa-solid fa-building"></i> Properties</div>
     <div class="nav-section">Insights</div>
-    <div class="nav-item" onclick="showPage('reports',this)"><i class="fa-solid fa-chart-bar"></i> Reports</div>
-    <div class="nav-item" onclick="showPage('campaigns',this)"><i class="fa-solid fa-bullhorn"></i> Campaigns</div>
+    <div class="nav-item" data-page="reports" onclick="showPage('reports',this)"><i class="fa-solid fa-chart-bar"></i> Reports</div>
+    <div class="nav-item" data-page="campaigns" onclick="showPage('campaigns',this)"><i class="fa-solid fa-bullhorn"></i> Campaigns</div>
     <div class="nav-section">Admin</div>
-    <div class="nav-item" onclick="showPage('team',this)"><i class="fa-solid fa-user-group"></i> Team</div>
-    <div class="nav-item" onclick="showPage('settings',this)"><i class="fa-solid fa-gear"></i> Settings</div>
+    <div class="nav-item" data-page="team" onclick="showPage('team',this)"><i class="fa-solid fa-user-group"></i> Team</div>
+    <div class="nav-item" data-page="settings" onclick="showPage('settings',this)"><i class="fa-solid fa-gear"></i> Settings</div>
   </nav>
   <div class="sidebar-bottom">
     <div class="user-card">
@@ -755,7 +799,7 @@ function genLeads(n){
   });
 }
 
-let leadsDB = genLeads(50);
+let leadsDB = genLeads(142);
 let selectedLeads = new Set();
 
 const followupsDB = leadsDB.slice(0,15).map((l,i)=>({
@@ -790,14 +834,132 @@ const campaignsDB=[
   {name:'Website SEO Push',source:'Website',leads:43,conversions:7,budget:30000,status:'Paused'},
 ];
 
-let teamDB=[
-  {id:'U001',name:'Suresh Kumar',role:'Sales Executive',email:'suresh@aarovia.co.in',phone:'9876543210',leads:48,closed:9,avatar:'SK',color:'#4f8ef7'},
-  {id:'U002',name:'Ananya Priya',role:'Sales Executive',email:'ananya@aarovia.co.in',phone:'9876543211',leads:41,closed:8,avatar:'AP',color:'#f472b6'},
-  {id:'U003',name:'Manoj Jha',role:'Sales Executive',email:'manoj@aarovia.co.in',phone:'9876543212',leads:35,closed:5,avatar:'MJ',color:'#34d399'},
-  {id:'U004',name:'Lavanya V',role:'Telecaller',email:'lavanya@aarovia.co.in',phone:'9876543213',leads:31,closed:4,avatar:'LV',color:'#fbbf24'},
-  {id:'U005',name:'Preethi S',role:'Sales Manager',email:'preethi@aarovia.co.in',phone:'9876543214',leads:0,closed:0,avatar:'PS',color:'#a78bfa'},
-  {id:'U006',name:'Admin User',role:'Administrator',email:'admin@aarovia.co.in',phone:'9876543215',leads:0,closed:0,avatar:'AD',color:'#fb923c'},
+const API_BASE='/api';
+const TEAM_STORAGE_KEY='aarovia_demo_team_users';
+const DEMO_TEAM_USERS=[
+  {name:'Asha Menon', email:'asha.menon@aarovia.co.in', phone:'+91 98765 11223', role:'Sales Executive', leads:18, closed:7},
+  {name:'Karan Verma', email:'karan.verma@aarovia.co.in', phone:'+91 98765 22334', role:'Sales Manager', leads:42, closed:16},
+  {name:'Nidhi Shah', email:'nidhi.shah@aarovia.co.in', phone:'+91 98765 33445', role:'Telecaller', leads:26, closed:9},
+  {name:'Rohit Iyer', email:'rohit.iyer@aarovia.co.in', phone:'+91 98765 44556', role:'Marketing Team', leads:14, closed:4},
+  {name:'Pooja Rao', email:'pooja.rao@aarovia.co.in', phone:'+91 98765 55667', role:'Sales Executive', leads:31, closed:12}
 ];
+const ADMIN_TEAM_USER={
+  id:'Uadmin',
+  name:'Admin User',
+  email:'admin@aarovia.co.in',
+  phone:'+919999999999',
+  mobile:'+919999999999',
+  userId:'admin@aarovia.co.in',
+  role:'Administrator',
+  avatar:'AU',
+  color:'#4f8ef7',
+  active:true,
+  leads:0,
+  closed:0
+};
+let teamDB=[];
+
+function getLocalTeamUsers(){
+  try {
+    const raw=localStorage.getItem(TEAM_STORAGE_KEY);
+    return raw ? JSON.parse(raw) : [];
+  } catch {
+    return [];
+  }
+}
+
+function saveLocalTeamUsers(users){
+  localStorage.setItem(TEAM_STORAGE_KEY, JSON.stringify(users));
+}
+
+function buildDemoTeamUser(user){
+  return {
+    id: `U${String(user.email).replace(/[^a-z0-9]/gi,'').slice(0,8)}`,
+    name: user.name,
+    email: user.email,
+    phone: user.phone,
+    mobile: user.phone,
+    userId: user.email,
+    role: user.role,
+    avatar: getTeamAvatar(user.name),
+    color: getTeamColor(user.name),
+    active: true,
+    leads: Number(user.leads || 0),
+    closed: Number(user.closed || 0)
+  };
+}
+
+function seedDemoTeamUsers(){
+  const seeded = ensureAdminTeamUser(DEMO_TEAM_USERS.map(buildDemoTeamUser));
+  saveLocalTeamUsers(seeded);
+  return seeded;
+}
+
+function ensureAdminTeamUser(users=[]){
+  const safeUsers = Array.isArray(users) ? users : [];
+  const normalizedUsers = safeUsers.map(user => ({
+    ...user,
+    email: String(user.email || '').trim().toLowerCase(),
+    userId: user.userId || user.user_id || user.email || user.id
+  }));
+  const hasAdmin = normalizedUsers.some(user => String(user.email || '').trim().toLowerCase() === 'admin@aarovia.co.in');
+  if (hasAdmin) {
+    return normalizedUsers;
+  }
+  return [ADMIN_TEAM_USER, ...normalizedUsers];
+}
+
+async function apiRequest(path, options={}){
+  const response = await fetch(API_BASE + path, {
+    headers: { 'Content-Type': 'application/json' },
+    ...options
+  });
+  const body = await response.text();
+  const parsed = body ? JSON.parse(body) : null;
+  if(!response.ok){
+    throw new Error(parsed?.message || 'Request failed');
+  }
+  return parsed;
+}
+
+async function loadUsers(){
+  try {
+    const response = await apiRequest('/users');
+    if(Array.isArray(response) && response.length > 0){
+      teamDB = ensureAdminTeamUser(response);
+      saveLocalTeamUsers(teamDB);
+      return teamDB;
+    }
+  } catch {}
+
+  const stored = getLocalTeamUsers();
+  teamDB = stored.length ? ensureAdminTeamUser(stored) : seedDemoTeamUsers();
+  saveLocalTeamUsers(teamDB);
+  return teamDB;
+}
+
+async function createUser(userData){
+  const created = await apiRequest('/users', { method:'POST', body: JSON.stringify(userData) });
+  const saved = Array.isArray(created) ? created[0] : created;
+  teamDB = [saved, ...teamDB].filter(Boolean);
+  return saved;
+}
+
+async function updateUser(id, userData){
+  const updated = await apiRequest(`/users?id=${encodeURIComponent(id)}`, { method:'PUT', body: JSON.stringify(userData) });
+  const saved = Array.isArray(updated) ? updated[0] : updated;
+  const idx = teamDB.findIndex(user => user.id === id);
+  if(idx >= 0){
+    teamDB[idx] = saved;
+  }
+  return saved;
+}
+
+async function deleteUser(id){
+  await apiRequest(`/users?id=${encodeURIComponent(id)}`, { method:'DELETE' });
+  teamDB = teamDB.filter(user => user.id !== id);
+  return true;
+}
 
 const activitiesDB=[
   {type:'quotation',icon:'fa-file-invoice',color:'var(--accent)',text:'Suresh Kumar sent quotation to Karthik Pillai via WhatsApp',time:'5 min ago'},
@@ -823,8 +985,115 @@ function getNextTeamId(){
   return 'U'+String(maxId+1).padStart(3,'0');
 }
 
+async function syncTeamData(){
+  try {
+    await loadUsers();
+  } catch {}
+}
+
+const ROLE_ACCESS={
+  Administrator:['dashboard','leads','pipeline','followups','quotations','whatsapp','properties','reports','campaigns','team','settings'],
+  'Sales Manager':['dashboard','leads','pipeline','followups','quotations','whatsapp','properties','reports','campaigns'],
+  'Sales Executive':['dashboard','leads','pipeline','followups','quotations','whatsapp','properties','reports'],
+  Telecaller:['dashboard','leads','followups','whatsapp'],
+  'Marketing Team':['dashboard','campaigns','reports','whatsapp','properties']
+};
+
+function normalizePhone(value){
+  return String(value||'').replace(/\D/g,'');
+}
+
+function normalizeRole(role){
+  const normalized=String(role || '').trim().toLowerCase();
+  const roleMap={
+    administrator:'Administrator',
+    admin:'Administrator',
+    'super admin':'Administrator',
+    'sales manager':'Sales Manager',
+    salesmanager:'Sales Manager',
+    manager:'Sales Manager',
+    'sales executive':'Sales Executive',
+    executive:'Sales Executive',
+    salesperson:'Sales Executive',
+    telecaller:'Telecaller',
+    'marketing team':'Marketing Team',
+    marketer:'Marketing Team'
+  };
+  return roleMap[normalized] || role || 'Administrator';
+}
+
+function getCurrentSession(){
+  try {
+    const raw=localStorage.getItem('aarovia_crm_session');
+    if(!raw) return null;
+    const parsed=JSON.parse(raw);
+    return parsed && parsed.loggedIn ? parsed : null;
+  } catch {
+    return null;
+  }
+}
+
+function getCurrentUser(){
+  const session=getCurrentSession();
+  if(!session) return null;
+  const match=teamDB.find(user => user.email===session.email || user.userId===session.userId || normalizePhone(user.mobile || user.phone)===normalizePhone(session.mobile || ''));
+  return match || session;
+}
+
+function canAccessPage(page){
+  const role=normalizeRole(getCurrentUser()?.role || getCurrentSession()?.role);
+  return Boolean(role && ROLE_ACCESS[role]?.includes(page));
+}
+
+function getDashboardSubtitle(){
+  const currentUser=getCurrentUser();
+  const name=currentUser?.name || 'Admin User';
+  const today=new Date();
+  return `${today.toLocaleDateString('en-IN',{weekday:'long',day:'numeric',month:'long',year:'numeric'})} · Welcome back, ${name}`;
+}
+
+function applyRoleAccess(){
+  const role=normalizeRole(getCurrentUser()?.role || getCurrentSession()?.role);
+  const allowedPages=ROLE_ACCESS[role] || [];
+  document.querySelectorAll('.nav-item[data-page]').forEach(item=>{
+    const page=item.getAttribute('data-page');
+    const allowed=allowedPages.includes(page);
+    item.style.display=allowed?'flex':'none';
+  });
+}
+
+function updateCurrentUserUI(){
+  const current=getCurrentUser() || getCurrentSession();
+  const name=current?.name || 'Admin User';
+  const role=normalizeRole(current?.role || 'Administrator');
+  const avatar=current?.avatar || getTeamAvatar(name);
+  const userCard=document.querySelector('.sidebar-bottom .user-card');
+  if(userCard){
+    const avatarEl=userCard.querySelector('.avatar');
+    const nameEl=userCard.querySelector('.user-name');
+    const roleEl=userCard.querySelector('.user-role');
+    if(avatarEl) avatarEl.textContent=avatar;
+    if(nameEl) nameEl.textContent=name;
+    if(roleEl) roleEl.textContent=role;
+  }
+  const pageSub=document.getElementById('page-sub');
+  if(pageSub && document.getElementById('page-title')?.textContent==='Dashboard'){
+    pageSub.textContent=getDashboardSubtitle();
+  }
+}
+
 // ==================== NAVIGATION ====================
 function showPage(page, navEl) {
+  if(!canAccessPage(page)){
+    showToast('You do not have access to this section','error');
+    if(page !== 'dashboard'){
+      const dashboardNav=document.querySelector('.nav-item[data-page="dashboard"]');
+      if(dashboardNav){
+        showPage('dashboard', dashboardNav);
+      }
+    }
+    return;
+  }
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
   document.getElementById('page-'+page).classList.add('active');
@@ -832,7 +1101,7 @@ function showPage(page, navEl) {
   const titles={dashboard:'Dashboard',leads:'Leads',pipeline:'Pipeline Board',followups:'Follow-ups',quotations:'Quotations',whatsapp:'WhatsApp',properties:'Properties',reports:'Reports & Analytics',campaigns:'Campaigns',team:'Team Management',settings:'Settings'};
   document.getElementById('page-title').textContent=titles[page]||page;
   document.getElementById('page-sub').textContent='';
-  if(page==='dashboard')document.getElementById('page-sub').textContent='Sunday, 25 May 2026 · Welcome back, Admin';
+  if(page==='dashboard')document.getElementById('page-sub').textContent=getDashboardSubtitle();
   pageLoaders[page]&&pageLoaders[page]();
   if(window.innerWidth <= 900){
     closeMobileSidebar();
@@ -1772,31 +2041,37 @@ function teamFormHTML(t=null){
     <div class="form-group"><label class="form-label">Password</label><input class="form-input" id="tu-password" type="password" placeholder="${t ? 'Leave blank to keep current password' : 'Set initial password'}"></div>`;
 }
 
-function renderTeam(){
-  document.getElementById('team-grid').innerHTML=teamDB.map(t=>`
-    <div class="card">
-      <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px">
-        <div class="avatar" style="width:46px;height:46px;font-size:15px;background:${t.color}22;color:${t.color}">${t.avatar}</div>
-        <div>
-          <div style="font-size:14px;font-weight:600">${t.name}</div>
-          <div style="font-size:12px;color:var(--text3)">${t.role}</div>
+async function renderTeam(){
+  try {
+    await loadUsers();
+    document.getElementById('team-grid').innerHTML=teamDB.map(t=>`
+      <div class="card">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px">
+          <div class="avatar" style="width:46px;height:46px;font-size:15px;background:${t.color}22;color:${t.color}">${t.avatar}</div>
+          <div>
+            <div style="font-size:14px;font-weight:600">${t.name}</div>
+            <div style="font-size:12px;color:var(--text3)">${t.role}</div>
+          </div>
+          <div style="margin-left:auto;display:flex;gap:6px">
+            <button class="btn btn-ghost btn-sm" onclick="openEditUser(event,'${t.id}')"><i class="fa-solid fa-pen"></i></button>
+            <button class="btn btn-ghost btn-sm" onclick="resetUserPassword('${t.id}')" title="Reset password"><i class="fa-solid fa-key"></i></button>
+            <button class="btn btn-ghost btn-sm" style="color:var(--red)" onclick="deleteTeamUser(event,'${t.id}')"><i class="fa-solid fa-trash"></i></button>
+          </div>
         </div>
-        <div style="margin-left:auto;display:flex;gap:6px">
-          <button class="btn btn-ghost btn-sm" onclick="openEditUser(event,'${t.id}')"><i class="fa-solid fa-pen"></i></button>
-          <button class="btn btn-ghost btn-sm" style="color:var(--red)" onclick="deleteTeamUser(event,'${t.id}')"><i class="fa-solid fa-trash"></i></button>
+        <div style="display:flex;flex-direction:column;gap:6px;font-size:12px;color:var(--text2)">
+          <div><i class="fa-solid fa-envelope" style="width:14px;margin-right:6px;color:var(--text3)"></i>${t.email}</div>
+          <div><i class="fa-solid fa-phone" style="width:14px;margin-right:6px;color:var(--text3)"></i>${t.phone}</div>
         </div>
-      </div>
-      <div style="display:flex;flex-direction:column;gap:6px;font-size:12px;color:var(--text2)">
-        <div><i class="fa-solid fa-envelope" style="width:14px;margin-right:6px;color:var(--text3)"></i>${t.email}</div>
-        <div><i class="fa-solid fa-phone" style="width:14px;margin-right:6px;color:var(--text3)"></i>${t.phone}</div>
-      </div>
-      ${t.leads>0?`<div class="divider"></div>
-      <div style="display:flex;gap:16px">
-        <div style="text-align:center"><div style="font-size:18px;font-weight:600">${t.leads}</div><div style="font-size:10px;color:var(--text3)">Leads</div></div>
-        <div style="text-align:center"><div style="font-size:18px;font-weight:600;color:var(--green)">${t.closed}</div><div style="font-size:10px;color:var(--text3)">Closed</div></div>
-        <div style="text-align:center"><div style="font-size:18px;font-weight:600;color:var(--accent)">${(t.closed/t.leads*100).toFixed(0)}%</div><div style="font-size:10px;color:var(--text3)">Conv.</div></div>
-      </div>`:''}
-    </div>`).join('');
+        ${t.leads>0?`<div class="divider"></div>
+        <div style="display:flex;gap:16px">
+          <div style="text-align:center"><div style="font-size:18px;font-weight:600">${t.leads}</div><div style="font-size:10px;color:var(--text3)">Leads</div></div>
+          <div style="text-align:center"><div style="font-size:18px;font-weight:600;color:var(--green)">${t.closed}</div><div style="font-size:10px;color:var(--text3)">Closed</div></div>
+          <div style="text-align:center"><div style="font-size:18px;font-weight:600;color:var(--accent)">${(t.closed/t.leads*100).toFixed(0)}%</div><div style="font-size:10px;color:var(--text3)">Conv.</div></div>
+        </div>`:''}
+      </div>`).join('');
+  } catch (error) {
+    showToast(error.message || 'Unable to load users','error');
+  }
 }
 
 function openAddUser(){
@@ -1810,39 +2085,66 @@ function openEditUser(e, id){
   showModal('Edit Team Member – '+t.name, teamFormHTML(t), ()=>submitTeamUser('edit', id));
 }
 
-function submitTeamUser(mode, id=null){
+async function submitTeamUser(mode, id=null){
   const name=document.getElementById('tu-name').value.trim();
-  const email=document.getElementById('tu-email').value.trim();
+  const email=document.getElementById('tu-email').value.trim().toLowerCase();
   const phone=document.getElementById('tu-phone').value.trim();
   const role=document.getElementById('tu-role').value;
   const password=document.getElementById('tu-password').value.trim();
   if(!name || !email || !phone){
-    showToast('Name, email, and phone are required','error');
+    showToast('Name, login ID, and phone are required','error');
     return;
   }
   const avatar=getTeamAvatar(name);
   const color=getTeamColor(name);
-  const userData={name,email,phone,role,avatar,color,leads:0,closed:0};
-  if(mode==='edit' && id){
-    const idx=teamDB.findIndex(x=>x.id===id);
-    if(idx>=0){
-      teamDB[idx]={...teamDB[idx], ...userData};
+  const userData={name,email,phone,mobile:phone,userId:email,role,avatar,color,active:true,leads:0,closed:0};
+  try {
+    if(mode==='edit' && id){
+      if(password){ userData.password=password; }
+      await updateUser(id, userData);
       showToast('User updated successfully','success');
+    } else {
+      if(!password){
+        showToast('Set an initial password for this user','error');
+        return;
+      }
+      await createUser({...userData, password});
+      showToast('User added successfully','success');
     }
-  } else {
-    teamDB.unshift({id:getNextTeamId(), ...userData});
-    showToast('User added successfully','success');
+    closeModal();
+    await renderTeam();
+  } catch (error) {
+    showToast(error.message || 'Unable to save user','error');
   }
-  closeModal();
-  renderTeam();
 }
 
-function deleteTeamUser(e, id){
+async function resetUserPassword(id){
+  const user=teamDB.find(x=>x.id===id);
+  if(!user){
+    showToast('User not found','error');
+    return;
+  }
+  const nextPassword=prompt(`Set a new password for ${user.name}:`, 'Aarovia@2026');
+  if(!nextPassword || !nextPassword.trim()) return;
+  try {
+    await updateUser(id, { password: nextPassword.trim() });
+    showToast(`Password reset for ${user.name}`,'success');
+    await renderTeam();
+  } catch (error) {
+    showToast(error.message || 'Unable to reset password','error');
+  }
+}
+
+async function deleteTeamUser(e, id){
   if(e) e.stopPropagation();
   if(!confirm('Delete this team member?')) return;
-  teamDB=teamDB.filter(x=>x.id!==id);
-  showToast('Team member deleted','success');
-  renderTeam();
+  try {
+    await deleteUser(id);
+    showToast('Team member deleted','success');
+    await renderTeam();
+  } catch (error) {
+    showToast(error.message || 'Unable to delete user','error');
+  }
 }
 
 // ==================== SETTINGS ====================
@@ -1936,14 +2238,20 @@ function showToast(msg, type='info'){
 
 function logout(){
   localStorage.removeItem('aarovia_crm_session');
+  localStorage.removeItem('aarovia_otp_session');
   window.location.href='login.html';
 }
 
 // ==================== INIT ====================
-if(!localStorage.getItem('aarovia_crm_session')){
+const currentSession=getCurrentSession();
+if(!currentSession){
   window.location.href='login.html';
 } else {
-  loadDashboard();
+  applyRoleAccess();
+  updateCurrentUserUI();
+  syncTeamData().finally(()=>{
+    showPage('dashboard', document.querySelector('.nav-item[data-page="dashboard"]'));
+  });
 }
 </script>
 </body>
